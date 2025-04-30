@@ -1,0 +1,16 @@
+id,created_at,name,image,isGlobal
+1,2025-04-15T17:04:41.516106+00,Adidas,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/adidas.svg,true
+2,2025-04-15T17:04:55.777511+00,Nike,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/nike.svg,true
+4,2025-04-15T17:44:54.684284+00,Gucci,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/gucci.svg,true
+5,2025-04-15T17:45:14.352195+00,Chanel,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/chanel.svg,true
+6,2025-04-15T17:45:37.951034+00,D&G,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/d-and-g.svg,true
+7,2025-04-15T17:45:53.174045+00,Dior,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/dior.svg,true
+8,2025-04-15T17:46:07.585408+00,Rolex,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/rolex.svg,true
+9,2025-04-15T17:46:39.108783+00,Tommy Hilfiger,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/tommy-hilfiger.svg,true
+10,2025-04-15T19:48:28.747875+00,Furla,null,false
+11,2025-04-16T20:00:41.782750+00,Lacoste,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/lacoste.svg,true
+12,2025-04-17T09:00:00.123456+00,Puma,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/puma.svg,true
+13,2025-04-17T09:15:00.654321+00,Prada,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/prada.svg,true
+14,2025-04-17T09:30:00.987654+00,LocalTrend,null,false
+15,2025-04-17T09:45:00.456789+00,Under Armour,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/under-armour.svg,true
+16,2025-04-17T10:00:00.321654+00,Zara,https://sdhruyqfvlixtieyedcc.supabase.co/storage/v1/object/public/brands/zara.svg,true

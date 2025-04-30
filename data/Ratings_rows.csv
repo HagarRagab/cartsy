@@ -1,0 +1,77 @@
+id,created_at,productId,userId,stars,comment
+6,2025-04-17T17:30:00.123456+00,1,6,4,Nice design but slightly tight
+7,2025-04-17T17:35:00.123456+00,2,7,5,Super comfy tracksuit!
+8,2025-04-17T17:40:00.123456+00,2,8,3,Material feels a bit thin
+9,2025-04-17T17:45:00.123456+00,2,9,4,Great for casual wear
+10,2025-04-17T17:50:00.123456+00,3,10,5,Super comfortable for long runs
+11,2025-04-17T17:55:00.123456+00,3,11,4,Love the style but slightly narrow
+12,2025-04-17T18:00:00.123456+00,3,12,5,Best running shoes I’ve owned!
+13,2025-04-17T18:05:00.123456+00,3,6,3,Expected better cushioning
+14,2025-04-17T18:10:00.123456+00,4,13,4,Great shorts for basketball
+15,2025-04-17T18:15:00.123456+00,4,7,5,Perfect fit and breathable
+16,2025-04-17T18:20:00.123456+00,4,14,3,Color faded after washing
+17,2025-04-17T18:25:00.123456+00,5,15,5,Luxurious and worth every penny
+18,2025-04-17T18:30:00.123456+00,5,8,4,Stunning black handbag
+19,2025-04-17T18:35:00.123456+00,5,16,5,Amazing quality!
+20,2025-04-17T18:40:00.123456+00,6,9,4,Stylish sunglasses
+21,2025-04-17T18:45:00.123456+00,6,17,5,Love the Chanel brand
+22,2025-04-17T18:50:00.123456+00,7,18,4,Soft and elegant scarf
+23,2025-04-17T18:55:00.123456+00,7,10,3,Color not as vibrant as expected
+24,2025-04-17T19:00:00.123456+00,8,19,5,Gorgeous dress perfect fit
+25,2025-04-17T19:05:00.123456+00,8,11,4,Beautiful but slightly pricey
+26,2025-04-17T19:10:00.123456+00,9,20,5,Timeless Rolex watch
+27,2025-04-17T19:15:00.123456+00,9,12,4,Great but heavy on wrist
+28,2025-04-17T19:20:00.123456+00,10,21,4,Nice polo and good quality
+29,2025-04-17T19:25:00.123456+00,10,13,5,Love the blue color!
+30,2025-04-17T19:30:00.123456+00,10,14,3,Fabric pills easily
+31,2025-04-17T19:35:00.123456+00,11,22,4,Spacious tote bag
+32,2025-04-17T19:40:00.123456+00,11,15,5,Perfect for daily use
+33,2025-04-17T19:45:00.123456+00,12,16,4,Comfortable sneakers
+34,2025-04-17T19:50:00.123456+00,12,23,5,Love the white Lacoste pair
+35,2025-04-17T19:55:00.123456+00,12,7,3,Sole wore out quickly
+36,2025-04-17T20:00:00.123456+00,13,24,4,Great gym bag for the price
+37,2025-04-17T20:05:00.123456+00,13,8,5,Very durable
+38,2025-04-17T20:10:00.123456+00,14,25,4,Sleek wallet design
+39,2025-04-17T20:15:00.123456+00,14,9,5,High-quality leather
+40,2025-04-17T20:20:00.123456+00,15,26,3,Decent t-shirt
+41,2025-04-17T20:25:00.123456+00,15,17,4,Comfortable and affordable
+42,2025-04-17T20:30:00.123456+00,15,10,5,Great casual wear
+43,2025-04-17T20:35:00.123456+00,16,27,4,Supportive sports bra
+44,2025-04-17T20:40:00.123456+00,16,11,5,Perfect for workouts
+45,2025-04-17T20:45:00.123456+00,17,28,4,Stylish denim jacket
+46,2025-04-17T20:50:00.123456+00,17,12,3,Fits small
+47,2025-04-17T20:55:00.123456+00,18,29,5,Excellent soccer ball
+48,2025-04-17T21:00:00.123456+00,18,13,4,Good grip and quality
+49,2025-04-17T21:05:00.123456+00,18,14,3,Deflated too quickly
+50,2025-04-17T21:10:00.123456+00,19,30,4,Decent earbuds and good sound
+51,2025-04-17T21:15:00.123456+00,19,15,3,Battery life could be better
+52,2025-04-17T21:20:00.123456+00,19,16,5,Great for running
+53,2025-04-17T21:25:00.123456+00,20,6,5,Elegant silk tie
+54,2025-04-17T21:30:00.123456+00,20,18,4,Love the blue color!
+55,2025-04-17T21:35:00.123456+00,21,7,5,Long-lasting fragrance!
+56,2025-04-17T21:40:00.123456+00,21,19,4,Beautiful scent
+57,2025-04-17T21:45:00.123456+00,21,20,5,Absolutely love it
+58,2025-04-17T21:50:00.123456+00,21,8,3,Bottle design is bulky
+59,2025-04-17T21:55:00.123456+00,22,21,4,Sturdy leather belt
+60,2025-04-17T22:00:00.123456+00,22,9,5,Perfect for formal wear
+61,2025-04-17T22:05:00.123456+00,23,22,5,Gorgeous Dior sneakers
+62,2025-04-17T22:10:00.123456+00,23,10,4,Comfortable but pricey
+63,2025-04-17T22:15:00.123456+00,23,23,3,Scuff easily
+64,2025-04-17T22:20:00.123456+00,24,24,4,Spacious backpack
+65,2025-04-17T22:25:00.123456+00,24,11,5,Great for school
+66,2025-04-17T22:30:00.123456+00,25,25,4,Cute kids t-shirt
+67,2025-04-17T22:35:00.123456+00,25,12,5,Perfect for my child
+68,2025-04-17T22:40:00.123456+00,25,26,3,Color faded fast
+69,2025-04-17T22:45:00.123456+00,26,27,4,Non-slip yoga mat
+70,2025-04-17T22:50:00.123456+00,26,13,3,Tore after a few uses
+71,2025-04-17T22:55:00.123456+00,26,28,5,Great for yoga sessions
+72,2025-04-17T23:00:00.123456+00,27,14,5,Stunning evening gown
+73,2025-04-17T23:05:00.123456+00,27,15,4,Fits perfectly
+74,2025-04-17T23:10:00.123456+00,28,16,5,Kids love the toy set
+75,2025-04-17T23:15:00.123456+00,28,17,3,Paint chips easily
+76,2025-04-17T23:20:00.123456+00,28,29,4,Fun and educational
+77,2025-04-17T23:25:00.123456+00,29,30,4,Breathable running cap
+78,2025-04-17T23:30:00.123456+00,29,6,5,Perfect for outdoor runs
+79,2025-04-17T23:35:00.123456+00,30,7,4,Modern table lamp
+80,2025-04-17T23:40:00.123456+00,30,18,5,Looks great in my room
+81,2025-04-17T23:45:00.123456+00,30,19,3,Bulb no included
