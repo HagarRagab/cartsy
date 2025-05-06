@@ -4,7 +4,15 @@ import { useState } from "react";
 import Counter from "@/app/_components/productDetails/Counter";
 import PriceLabel from "@/app/_components/shared/PriceLabel";
 
-function TotalItemPrice({ stock, price, currency, discount, isDiscountValid }) {
+function TotalItemPrice({
+    stock,
+    price,
+    discount,
+    isDiscountValid,
+    productCurrency,
+    userCurrency,
+    currencyRate,
+}) {
     const [quantity, setQuantity] = useState(1);
 
     return (
@@ -26,9 +34,11 @@ function TotalItemPrice({ stock, price, currency, discount, isDiscountValid }) {
                 <span className="text-text-400 mr-1">Total price:</span>
                 <PriceLabel
                     price={price}
-                    currency={currency}
-                    discount={discount}
+                    discount={discount?.percentage}
                     isDiscountValid={isDiscountValid}
+                    productCurrency={productCurrency}
+                    userCurrency={userCurrency}
+                    currencyRate={currencyRate}
                     quantity={quantity}
                 />
             </div>

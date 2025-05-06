@@ -1,19 +1,68 @@
 "use client";
 
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronDown, Flag } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+import { useAuth } from "@/app/_context/AuthContext";
+import { regionalSettingsSchema } from "@/app/_lib/validation";
+import { updateProfileAction } from "@/app/_lib/actions";
+import { currencies, languages } from "@/app/_utils/helper";
+import RegionalPreference from "@/app/_components/header/RegionalPreference";
+import { Form } from "@/components/ui/form";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { RegionalPreferencesList } from "@/app/_components/header/RegionalPreferencesList";
-import { countries, currencies, languages } from "@/app/_utils/helper";
+import SubmitBtn from "@/app/_components/shared/SubmitBtn";
 
 function RegionalSettings() {
-    const language = "EN";
-    const currency = "EGP";
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+    const pathname = usePathname();
+    const { user } = useAuth();
+    const { country, city, currency, language } = user;
+
+    const form = useForm({
+        resolver: zodResolver(regionalSettingsSchema),
+        defaultValues: {
+            country: country || "",
+            city: city || "",
+            currency: currency || "",
+            language: language || "English",
+        },
+    });
+
+    async function onSubmit(values) {
+        setIsLoading(true);
+
+        const newData = {
+            language: values.language,
+            currency: values.currency,
+        };
+
+        const result = await updateProfileAction(newData, pathname);
+
+        if (!result.success) {
+            toast.error("Event has not been created", {
+                description: result.message,
+                action: {
+                    label: "Close",
+                    onClick: () => router.push("/error"),
+                },
+            });
+        } else {
+            toast.success("Event has been created", {
+                description: result.message,
+            });
+        }
+
+        setIsLoading(false);
+    }
 
     return (
         <Popover>
@@ -23,7 +72,7 @@ function RegionalSettings() {
                         <Flag size={26} />
                     </div>
                     <div className="text-sm text-left">
-                        <p>{language}/</p>
+                        <p>{language?.slice(0, 2).toUpperCase() || "EN"}/</p>
                         <p className="flex items-center gap-1 font-semibold">
                             {currency}
                             <ChevronDown size={20} />
@@ -32,35 +81,33 @@ function RegionalSettings() {
                 </div>
             </PopoverTrigger>
             <PopoverContent className="w-80">
-                <div className="grid gap-4">
-                    <div className="grid gap-2">
-                        <div className="grid grid-cols-3 items-center gap-4">
-                            <p className="font-medium">Ship to:</p>
-                            <RegionalPreferencesList
-                                list={countries}
-                                prefType="country"
-                                className="col-span-2 h-8"
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="grid gap-4"
+                    >
+                        <div className="grid gap-2">
+                            <RegionalPreference
+                                label="Language:"
+                                form={form}
+                                items={languages}
+                                name="language"
+                            />
+                            <RegionalPreference
+                                label="Currency:"
+                                form={form}
+                                items={currencies}
+                                name="currency"
                             />
                         </div>
-                        <div className="grid grid-cols-3 items-center gap-4">
-                            <p className="font-medium">Language:</p>
-                            <RegionalPreferencesList
-                                list={languages}
-                                prefType="language"
-                                className="col-span-2 h-8"
-                            />
-                        </div>
-                        <div className="grid grid-cols-3 items-center gap-4">
-                            <p className="font-medium">Currency:</p>
-                            <RegionalPreferencesList
-                                list={currencies}
-                                prefType="currency"
-                                className="col-span-2 h-8"
-                            />
-                        </div>
-                    </div>
-                    <Button className="primary-btn">Save</Button>
-                </div>
+                        <SubmitBtn
+                            label="Save"
+                            loadingLabel="Saving..."
+                            isLoading={isLoading}
+                            btnClass="w-full"
+                        />
+                    </form>
+                </Form>
             </PopoverContent>
         </Popover>
     );

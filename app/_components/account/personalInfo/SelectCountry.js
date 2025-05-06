@@ -23,11 +23,11 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-function SelectBox({ form, name, label = "", items, className = "" }) {
+function SelectCountry({ form, label = "", items, className = "" }) {
     return (
         <FormField
             control={form.control}
-            name={name}
+            name="country"
             render={({ field }) => (
                 <FormItem className={className}>
                     <FormLabel>{label}</FormLabel>
@@ -44,9 +44,10 @@ function SelectBox({ form, name, label = "", items, className = "" }) {
                                 >
                                     {field.value
                                         ? items.find(
-                                              (item) => item === field.value
-                                          )
-                                        : `Select ${label}`}
+                                              (item) =>
+                                                  item.name === field.value
+                                          )?.name
+                                        : "Select country"}
                                     <ChevronsUpDown className="opacity-50" />
                                 </Button>
                             </FormControl>
@@ -54,27 +55,39 @@ function SelectBox({ form, name, label = "", items, className = "" }) {
                         <PopoverContent className="w-[200px] p-0">
                             <Command>
                                 <CommandInput
-                                    placeholder={`Search ${label}...`}
+                                    placeholder="Search country..."
                                     className="h-9"
                                 />
                                 <CommandList>
                                     <CommandEmpty>
-                                        No {label} found.
+                                        No country found.
                                     </CommandEmpty>
                                     <CommandGroup>
                                         {items.map((item) => (
                                             <CommandItem
-                                                value={item}
-                                                key={item}
+                                                value={item.name}
+                                                key={item.name}
                                                 onSelect={() => {
-                                                    form.setValue(name, item);
+                                                    form.setValue(
+                                                        "country",
+                                                        item.name
+                                                    );
                                                 }}
+                                                className="w-full flex items-center"
                                             >
-                                                {item}
+                                                <p className="flex-1">
+                                                    {item.name}
+                                                </p>
+                                                <img
+                                                    src={item.flag}
+                                                    alt={`${item.name}'s flag`}
+                                                    className="w-5 aspect-auto"
+                                                />
                                                 <Check
                                                     className={cn(
                                                         "ml-auto",
-                                                        item === field.value
+                                                        item.name ===
+                                                            field.value
                                                             ? "opacity-100"
                                                             : "opacity-0"
                                                     )}
@@ -93,4 +106,4 @@ function SelectBox({ form, name, label = "", items, className = "" }) {
     );
 }
 
-export default SelectBox;
+export default SelectCountry;

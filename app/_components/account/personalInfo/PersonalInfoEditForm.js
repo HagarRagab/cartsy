@@ -1,13 +1,19 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-import DatePicker from "@/app/_components/shared/DatePicker";
+import AddressInput from "@/app/_components/account/personalInfo/AddressInput";
 import SelectBox from "@/app/_components/shared/SelectBox";
-import { contactFormSchema } from "@/app/_lib/validation";
+import SelectCountry from "@/app/_components/account/personalInfo/SelectCountry";
+import DatePicker from "@/app/_components/shared/DatePicker";
+import SubmitBtn from "@/app/_components/shared/SubmitBtn";
+import { updateProfileAction } from "@/app/_lib/actions";
+import { infoFormSchema } from "@/app/_lib/validation";
 import { countries, currencies, phoneCodes } from "@/app/_utils/helper";
-import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -17,25 +23,75 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import AddressInput from "./AddressInput";
 
 function PersonalInfoEditForm({ user }) {
+    const {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        dateOfBirth,
+        currency,
+        country,
+        address,
+        city,
+        language = "en",
+    } = user;
+
     const form = useForm({
-        resolver: zodResolver(contactFormSchema),
+        resolver: zodResolver(infoFormSchema),
         defaultValues: {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            phoneNumber: user.phoneNumber || "",
-            dateOfBirth: user.dateOfBirth || "",
-            currency: user.currency || "",
-            country: user.country || "",
-            address: user.address || "",
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phoneCode: phoneNumber?.split(" ")[0] || "",
+            phoneNumber: phoneNumber?.split(" ")[1] || "",
+            dateOfBirth: new Date(dateOfBirth),
+            currency: currency || "",
+            country: country || "",
+            address: address || "",
+            city: city || "",
         },
     });
 
-    function onSubmit(values) {
-        console.log(values);
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+
+    async function onSubmit(values) {
+        setIsLoading(true);
+
+        const newData = {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            dateOfBirth: new Date(values.dateOfBirth),
+            phoneNumber: values.phoneCode + " " + values.phoneNumber,
+            currency: values.currency,
+            country: values.country,
+            address: values.address,
+            city: values.city,
+        };
+
+        const result = await updateProfileAction(newData, "/account");
+
+        if (!result.success) {
+            toast.error("Event has not been created", {
+                description: result.message,
+                action: {
+                    label: "Close",
+                    onClick: () => router.push("/error"),
+                },
+            });
+        } else {
+            toast.success("Event has been created", {
+                description: result.message,
+                action: {
+                    label: "Close",
+                    onClick: () => router.push("/account"),
+                },
+            });
+        }
+
+        setIsLoading(false);
     }
 
     return (
@@ -96,8 +152,28 @@ function PersonalInfoEditForm({ user }) {
                         )}
                     />
                     <DatePicker form={form} />
+
+                    <SelectBox
+                        form={form}
+                        name="currency"
+                        label="currency"
+                        items={currencies}
+                        className="flex flex-col overflow-hidden"
+                    />
+                    <SelectCountry
+                        form={form}
+                        label="Country"
+                        items={countries}
+                        className="flex flex-col overflow-hidden"
+                    />
                     <div className="grid grid-cols-[70px_1fr] gap-1">
-                        <SelectBox name="code" form={form} items={phoneCodes}>
+                        <SelectBox
+                            form={form}
+                            name="phoneCode"
+                            label="Code"
+                            items={phoneCodes}
+                            className="flex flex-col overflow-hidden"
+                        >
                             Code
                         </SelectBox>
                         <FormField
@@ -118,20 +194,14 @@ function PersonalInfoEditForm({ user }) {
                             )}
                         />
                     </div>
-                    <SelectBox name="currency" form={form} items={currencies}>
-                        Currency
-                    </SelectBox>
-                    <SelectBox name="country" form={form} items={countries}>
-                        Country
-                    </SelectBox>
-                    <AddressInput form={form} />
+                    <AddressInput form={form} language={language} />
                 </div>
-                <Button
-                    type="submit"
-                    className="w-20 cursor-pointer float-end primary-btn"
-                >
-                    Save
-                </Button>
+                <SubmitBtn
+                    label="Save"
+                    loadingLabel="Updating..."
+                    isLoading={isLoading}
+                    btnClass="w-30 cursor-pointer float-end"
+                />
             </form>
         </Form>
     );

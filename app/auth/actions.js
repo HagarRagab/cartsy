@@ -10,24 +10,29 @@ import {
 } from "@/app/_lib/data-service";
 import { createClient } from "@/utils/supabase/server";
 
-export async function login(formData) {
+export async function login(values) {
     const supabase = await createClient();
 
     const credientials = {
-        email: formData.get("email"),
-        password: formData.get("password"),
+        email: values.email,
+        password: values.password,
     };
 
     const { error, data } = await supabase.auth.signInWithPassword(
         credientials
     );
 
-    if (error) redirect("/error");
+    if (error)
+        return {
+            success: false,
+            message: "Wrong email or password",
+        };
 
     // Creating new user in Users table for the first login
     const existingUser = await getUser("email", credientials.email);
     if (!existingUser.length) {
         const newUser = await createNewUser({
+            id: data?.user.id,
             email: data?.user.email,
             userName: data?.user.user_metadata.userName,
             firstName: data?.user.user_metadata.firstName,
@@ -37,7 +42,10 @@ export async function login(formData) {
     }
 
     revalidatePath("/", "layout");
-    redirect("/");
+    return {
+        success: true,
+        message: "successfully logged in.",
+    };
 }
 
 export async function signup(values) {
@@ -75,7 +83,11 @@ export async function signup(values) {
     });
 
     if (error) {
-        redirect("/error");
+        return {
+            success: false,
+            message:
+                "Something went wrong. Cannot create account. Please try agian later.",
+        };
     }
 
     revalidatePath("/", "layout");

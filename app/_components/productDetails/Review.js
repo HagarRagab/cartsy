@@ -4,7 +4,7 @@ import RatingStars from "./RatingStars";
 import { format } from "date-fns";
 
 async function Review({ rate }) {
-    const user = await getUser("id", rate.userId);
+    const [user] = await getUser("id", rate.userId);
 
     return (
         <div>

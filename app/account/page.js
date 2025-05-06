@@ -24,7 +24,7 @@ function Page() {
             <div className="w-full text-right">
                 <Button
                     className={`mt-8 w-20 ${
-                        isEditing ? "red-btn" : "primary-btn"
+                        isEditing ? "cancel-btn" : "primary-btn"
                     }`}
                     onClick={() => setIsEditing((editing) => !editing)}
                 >

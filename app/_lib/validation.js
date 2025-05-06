@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { currencies, languages, phoneCodes } from "@/app/_utils/helper";
+import countryCodes from "@/data/countryCodes.json";
 
 export const contactFormSchema = z.object({
     firstName: z.string().min(2, {
@@ -24,8 +26,11 @@ export const searchFormSchema = z.object({
 });
 
 export const loginFormSchema = z.object({
-    email: z.string(),
-    password: z.string(),
+    email: z
+        .string()
+        .min(1, "Please add your email")
+        .email("Invalid email address"),
+    password: z.string().min(1, "Please add your password"),
 });
 
 export const signupFormSchema = z
@@ -33,7 +38,7 @@ export const signupFormSchema = z
         firstName: z
             .string()
             .min(1, "First name is required")
-            .max(10, "First name must be less than 150 characters"),
+            .max(10, "First name must be less than 10 characters"),
         lastName: z
             .string()
             .min(1, "Last name is required")
@@ -54,3 +59,83 @@ export const signupFormSchema = z
         path: ["passwordAgain"],
         message: "Passwords do not match",
     });
+
+export const infoFormSchema = z
+    .object({
+        firstName: z
+            .string()
+            .min(1, "First name is required")
+            .max(10, "First name must be less than 150 characters"),
+        lastName: z
+            .string()
+            .min(1, "Last name is required")
+            .max(10, "Last name must be less than 10 characters"),
+        email: z.string().email("Invalid email address"),
+        dateOfBirth: z.date().nullable(),
+        phoneCode: z.string().refine((val) => phoneCodes.includes(val), {
+            message: "required",
+        }),
+        phoneNumber: z.string().min(1, {
+            message: "Please add a valid contact phone number.",
+        }),
+        currency: z.string().refine((val) => currencies.includes(val), {
+            message: "Please select your currency.",
+        }),
+        country: z
+            .string()
+            .refine((val) => countryCodes.some((c) => c.name === val), {
+                message: "Please select your country.",
+            }),
+        address: z.string().min(10, {
+            message: "Please fill your delivery address in details.",
+        }),
+        city: z.string(),
+    })
+    .superRefine((data, ctx) => {
+        const userCountry = countryCodes.find((c) => c.name === data.country);
+        if (!userCountry) {
+            ctx.addIssue({
+                path: ["country"],
+                message: "Please Select your country.",
+            });
+            ctx.addIssue({
+                path: ["phoneNumber"],
+                message: "Invalid phone number.",
+            });
+            return;
+        }
+
+        const { phoneNumber } = data;
+
+        if (
+            phoneNumber.length < userCountry.minLength ||
+            phoneNumber.length > userCountry.maxLength
+        )
+            ctx.addIssue({
+                path: ["phoneNumber"],
+                message: `Phone number must be ${
+                    userCountry.minLength === userCountry.maxLength
+                        ? userCountry.minLength
+                        : ` between ${userCountry.minLength} and ${userCountry.maxLength}`
+                } numbers.`,
+            });
+
+        const startsWithValidSuffix = userCountry.suffixes.some((s) =>
+            phoneNumber.startsWith(s)
+        );
+
+        if (!startsWithValidSuffix)
+            ctx.addIssue({
+                path: ["phoneNumber"],
+                message: "Invalid phone number.",
+            });
+    });
+
+export const regionalSettingsSchema = z.object({
+    currency: z.string().refine((val) => currencies.includes(val), {
+        message: "Please select your currency.",
+    }),
+    language: z.string().refine((val) => languages.includes(val), {
+        message: "Please select your langauage.",
+    }),
+});

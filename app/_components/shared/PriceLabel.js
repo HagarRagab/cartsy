@@ -1,17 +1,30 @@
+"use client";
+
 function PriceLabel({
     price,
-    currency,
+    productCurrency,
+    userCurrency,
+    currencyRate,
     discount,
     isDiscountValid,
     quantity = 1,
 }) {
-    const priceWithoutDiscount = (price * quantity).toFixed(2) + " " + currency;
+    const priceInUserCurrency = !currencyRate
+        ? price
+        : currencyRate.quotes[`${productCurrency}${userCurrency}`] * price;
+
+    const priceWithoutDiscount = `${(priceInUserCurrency * quantity).toFixed(
+        2
+    )} ${userCurrency}`;
+
     let priceAfterDiscount;
-    if (isDiscountValid)
-        priceAfterDiscount =
-            ((price - (price * discount) / 100) * quantity).toFixed(2) +
-            " " +
-            currency;
+    if (isDiscountValid) {
+        const discountAmount = (priceInUserCurrency * discount) / 100;
+        priceAfterDiscount = `${(
+            (priceInUserCurrency - discountAmount) *
+            quantity
+        ).toFixed(2)} ${userCurrency}`;
+    }
 
     return (
         <>

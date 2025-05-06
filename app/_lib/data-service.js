@@ -56,7 +56,7 @@ export async function getProducts(id, getBy) {
 }
 
 // GET products by keywords
-export async function getSearchProducts(searchKeyWords, category) {
+export async function getSearchProducts(searchKeyWords) {
     const { data: products, error } = await supabase
         .from("Products")
         .select("*")
@@ -68,6 +68,78 @@ export async function getSearchProducts(searchKeyWords, category) {
     }
 
     return products;
+}
+
+// GET liked products
+export async function getLikedProducts(userId) {
+    const { data: products, error } = await supabase
+        .from("Users_Wishlist")
+        .select(
+            `
+                *,
+                product:Products (
+                    *
+                )
+            `
+        )
+        .eq("userId", userId);
+
+    if (error) {
+        console.log(error);
+        throw new Error("Something went wrong. Cannot get products.");
+    }
+
+    return products;
+}
+
+// GET liked product
+export async function checkIfProductIsLiked(userId, productId) {
+    const { data: products, error } = await supabase
+        .from("Users_Wishlist")
+        .select("*")
+        .eq("userId", userId)
+        .eq("productId", productId);
+
+    if (error) {
+        console.log(error);
+        throw new Error("Something went wrong. Cannot get products.");
+    }
+
+    return products;
+}
+
+// POST add product to wishlist
+export async function addToWishlist(userId, productId) {
+    const { error } = await supabase
+        .from("Users_Wishlist")
+        .insert([{ userId, productId }])
+        .select();
+
+    if (error) {
+        console.log(error);
+        throw new Error(
+            "Something went wrong. Cannot add this product to wish list."
+        );
+    }
+
+    return { error };
+}
+
+// DELETE product from wishlist
+export async function removeFromWishlist(id) {
+    const { error } = await supabase
+        .from("Users_Wishlist")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        console.log(error);
+        throw new Error(
+            "Something went wrong. Cannot remove this product from wish list."
+        );
+    }
+
+    return { error };
 }
 
 /////////////////////////////////////////////////////
@@ -284,8 +356,7 @@ export async function getUser(key, value) {
     const { data: user, error } = await supabase
         .from("Users")
         .select("*")
-        .eq(key, value)
-        .single();
+        .eq(key, value);
 
     if (error) {
         console.log(error);
@@ -333,4 +404,15 @@ export async function getAuthUser() {
     } = await supabase.auth.getUser();
 
     return user;
+}
+
+export async function updateUserData(userId, newData) {
+    const { data, error } = await supabase
+        .from("Users")
+        .update(newData)
+        .eq("id", userId)
+        .select()
+        .single();
+
+    return { data, error };
 }

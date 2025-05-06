@@ -1,56 +1,47 @@
 import { BanknoteArrowDown, CreditCard, Truck, User } from "lucide-react";
+import countryCodes from "@/data/countryCodes.json";
 
-export const countries = [
-    {
-        value: "egypt",
-        label: "Egypt",
-    },
-    {
-        value: "saudi arabia",
-        label: "Saudi Arabia",
-    },
-    {
-        value: "usa",
-        label: "USA",
-    },
-];
+export const countries = countryCodes.map((country) => {
+    const { name, flag } = country;
+    return { name, flag };
+});
 
-export const languages = [
-    {
-        value: "AR",
-        label: "العربية",
-    },
-    {
-        value: "EN",
-        label: "English",
-    },
+export const phoneCodes = [
+    ...new Set(countryCodes.map((country) => country.id)),
 ];
 
 export const currencies = [
-    { label: "USD", value: "United States Dollar" },
-    { label: "EUR", value: "Euro" },
-    { label: "SAR", value: "Saudi Riyal" },
-    { label: "EGP", value: "Egyptian Pound" },
-    { label: "AED", value: "United Arab Emirates Dirham" },
+    ...new Set(countryCodes.map((country) => country.currency)),
 ];
 
-export const phoneCodes = [
-    { label: "+20", value: "Egypt" },
-    { label: "+30", value: "Saudi" },
-];
+export const languages = ["العربية", "English"];
 
-export async function getCurrencies(symbols) {
+export async function getAddressByCoords(lat, lng, language) {
+    try {
+        const res = await fetch(
+            `/api/reverse-geocode?lat=${lat}&lng=${lng}&langugae=${language}`
+        );
+        if (!res.ok) throw new Error("failed to fetch address");
+        const address = await res.json();
+        return address;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export async function convertCurrency(from, to) {
     try {
         const currenciesRatesRes = await fetch(
-            `${process.env.FIXER_IO_URL}?access_key=${
-                process.env.FIXER_IO_KEY
-            }&symbols=${symbols.join(",")}`
+            `${process.env.CURRENCY_CONVERTOR_URL}?access_key=${process.env.CURRENCY_CONVERTOR_KEY}&source=${from}&currencies=${to}`
         );
+
+        if (!currenciesRatesRes.ok)
+            throw new Error("failed to get currencies exchange rates.");
+
         const currenciesRates = await currenciesRatesRes.json();
         return currenciesRates;
     } catch (error) {
         console.error(error);
-        throw new Error("Cannot get Currencies. Try again later");
     }
 }
 

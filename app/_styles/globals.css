@@ -28,6 +28,9 @@
     --color-bg-700: #363534;
     --color-bg-800: #1e1d1d;
 
+    --color-red-custom-100: #dc2626;
+    --color-red-custom-200: #ef4444;
+
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
@@ -67,7 +70,9 @@
 
 @layer components {
     .primary-btn,
-    .red-btn {
+    .cancel-btn,
+    .delete-btn,
+    .outline-btn {
         font-weight: 500 !important;
         cursor: pointer !important;
     }
@@ -77,25 +82,18 @@
         color: var(--color-text-200) !important;
     }
 
-    .red-btn {
-        background-color: var(--color-red-500) !important;
+    .cancel-btn {
+        background-color: var(--color-bg-500) !important;
         color: #fff !important;
     }
 
-    .red-btn:hover {
-        background-color: var(--color-red-600) !important;
-    }
-
-    .primary-btn:hover,
-    .outline-btn:hover {
-        background-color: var(--color-accent-200) !important;
-        color: var(--color-text-700) !important;
+    .delete-btn {
+        background-color: var(--color-red-custom-200) !important;
+        color: #fff !important;
     }
 
     .outline-btn {
         background-color: transparent !important;
-        font-weight: 500 !important;
-        cursor: pointer !important;
         border: 2px solid var(--color-accent-200);
         color: var(--color-accent-200) !important;
     }
@@ -107,9 +105,23 @@
         box-shadow: none !important;
     }
 
+    .cancel-btn:hover {
+        background-color: var(--color-bg-600) !important;
+    }
+
+    .primary-btn:hover,
+    .outline-btn:hover {
+        background-color: var(--color-accent-200) !important;
+        color: var(--color-text-700) !important;
+    }
+
     .accent-btn:hover {
         background-color: transparent !important;
         color: var(--color-text-200) !important;
+    }
+
+    .delete-btn:hover {
+        background-color: var(--color-red-custom-100) !important;
     }
 
     .mask {
@@ -246,4 +258,19 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+/* Day picker styling */
+.rdp-vhidden {
+    @apply hidden;
+}
+
+.rdp-caption_dropdowns {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.rdp-dropdown {
+    width: 4rem;
 }

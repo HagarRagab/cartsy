@@ -1,7 +1,8 @@
 "use client";
 
-import { ChevronDown, LogOut } from "lucide-react";
+import { ChevronDown, LoaderCircle, LogOut } from "lucide-react";
 
+import UserAvatar from "@/app/_components/shared/UserAvatar";
 import { signOut } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,9 +14,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import UserAvatar from "@/app/_components/shared/UserAvatar";
-import SubmitBtn from "../auth/SubmitBtn";
 import Link from "next/link";
+import { useFormStatus } from "react-dom";
 
 function ProfileAvatar({ user }) {
     return (
@@ -50,17 +50,34 @@ function ProfileAvatar({ user }) {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                     <form action={signOut}>
-                        <SubmitBtn
-                            btnClass="accent-btn"
-                            loadingLabel="Loggin out..."
-                        >
-                            <LogOut size={20} className="text-accent-200" />
-                            Log out
-                        </SubmitBtn>
+                        <LogoutBtn
+                            label="Log out"
+                            loadingLabel="Logging out..."
+                        />
                     </form>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
+    );
+}
+
+function LogoutBtn({ label, loadingLabel }) {
+    const { pending } = useFormStatus();
+
+    return (
+        <Button type="submit" className="w-full accent-btn" disabled={pending}>
+            {pending ? (
+                <>
+                    <LoaderCircle className="animate-spin" size={20} />
+                    {loadingLabel}
+                </>
+            ) : (
+                <>
+                    <LogOut size={20} />
+                    {label}
+                </>
+            )}
+        </Button>
     );
 }
 

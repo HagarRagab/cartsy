@@ -23,13 +23,13 @@ async function Page({ params, searchParams }) {
     const product = await getProductById(productId);
 
     if (!product) notFound();
+
     const {
         title,
         description,
         categoryId,
         material,
         condition,
-        currency,
         unitsSold,
         brand,
     } = product;

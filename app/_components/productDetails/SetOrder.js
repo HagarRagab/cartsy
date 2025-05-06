@@ -1,19 +1,47 @@
 import { isPast } from "date-fns";
-import { Heart, Share2, ShoppingBag } from "lucide-react";
+import { Share2, ShoppingBag, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 
 import DiscountLabel from "@/app/_components/productDetails/DiscountLabel";
+import LikeProduct from "@/app/_components/productDetails/LikeProduct";
 import TotalItemPrice from "@/app/_components/productDetails/TotalItemPrice";
-import { getDiscount, getInventory, getVariant } from "@/app/_lib/data-service";
+import {
+    checkIfProductIsLiked,
+    getAuthUser,
+    getDiscount,
+    getInventory,
+    getUser,
+    getVariant,
+} from "@/app/_lib/data-service";
+import { convertCurrency } from "@/app/_utils/helper";
 import { Button } from "@/components/ui/button";
+import ItemActionBtn from "@/app/_components/shared/ItemActionBtn";
 
 async function SetOrder({ selectedInventoryId }) {
     const inventory = await getInventory(selectedInventoryId);
+
     const variant = await getVariant(inventory.variantId);
+
+    // Check if this product has valid discount
     const discount = await getDiscount(variant.productId);
     const isDiscountValid = !discount
         ? false
         : !isPast(new Date(discount?.endDate));
+
+    // Get current user data
+    const authUser = await getAuthUser();
+    const user = authUser && (await getUser("email", authUser.email))[0];
+    const userCurrency = user.currency || "USD";
+
+    const currencyRate =
+        inventory.currency === userCurrency
+            ? null
+            : await convertCurrency(inventory.currency, userCurrency);
+
+    const likedProduct = await checkIfProductIsLiked(
+        user.id,
+        variant.productId
+    );
 
     return (
         <div className="flex flex-col gap-4">
@@ -28,7 +56,7 @@ async function SetOrder({ selectedInventoryId }) {
                         <Image
                             src={variant.images[0]}
                             alt={variant.color}
-                            className="object-contain border-2 border-text-600 rounded-sm"
+                            className="object-contain border-2 border-text-600 rounded-sm px-2"
                             fill
                         />
                     </div>
@@ -45,28 +73,37 @@ async function SetOrder({ selectedInventoryId }) {
                 <TotalItemPrice
                     stock={inventory.stock}
                     price={inventory.price}
-                    currency={inventory.currency}
                     discount={discount?.percentage}
                     isDiscountValid={isDiscountValid}
+                    productCurrency={inventory.currency}
+                    userCurrency={userCurrency}
+                    currencyRate={currencyRate}
                 />
 
                 <div className="border-b-2 border-text-600 py-4">
-                    <Button className="primary-btn w-full">Buy now</Button>
-                    <Button className="outline-btn w-full mt-2">
-                        <ShoppingBag />
-                        <span>Add to bag</span>
-                    </Button>
+                    <ItemActionBtn
+                        icon={<ShoppingBag />}
+                        label="Buy now"
+                        style="primary-btn"
+                    />
+
+                    <ItemActionBtn
+                        icon={<ShoppingCart />}
+                        label="Add to bag"
+                        style="outline-btn"
+                    />
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 flex gap-2">
                     <Button className="accent-btn">
                         <Share2 />
                         <span>Share product</span>
                     </Button>
-                    <Button className="accent-btn">
-                        <Heart />
-                        <span>Like</span>
-                    </Button>
+                    <LikeProduct
+                        likedProduct={likedProduct}
+                        productId={variant.productId}
+                        userId={user.id}
+                    />
                 </div>
             </div>
         </div>

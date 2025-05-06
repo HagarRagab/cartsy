@@ -1,9 +1,12 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderCircle } from "lucide-react";
 
 import { login } from "@/app/auth/actions";
+import { redirect } from "next/dist/server/api-utils";
 import { loginFormSchema } from "@/app/_lib/validation";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +18,9 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import SubmitBtn from "./SubmitBtn";
+import ErrorMsg from "@/app/_components/shared/ErrorMsg";
+import SubmitBtn from "@/app/_components/shared/SubmitBtn";
+import { useRouter } from "next/navigation";
 
 function LoginForm() {
     const form = useForm({
@@ -26,9 +31,26 @@ function LoginForm() {
         },
     });
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [loginError, setLoginError] = useState("");
+
+    const router = useRouter();
+
+    async function onSubmit(values) {
+        setIsLoading(true);
+        const logingUser = await login(values);
+        if (!logingUser.success) setLoginError(logingUser.message);
+        else router.push("/");
+        setIsLoading(false);
+    }
+
     return (
         <Form {...form}>
-            <form className="space-y-8 min-w-96" action={login}>
+            {loginError && <ErrorMsg>{loginError}</ErrorMsg>}
+            <form
+                className="space-y-8 min-w-96"
+                onSubmit={form.handleSubmit(onSubmit)}
+            >
                 <FormField
                     control={form.control}
                     name="email"
@@ -65,7 +87,12 @@ function LoginForm() {
                 >
                     Forgot password?
                 </Button>
-                <SubmitBtn loadingLabel="Loggin in...">Log in</SubmitBtn>
+                <SubmitBtn
+                    label="Log in"
+                    loadingLabel="Logging in..."
+                    isLoading={isLoading}
+                    btnClass="w-full"
+                />
             </form>
         </Form>
     );

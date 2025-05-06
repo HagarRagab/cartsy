@@ -1,8 +1,13 @@
+"use client";
+
 import { MapPin } from "lucide-react";
+import { useAuth } from "@/app/_context/AuthContext";
 
 function Location() {
-    // Change
-    const address = "Alexandria, Egypt";
+    const { user } = useAuth();
+    const address = `${user.city}, ${user.country}`;
+
+    if (!user || !user.city) return null;
 
     return (
         <div>

@@ -1,4 +1,5 @@
 import { Roboto } from "next/font/google";
+import { Toaster } from "sonner";
 
 import Footer from "@/app/_components/footer/Footer";
 import Header from "@/app/_components/header/Header";
@@ -24,7 +25,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
     const authUser = await getAuthUser();
-    const user = authUser && (await getUser("email", authUser.email));
+    const user = authUser && (await getUser("email", authUser.email))[0];
 
     return (
         <html lang="en" style={{ filter: "none" }}>
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }) {
                     <main className="bg-bg-200 min-h-[calc(100vh-136px)] w-full">
                         {children}
                     </main>
+                    <Toaster />
                     <Footer />
                 </AuthProvider>
             </body>

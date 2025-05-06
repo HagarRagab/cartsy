@@ -1,12 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import ErrorMsg from "@/app/_components/shared/ErrorMsg";
+import SubmitBtn from "@/app/_components/shared/SubmitBtn";
 import { signupFormSchema } from "@/app/_lib/validation";
 import { signup } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ import { Input } from "@/components/ui/input";
 function SignupForm() {
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     const form = useForm({
         resolver: zodResolver(signupFormSchema),
@@ -39,14 +41,16 @@ function SignupForm() {
     async function onSubmit(values) {
         setIsLoading(true);
         const result = await signup(values);
-        if (result.success === false) setError(result.message);
-        else {
-            toast(result.message, {
+        if (!result.success) {
+            setError(result.message);
+        } else {
+            toast.success("Event has been created", {
+                description: result.message,
                 action: {
-                    label: "Undo",
+                    label: "Close",
+                    onClick: () => router.push("/auth/login"),
                 },
             });
-            redirect("/auth/login");
         }
         setIsLoading(false);
     }
@@ -157,13 +161,12 @@ function SignupForm() {
                             </FormItem>
                         )}
                     />
-                    <Button
-                        type="submit"
-                        className={`primary-btn w-full`}
-                        disabled={isLoading}
-                    >
-                        {isLoading ? "Signing up..." : "Sign up"}
-                    </Button>
+                    <SubmitBtn
+                        label="Sign up"
+                        loadingLabel="Signing up..."
+                        isLoading={isLoading}
+                        btnClass="w-full"
+                    />
                 </form>
             </Form>
         </div>
