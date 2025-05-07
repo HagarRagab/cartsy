@@ -51,13 +51,16 @@ function SignupForm() {
                     onClick: () => router.push("/auth/login"),
                 },
             });
+            form.reset();
         }
         setIsLoading(false);
     }
 
     return (
         <div>
-            {error && <ErrorMsg>{error}</ErrorMsg>}
+            {error && (
+                <ErrorMsg className="mb-8 text-sm text-wrap">{error}</ErrorMsg>
+            )}
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}

@@ -1,15 +1,14 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
-import GoogleBtn from "@/app/_components/auth/GoogleBtn";
+import GoogleLogin from "@/app/_components/auth/GoogleLogin";
 import ErrorMsg from "@/app/_components/shared/ErrorMsg";
 import SubmitBtn from "@/app/_components/shared/SubmitBtn";
-import { loginFormSchema } from "@/app/_lib/validation";
-import { login } from "@/app/auth/actions";
-import { Button } from "@/components/ui/button";
+import ForgotPassword from "@/app/_components/auth/ForgotPasswordBtn";
 import {
     Form,
     FormControl,
@@ -19,7 +18,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { loginFormSchema } from "@/app/_lib/validation";
+import { login } from "@/app/auth/actions";
 
 function LoginForm() {
     const form = useForm({
@@ -45,7 +45,7 @@ function LoginForm() {
 
     return (
         <>
-            {loginError && <ErrorMsg>{loginError}</ErrorMsg>}
+            {loginError && <ErrorMsg className="mb-8">{loginError}</ErrorMsg>}
             <Form {...form}>
                 <form
                     className="space-y-4 min-w-96"
@@ -81,14 +81,7 @@ function LoginForm() {
                             </FormItem>
                         )}
                     />
-                    <div className="relative -top-4 mb-0 flex justify-end">
-                        <Button
-                            variant="ghost"
-                            className="w-fit hover:underline transition-all mb-0 ml-auto cursor-pointer text-sm text-text-400 pr-0 pb-0 hover:bg-transparent"
-                        >
-                            Forgot password?
-                        </Button>
-                    </div>
+                    <ForgotPassword />
                     <SubmitBtn
                         label="Log in"
                         loadingLabel="Logging in..."
@@ -98,7 +91,7 @@ function LoginForm() {
                 </form>
             </Form>
             <div className="relative my-8 before:min-w-96 before:h-[0.5px] before:bg-primary-200 before:absolute before:top-1/2 before:left-1/2 before:-translate-1/2 after:px-4 after:content-['OR'] after:bg-bg-100 after:absolute after:top-1/2 after:left-1/2 after:-translate-1/2 after:text-sm" />
-            <GoogleBtn />
+            <GoogleLogin />
         </>
     );
 }

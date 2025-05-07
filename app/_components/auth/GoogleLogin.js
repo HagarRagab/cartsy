@@ -4,7 +4,7 @@ import { Loader } from "lucide-react";
 import Image from "next/image";
 import { useFormStatus } from "react-dom";
 
-function GoogleBtn() {
+function GoogleLogin() {
     return (
         <form action={loginWithGoogle}>
             <Submit />
@@ -35,4 +35,4 @@ function Submit() {
     );
 }
 
-export default GoogleBtn;
+export default GoogleLogin;

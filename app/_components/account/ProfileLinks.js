@@ -14,7 +14,7 @@ const links = [
         label: "Order history",
     },
     {
-        href: "/account/wishList",
+        href: "/account/wishlist",
         label: "Wish list",
     },
     {

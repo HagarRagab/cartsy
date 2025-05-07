@@ -139,3 +139,20 @@ export const regionalSettingsSchema = z.object({
         message: "Please select your langauage.",
     }),
 });
+
+export const forgotPasswordSchema = z.object({
+    email: z
+        .string()
+        .min(1, "Please add your email")
+        .email("Invalid email address"),
+});
+
+export const updatePasswordSchema = z
+    .object({
+        password: z.string().min(6, "Password must be at least 6 characters"),
+        passwordAgain: z.string().min(6, "Password confirmation is required"),
+    })
+    .refine((data) => data.password === data.passwordAgain, {
+        path: ["passwordAgain"],
+        message: "Passwords do not match",
+    });

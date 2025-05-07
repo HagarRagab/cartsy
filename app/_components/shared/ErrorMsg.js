@@ -1,9 +1,11 @@
-import { CircleAlert } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 
-function ErrorMsg({ children }) {
+function ErrorMsg({ children, className = "" }) {
     return (
-        <div className="mb-8 text-red-600 flex items-center gap-2 justify-center">
-            <CircleAlert size={20} />
+        <div
+            className={`text-red-custom-200 flex flex-col items-center gap-2 justify-center ${className}`}
+        >
+            <TriangleAlert size={20} />
             {children}
         </div>
     );

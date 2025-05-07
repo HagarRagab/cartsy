@@ -9,6 +9,7 @@ import {
     createNewUser,
     getUser,
     removeUser,
+    updateUserData,
 } from "@/app/_lib/data-service";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
@@ -28,7 +29,8 @@ export async function login(values) {
     if (error)
         return {
             success: false,
-            message: "Wrong email or password",
+            // message: "Wrong email or password",
+            message: error.message,
         };
 
     // Creating new user in Users table for the first login
@@ -95,8 +97,7 @@ export async function signup(values) {
     if (error) {
         return {
             success: false,
-            message:
-                "Something went wrong. Cannot create account. Please try agian later.",
+            message: error.message,
         };
     }
 
@@ -138,4 +139,54 @@ export async function loginWithGoogle() {
 
     if (error) redirect("/error");
     if (data.url) redirect(data.url); // use the redirect API for your server framework
+}
+
+export async function forgotPassword(values) {
+    const supabase = await createClient();
+    const origin = (await headers()).get("origin");
+
+    const { error } = await supabase.auth.resetPasswordForEmail(values.email, {
+        redirectTo: `${origin}/auth/update-password`,
+    });
+
+    if (error)
+        return {
+            status: "failed",
+            message: error?.message,
+        };
+
+    return {
+        status: "success",
+        message: "Please check your email and click password reset link",
+    };
+}
+
+export async function updatePassword(values, code) {
+    const supabase = await createClient();
+
+    const { error: codeError } = await supabase.auth.exchangeCodeForSession(
+        code
+    );
+
+    if (codeError)
+        return {
+            status: "failed",
+            message: codeError.message,
+        };
+
+    const { error: errorUpdate } = await supabase.auth.updateUser({
+        password: values.password,
+    });
+
+    if (errorUpdate)
+        return {
+            status: "failed",
+            message: errorUpdate.message,
+        };
+    else {
+        return {
+            status: "success",
+            message: "successfully resetting password",
+        };
+    }
 }
