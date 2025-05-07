@@ -7,17 +7,22 @@ function LinksGroup({ title, list, isImg = false }) {
             <h2 className="font-semibold text-md mb-2">{title}</h2>
             <ul className={`${isImg ? "flex items-center gap-2" : ""}`}>
                 {list.map((link) => (
-                    <li
-                        key={link.label}
-                        className="text-sm hover:underline transition-all mb-1"
-                    >
-                        {!isImg && <Link href={link.path}>{link.label}</Link>}
+                    <li key={link.label}>
+                        {!isImg && (
+                            <Link
+                                href={link.path}
+                                className="text-sm hover:underline transition-all mb-1"
+                            >
+                                {link.label}
+                            </Link>
+                        )}
                         {isImg && (
                             <Image
-                                width="36"
-                                height="36"
-                                src={link.path}
+                                width={36}
+                                height={24}
+                                src={link.src}
                                 alt={link.label}
+                                className="w-9 h-6"
                             />
                         )}
                     </li>

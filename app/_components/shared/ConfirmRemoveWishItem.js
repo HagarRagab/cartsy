@@ -15,7 +15,6 @@ import {
 
 function ConfirmRemoveWishItem({ children, likedProductId }) {
     async function handleRemoveItem() {
-        console.log("removed");
         await removeFromWishlistAction(likedProductId, "/account/wishlist");
     }
 

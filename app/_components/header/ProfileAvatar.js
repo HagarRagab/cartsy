@@ -1,6 +1,15 @@
 "use client";
 
-import { ChevronDown, LoaderCircle, LogOut } from "lucide-react";
+import {
+    ChevronDown,
+    CreditCard,
+    Heart,
+    LoaderCircle,
+    LogOut,
+    Settings,
+    ShoppingBag,
+    UserRound,
+} from "lucide-react";
 
 import UserAvatar from "@/app/_components/shared/UserAvatar";
 import { signOut } from "@/app/auth/actions";
@@ -17,6 +26,34 @@ import {
 import Link from "next/link";
 import { useFormStatus } from "react-dom";
 
+const profileList = [
+    {
+        label: "My account",
+        icon: <UserRound size={15} />,
+        href: "/account",
+    },
+    {
+        label: "Payments",
+        icon: <CreditCard size={15} />,
+        href: "/account/payments",
+    },
+    {
+        label: "My orders",
+        icon: <ShoppingBag size={15} />,
+        href: "/account/orders",
+    },
+    {
+        label: "My wishlist",
+        icon: <Heart size={15} />,
+        href: "/account/wishlist",
+    },
+    {
+        label: "Settings",
+        icon: <Settings size={15} />,
+        href: "/account/settings",
+    },
+];
+
 function ProfileAvatar({ user }) {
     return (
         <DropdownMenu>
@@ -29,23 +66,20 @@ function ProfileAvatar({ user }) {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-44">
-                <DropdownMenuLabel>
-                    <Link href="/account">My account</Link>
-                </DropdownMenuLabel>
+                <DropdownMenuLabel>Welcome, {user.firstName}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        <Link href="/account/payments">Payments</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <Link href="/account/orders">My orders</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <Link href="/account/wishList">Wish list</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <Link href="/account/settings">Settings</Link>
-                    </DropdownMenuItem>
+                    {profileList.map((item) => (
+                        <DropdownMenuItem key={item.label}>
+                            <Link
+                                href={item.href}
+                                className="flex items-center gap-2"
+                            >
+                                {item.icon}
+                                {item.label}
+                            </Link>
+                        </DropdownMenuItem>
+                    ))}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

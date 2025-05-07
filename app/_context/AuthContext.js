@@ -1,12 +1,19 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 function AuthProvider({ children, user }) {
+    const [language, setLanguage] = useState("English");
+    const [currency, setCurrency] = useState("USD");
+
     return (
-        <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider
+            value={{ user, language, setLanguage, currency, setCurrency }}
+        >
+            {children}
+        </AuthContext.Provider>
     );
 }
 

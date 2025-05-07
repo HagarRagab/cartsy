@@ -1,4 +1,19 @@
-import LinksGroup from "./LinksGroup";
+import LinksGroup from "@/app/_components/footer/LinksGroup";
+
+import visaImg from "@/public/visa.webp";
+import masterCardImg from "@/public/master-card.webp";
+import americanExpressImg from "@/public/american-express.webp";
+import JCBImg from "@/public/jcb.webp";
+
+const paymentMethodsList = [
+    { label: "visa", src: visaImg },
+    { label: "master card", src: masterCardImg },
+    {
+        label: "american express",
+        src: americanExpressImg,
+    },
+    { label: "JCB", src: JCBImg },
+];
 
 function Footer() {
     return (
@@ -17,15 +32,7 @@ function Footer() {
                 />
                 <LinksGroup
                     title="Pay with"
-                    list={[
-                        { label: "visa", path: "/visa.webp" },
-                        { label: "master card", path: "/master-card.webp" },
-                        {
-                            label: "american express",
-                            path: "/american-express.webp",
-                        },
-                        { label: "JCB", path: "/jcb.webp" },
-                    ]}
+                    list={paymentMethodsList}
                     isImg={true}
                 />
             </div>

@@ -5,10 +5,13 @@ import { redirect } from "next/navigation";
 
 import {
     checkIfUserExist,
+    createNewCart,
     createNewUser,
     getUser,
+    removeUser,
 } from "@/app/_lib/data-service";
 import { createClient } from "@/utils/supabase/server";
+import { headers } from "next/headers";
 
 export async function login(values) {
     const supabase = await createClient();
@@ -39,6 +42,13 @@ export async function login(values) {
             lastName: data?.user.user_metadata.lastName,
         });
         if (!newUser) redirect("/error");
+
+        // Create user associated row in Users_Carts table
+        const newCart = await createNewCart(newUser.id);
+        if (!newCart) {
+            await removeUser(newUser.id);
+            redirect("/error");
+        }
     }
 
     revalidatePath("/", "layout");
@@ -109,4 +119,23 @@ export async function signOut() {
 
     revalidatePath("/", "layout");
     redirect("/");
+}
+
+export async function loginWithGoogle() {
+    const supabase = await createClient();
+    const origin = (await headers()).get("origin");
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+            redirectTo: `${origin}/auth/callback`,
+            queryParams: {
+                access_type: "offline",
+                prompt: "consent",
+            },
+        },
+    });
+
+    if (error) redirect("/error");
+    if (data.url) redirect(data.url); // use the redirect API for your server framework
 }

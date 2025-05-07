@@ -46,7 +46,7 @@ function PersonalInfoEditForm({ user }) {
             email: email,
             phoneCode: phoneNumber?.split(" ")[0] || "",
             phoneNumber: phoneNumber?.split(" ")[1] || "",
-            dateOfBirth: new Date(dateOfBirth),
+            dateOfBirth: dateOfBirth && new Date(dateOfBirth),
             currency: currency || "",
             country: country || "",
             address: address || "",

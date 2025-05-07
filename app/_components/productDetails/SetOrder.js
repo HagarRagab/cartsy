@@ -11,11 +11,13 @@ import {
     getDiscount,
     getInventory,
     getUser,
+    getUserCart,
     getVariant,
 } from "@/app/_lib/data-service";
 import { convertCurrency } from "@/app/_utils/helper";
 import { Button } from "@/components/ui/button";
 import ItemActionBtn from "@/app/_components/shared/ItemActionBtn";
+import AddToCart from "@/app/_components/cart/AddToCart";
 
 async function SetOrder({ selectedInventoryId }) {
     const inventory = await getInventory(selectedInventoryId);
@@ -32,6 +34,9 @@ async function SetOrder({ selectedInventoryId }) {
     const authUser = await getAuthUser();
     const user = authUser && (await getUser("email", authUser.email))[0];
     const userCurrency = user.currency || "USD";
+
+    // GET user cart
+    const userCart = await getUserCart(user.id);
 
     const currencyRate =
         inventory.currency === userCurrency
@@ -87,10 +92,9 @@ async function SetOrder({ selectedInventoryId }) {
                         style="primary-btn"
                     />
 
-                    <ItemActionBtn
-                        icon={<ShoppingCart />}
-                        label="Add to bag"
-                        style="outline-btn"
+                    <AddToCart
+                        userCart={userCart}
+                        defaultInventoryId={selectedInventoryId}
                     />
                 </div>
 

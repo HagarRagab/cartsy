@@ -1,19 +1,30 @@
 import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-function Counter({ quantity, onSetQuantity, stock }) {
+function Counter({ stock }) {
+    const searchParams = useSearchParams();
+    const params = new URLSearchParams(searchParams);
+    const pathname = usePathname();
+    const router = useRouter();
+    const quantity = Number(searchParams.get("quantity")) || 1;
+
     function increaseQuanity() {
-        onSetQuantity((curQuantity) => {
-            if (curQuantity < stock) return (curQuantity += 1);
-            else return curQuantity;
-        });
+        if (quantity < stock) {
+            params.set("quantity", quantity + 1);
+            router.replace(`${pathname}?${params.toString()}`, {
+                scroll: false,
+            });
+        } else return;
     }
 
     function decreaseQuanity() {
-        onSetQuantity((curQuantity) => {
-            if (curQuantity === 1) return curQuantity;
-            return (curQuantity -= 1);
-        });
+        if (quantity > 1) {
+            params.set("quantity", quantity - 1);
+            router.replace(`${pathname}?${params.toString()}`, {
+                scroll: false,
+            });
+        } else return;
     }
 
     return (

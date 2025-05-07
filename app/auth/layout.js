@@ -3,7 +3,6 @@
 import { ShieldCheck } from "lucide-react";
 import { redirect } from "next/navigation";
 
-import GoogleBtn from "@/app/_components/auth/GoogleBtn";
 import { useAuth } from "@/app/_context/AuthContext";
 
 function Layout({ children }) {
@@ -23,8 +22,6 @@ function Layout({ children }) {
                     </p>
                 </div>
                 {children}
-                <div className="relative my-8 before:min-w-96 before:h-[0.5px] before:bg-primary-200 before:absolute before:top-1/2 before:left-1/2 before:-translate-1/2 after:px-4 after:content-['OR'] after:bg-bg-100 after:absolute after:top-1/2 after:left-1/2 after:-translate-1/2 after:text-sm" />
-                <GoogleBtn />
             </div>
         </div>
     );

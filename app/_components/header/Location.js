@@ -5,9 +5,10 @@ import { useAuth } from "@/app/_context/AuthContext";
 
 function Location() {
     const { user } = useAuth();
-    const address = `${user.city}, ${user.country}`;
 
-    if (!user || !user.city) return null;
+    if (!user || user?.city === null) return null;
+
+    const address = `${user.city}, ${user.country}`;
 
     return (
         <div>

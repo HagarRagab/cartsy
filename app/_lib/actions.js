@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import {
+    addToCart,
     addToWishlist,
     removeFromWishlist,
     updateUserData,
@@ -44,4 +45,11 @@ export async function removeFromWishlistAction(id, path) {
 
     if (error) redirect("/error");
     else revalidatePath(path);
+}
+
+export async function addToCartAction(cartItemData) {
+    const cartItem = await addToCart(cartItemData);
+
+    if (!cartItem) redirect("/error");
+    else revalidatePath("/cart");
 }

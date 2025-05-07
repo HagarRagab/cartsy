@@ -397,6 +397,15 @@ export async function createNewUser(newUserInfo) {
     return data;
 }
 
+export async function removeUser(id) {
+    const { error } = await supabase.from("Users").delete().eq("id", id);
+
+    if (error) {
+        console.error(error);
+        throw new Error("Something went wrong. Cannot delete account.");
+    }
+}
+
 export async function getAuthUser() {
     const supabase = await createClient();
     const {
@@ -415,4 +424,73 @@ export async function updateUserData(userId, newData) {
         .single();
 
     return { data, error };
+}
+
+// POST cart for new User
+export async function createNewCart(userId) {
+    const { data, error } = await supabase
+        .from("Users_Carts")
+        .insert([{ userId }])
+        .select()
+        .single();
+
+    if (error) {
+        console.error(error);
+        throw new Error("Something went wrong. Cannot create new cart.");
+    }
+
+    return data;
+}
+
+// GET userCart
+export async function getUserCart(userId) {
+    let { data: usersCarts, error } = await supabase
+        .from("Users_Carts")
+        .select("*")
+        .eq("userId", userId)
+        .single();
+
+    if (error) {
+        console.error(error);
+        throw new Error("Something went wrong. Cannot get user cart.");
+    }
+
+    return usersCarts;
+}
+
+/////////////////////////////////////////////////////
+// CART
+export async function addToCart(cartItemData) {
+    const { data, error } = await supabase
+        .from("Cart_Items")
+        .insert([{ ...cartItemData }])
+        .select();
+
+    if (error) {
+        console.error(error);
+        throw new Error("Something went wrong. Cannot add to cart.");
+    }
+
+    return data;
+}
+
+export async function getCartItems(cartId) {
+    let { data: cartItems, error } = await supabase
+        .from("Cart_Items")
+        .select(
+            `
+                *,
+                inventory:Inventories (
+                    *
+                )
+            `
+        )
+        .eq("cartId", cartId);
+
+    if (error) {
+        console.error(error);
+        throw new Error("Something went wrong. Cannot get cart items.");
+    }
+
+    return cartItems;
 }

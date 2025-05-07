@@ -33,7 +33,7 @@ async function ProductCard({ product, page = "", likedProductId }) {
     const authUser = await getAuthUser();
 
     const user = authUser && (await getUser("email", authUser.email))[0];
-    const userCurrency = user.currency || "USD";
+    const userCurrency = user?.currency || "USD";
 
     const currencyRate =
         currency === userCurrency

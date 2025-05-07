@@ -25,15 +25,14 @@ function RegionalSettings() {
     const router = useRouter();
     const pathname = usePathname();
     const { user } = useAuth();
-    const { country, city, currency, language } = user;
 
     const form = useForm({
         resolver: zodResolver(regionalSettingsSchema),
         defaultValues: {
-            country: country || "",
-            city: city || "",
-            currency: currency || "",
-            language: language || "English",
+            country: user?.country || "",
+            city: user?.city || "",
+            currency: user?.currency || "USD",
+            language: user?.language || "English",
         },
     });
 
@@ -72,9 +71,11 @@ function RegionalSettings() {
                         <Flag size={26} />
                     </div>
                     <div className="text-sm text-left">
-                        <p>{language?.slice(0, 2).toUpperCase() || "EN"}/</p>
+                        <p>
+                            {user?.language?.slice(0, 2).toUpperCase() || "EN"}/
+                        </p>
                         <p className="flex items-center gap-1 font-semibold">
-                            {currency}
+                            {user?.currency || "USD"}
                             <ChevronDown size={20} />
                         </p>
                     </div>
