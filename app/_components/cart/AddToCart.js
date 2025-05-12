@@ -1,17 +1,21 @@
 "use client";
 
 import { ShoppingCart } from "lucide-react";
+
 import ItemActionBtn from "@/app/_components/shared/ItemActionBtn";
-import { addToCartAction } from "@/app/_lib/actions";
-import { useSearchParams } from "next/navigation";
+import { addToCartAction, setCookie } from "@/app/_lib/actions";
 
-function AddToCart({ userCart, defaultInventoryId }) {
-    const searchParams = useSearchParams();
-    const inventoryId = searchParams.get("inventory") || defaultInventoryId;
-    const quantity = searchParams.get("quantity") || 1;
-
+function AddToCart({ userCart, selectedInventoryId, quantity }) {
     async function handleAddToCart() {
-        await addToCartAction({ cartId: userCart.id, inventoryId, quantity });
+        if (userCart)
+            await addToCartAction({
+                cartId: userCart.id,
+                selectedInventoryId,
+                quantity,
+            });
+        else {
+            await setCookie(selectedInventoryId, quantity);
+        }
     }
 
     return (
@@ -19,7 +23,7 @@ function AddToCart({ userCart, defaultInventoryId }) {
             icon={<ShoppingCart />}
             label="Add to cart"
             style="outline-btn"
-            onClick={handleAddToCart}
+            onAddToCart={handleAddToCart}
         />
     );
 }

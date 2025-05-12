@@ -7,36 +7,39 @@ function PriceLabel({
     currencyRate,
     discount,
     isDiscountValid,
-    quantity = 1,
 }) {
     const priceInUserCurrency = !currencyRate
         ? price
         : currencyRate.quotes[`${productCurrency}${userCurrency}`] * price;
 
-    const priceWithoutDiscount = `${(priceInUserCurrency * quantity).toFixed(
+    const priceWithoutDiscount = `${priceInUserCurrency.toFixed(
         2
     )} ${userCurrency}`;
 
     let priceAfterDiscount;
     if (isDiscountValid) {
         const discountAmount = (priceInUserCurrency * discount) / 100;
-        priceAfterDiscount = `${(
-            (priceInUserCurrency - discountAmount) *
-            quantity
-        ).toFixed(2)} ${userCurrency}`;
+        priceAfterDiscount = `${(priceInUserCurrency - discountAmount).toFixed(
+            2
+        )} ${userCurrency}`;
     }
 
     return (
         <>
             {discount && isDiscountValid ? (
-                <span className="uppercase font-semibold text-md text-lg">
-                    <span className="text-md line-through text-text-200 font-light">
+                <span>
+                    <span className="uppercase font-bold text-accent-200 mr-2">
+                        {priceAfterDiscount}
+                    </span>
+                    <span className="text-md line-through text-red-custom-100 font-light text-sm">
                         {priceWithoutDiscount}
-                    </span>{" "}
-                    {priceAfterDiscount}
+                    </span>
+                    <span className="text-sm ml-2 text-text-400">
+                        &minus;{discount}%
+                    </span>
                 </span>
             ) : (
-                <span className="uppercase font-semibold text-md text-lg">
+                <span className="uppercase font-bold  text-lg text-accent-200 ml-1">
                     {priceWithoutDiscount}
                 </span>
             )}

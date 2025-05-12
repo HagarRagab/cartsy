@@ -1,6 +1,5 @@
 "use client";
 
-import { removeFromWishlistAction } from "@/app/_lib/actions";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -13,14 +12,12 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-function ConfirmRemoveWishItem({ children, likedProductId }) {
-    async function handleRemoveItem() {
-        await removeFromWishlistAction(likedProductId, "/account/wishlist");
-    }
-
+function ConfirmRemoving({ onConfirm, children, btnStyle }) {
     return (
         <AlertDialog>
-            <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+            <AlertDialogTrigger asChild className={btnStyle}>
+                {children}
+            </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>
@@ -28,7 +25,7 @@ function ConfirmRemoveWishItem({ children, likedProductId }) {
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                         This action cannot be undone. This will permanently
-                        delete this item from your wish list.
+                        delete this item.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -37,7 +34,7 @@ function ConfirmRemoveWishItem({ children, likedProductId }) {
                     </AlertDialogCancel>
                     <AlertDialogAction
                         className="delete-btn"
-                        onClick={handleRemoveItem}
+                        onClick={onConfirm}
                     >
                         Delete
                     </AlertDialogAction>
@@ -47,4 +44,4 @@ function ConfirmRemoveWishItem({ children, likedProductId }) {
     );
 }
 
-export default ConfirmRemoveWishItem;
+export default ConfirmRemoving;

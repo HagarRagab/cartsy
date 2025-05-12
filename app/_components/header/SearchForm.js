@@ -1,39 +1,50 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 import { searchFormSchema } from "@/app/_lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
     Select,
     SelectContent,
+    SelectGroup,
     SelectItem,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
+import SpinnerIcon from "@/app/_components/shared/SpinnerIcon";
 
 function SearchForm({ categories }) {
     const router = useRouter();
+    const [isPending, startTransition] = useTransition();
 
     const form = useForm({
         resolver: zodResolver(searchFormSchema),
         defaultValues: {
             search: "",
-            category: "allcategories",
+            category: "",
         },
     });
 
     function onSubmit(values) {
         const { search, category } = values;
-        if (!search) return;
-        router.push(`/products?search=${search}&category=${category}`);
+        startTransition(() => {
+            router.push(`/products?search=${search}&category=${category}`);
+            form.reset();
+        });
     }
 
     return (
@@ -46,10 +57,10 @@ function SearchForm({ categories }) {
                     control={form.control}
                     name="category"
                     render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="relative">
                             <Select
                                 onValueChange={field.onChange}
-                                defaultValue="allcategories"
+                                defaultValue={field.value}
                                 {...field}
                             >
                                 <FormControl>
@@ -58,19 +69,22 @@ function SearchForm({ categories }) {
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    <SelectItem value="allcategories">
-                                        All Categories
-                                    </SelectItem>
-                                    {categories.map((category) => (
-                                        <SelectItem
-                                            value={category.slug}
-                                            key={category.slug}
-                                        >
-                                            {category.name}
+                                    <SelectGroup>
+                                        <SelectItem value="0">
+                                            All Categories
                                         </SelectItem>
-                                    ))}
+                                        {categories.map((category) => (
+                                            <SelectItem
+                                                value={category.id}
+                                                key={category.id}
+                                            >
+                                                {category.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
                                 </SelectContent>
                             </Select>
+                            <FormMessage className="absolute bottom-0 translate-y-[calc(100%+7px)]" />
                         </FormItem>
                     )}
                 />
@@ -78,7 +92,7 @@ function SearchForm({ categories }) {
                     control={form.control}
                     name="search"
                     render={({ field }) => (
-                        <FormItem className="flex-1 mr-0">
+                        <FormItem className="flex-1 mr-0 relative">
                             <FormControl>
                                 <Input
                                     className="border-none m-0"
@@ -86,11 +100,16 @@ function SearchForm({ categories }) {
                                     {...field}
                                 />
                             </FormControl>
+                            <FormMessage className="absolute bottom-0 translate-y-[calc(100%+7px)]" />
                         </FormItem>
                     )}
                 />
-                <Button type="submit" className="primary-btn rounded-none">
-                    <Search size={20} />
+                <Button
+                    type="submit"
+                    className="primary-btn rounded-none"
+                    disabled={isPending}
+                >
+                    {isPending ? <SpinnerIcon /> : <Search size={20} />}
                 </Button>
             </form>
         </Form>

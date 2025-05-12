@@ -1,6 +1,11 @@
 import { BanknoteArrowDown, CreditCard, Truck, User } from "lucide-react";
 import countryCodes from "@/data/countryCodes.json";
 
+import visaImg from "@/public/visa.webp";
+import masterCardImg from "@/public/master-card.webp";
+import americanExpressImg from "@/public/american-express.webp";
+import JCBImg from "@/public/jcb.webp";
+
 export const countries = countryCodes.map((country) => {
     const { name, flag } = country;
     return { name, flag };
@@ -143,3 +148,13 @@ export const contactUsInfo = {
         instgram: "https://instgram.com/shopcartcy",
     },
 };
+
+export const paymentMethodsList = [
+    { label: "visa", src: visaImg.src },
+    { label: "master card", src: masterCardImg.src },
+    {
+        label: "american express",
+        src: americanExpressImg.src,
+    },
+    { label: "JCB", src: JCBImg.src },
+];

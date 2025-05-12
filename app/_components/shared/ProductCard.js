@@ -2,38 +2,41 @@ import { isPast } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 
-import SaleLabel from "@/app/_components/home/SaleLabel";
+import SaleLabel from "@/app/_components/shared/SaleLabel";
 import RatingStars from "@/app/_components/productDetails/RatingStars";
-import ConfirmRemoveWishItem from "@/app/_components/shared/ConfirmRemoveWishItem";
-import ItemActionBtn from "@/app/_components/shared/ItemActionBtn";
 import PriceLabel from "@/app/_components/shared/PriceLabel";
 import {
     getAuthUser,
-    getCategory,
     getDiscount,
     getRatings,
     getUser,
 } from "@/app/_lib/data-service";
 import { calcTotalRating, convertCurrency } from "@/app/_utils/helper";
-import { ShoppingCart, Trash } from "lucide-react";
-import { removeFromWishlistAction } from "@/app/_lib/actions";
 
-async function ProductCard({ product, page = "", likedProductId }) {
-    const { id, title, categoryId, originalPrice, currency, imagePreview } =
+async function ProductCard({
+    product,
+    children,
+    containerStyle = "",
+    linkStyle = "",
+    filteredrating,
+}) {
+    const { id, title, originalPrice, currency, imagePreview, category } =
         product;
 
-    const category = await getCategory({ categoryId });
     const ratings = await getRatings(id);
     const rating = calcTotalRating(ratings);
+
     const discount = await getDiscount(id);
     const isDiscountValid = !discount
         ? false
         : !isPast(new Date(discount?.endDate));
 
+    if (filteredrating > rating) return null;
+
     const authUser = await getAuthUser();
 
     const user = authUser && (await getUser("email", authUser.email))[0];
-    const userCurrency = user?.currency || "USD";
+    const userCurrency = user?.currency || "EGP";
 
     const currencyRate =
         currency === userCurrency
@@ -42,17 +45,11 @@ async function ProductCard({ product, page = "", likedProductId }) {
 
     return (
         <div
-            className={`${
-                page === "wishlist" ? "w-full flex items-center" : "max-w-70"
-            } rounded-2xl overflow-hidden shadow-md border-2 border-bg-200`}
+            className={`${containerStyle} rounded-2xl overflow-hidden shadow-md border-2 border-bg-200`}
         >
             <Link
                 href={`/products/${category.slug}/${id}`}
-                className={`${
-                    page === "wishlist"
-                        ? "grid grid-cols-[150px_1fr] items-center gap-2"
-                        : ""
-                } w-full relative group transition-all`}
+                className={`${linkStyle} w-full relative group transition-all`}
             >
                 {isDiscountValid && <SaleLabel />}
                 <div className="relative w-full aspect-square bg-bg-100">
@@ -88,23 +85,7 @@ async function ProductCard({ product, page = "", likedProductId }) {
                     )}
                 </div>
             </Link>
-            {page === "wishlist" && (
-                <div className="max-w-30 mr-8">
-                    <ConfirmRemoveWishItem likedProductId={likedProductId}>
-                        <ItemActionBtn
-                            icon={<Trash />}
-                            label="Delete"
-                            style="delete-btn"
-                        />
-                    </ConfirmRemoveWishItem>
-
-                    <ItemActionBtn
-                        icon={<ShoppingCart />}
-                        label="Add to bag"
-                        style="outline-btn"
-                    />
-                </div>
-            )}
+            {children}
         </div>
     );
 }

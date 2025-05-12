@@ -10,11 +10,11 @@ import { useState } from "react";
 import ProductImageCard from "./ProductImageCard";
 import ProductImagePreview from "./ProductImagePreview";
 
-function ProductImages({ variants }) {
+function ProductImages({ variants, className = "" }) {
     const [displayedImage, setDisplayedImage] = useState(variants[0].images[0]);
 
     return (
-        <div>
+        <div className={className}>
             <ProductImagePreview image={displayedImage} />
             <Carousel className="w-[calc(100%-80px)] mx-auto">
                 <CarouselContent className="-ml-1">

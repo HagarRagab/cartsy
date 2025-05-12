@@ -11,7 +11,7 @@ async function OnSale() {
     );
 
     return (
-        <SectionCard sectionTitle="on sale" showMoreBtn={true} href="/onSale">
+        <SectionCard sectionTitle="on sale" showMoreBtn={true} href="/on-sale">
             <ProductsContainer products={products} />
         </SectionCard>
     );

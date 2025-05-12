@@ -1,10 +1,10 @@
 import HelpAccordion from "@/app/_components/shared/HelpAccordion";
-import PageLayout from "@/app/_components/shared/PageLayout";
+import PageContainer from "@/app/_components/shared/PageContainer";
 import Link from "next/link";
 
 function Page() {
     return (
-        <PageLayout>
+        <PageContainer>
             <h1 className="font-semibold text-2xl mb-4">
                 How can we assist you today?
             </h1>
@@ -22,13 +22,13 @@ function Page() {
                     Still need help? We&apos;ve got your back.
                 </p>
                 <Link
-                    href="/contactUs"
+                    href="/contact-us"
                     className="text-accent-200 hover:underline"
                 >
                     Visit our contact us page
                 </Link>
             </div>
-        </PageLayout>
+        </PageContainer>
     );
 }
 

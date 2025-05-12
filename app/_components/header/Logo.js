@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Store } from "lucide-react";
+import Link from "next/link";
 
 function Logo() {
     return (

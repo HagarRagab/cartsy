@@ -1,4 +1,3 @@
-import BreadCrumb from "@/app/_components/navbar/BreadCrumb";
 import PageLayout from "@/app/_components/shared/PageLayout";
 import ProductsContainer from "@/app/_components/shared/ProductsContainer";
 import { getDiscounts, getProductById } from "@/app/_lib/data-service";
@@ -16,8 +15,7 @@ async function Page() {
     );
 
     return (
-        <PageLayout className="max-w-8xl">
-            <BreadCrumb page="On sale" />
+        <PageLayout className="max-w-8xl" page="on sale" hideFilter="sale">
             <ProductsContainer products={products} />
         </PageLayout>
     );

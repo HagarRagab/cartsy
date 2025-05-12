@@ -9,7 +9,7 @@ async function BestSelling() {
         <SectionCard
             sectionTitle="best selling"
             showMoreBtn={true}
-            href="/bestSellings"
+            href="/best-sellings"
         >
             <ProductsContainer products={bestSellingProducts} />
         </SectionCard>

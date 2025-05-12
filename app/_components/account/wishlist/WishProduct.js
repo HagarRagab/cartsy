@@ -5,7 +5,7 @@ async function WishProduct({ product, user }) {
     const { imagePreview, title, originalPrice, currency } = product;
     const userLanguage = user.language.slice(0, 2).toLowerCase();
 
-    const userCurrency = user.currency || "USD";
+    const userCurrency = user.currency || "EGP";
     const currencyRate =
         currency === userCurrency
             ? null

@@ -7,7 +7,13 @@ import { supabase } from "@/app/_lib/supabase";
 export async function getProductById(productId) {
     const { data: product, error } = await supabase
         .from("Products")
-        .select("*")
+        .select(
+            `
+                *,
+                category:Categories (*),
+                brand:Brands (*)
+            `
+        )
         .eq("id", productId)
         .single();
 
@@ -16,16 +22,20 @@ export async function getProductById(productId) {
         throw new Error("Something went wrong. Cannot get product.");
     }
 
-    const brand = await getBrand(product.brandId, "id");
-
-    return { ...product, brand: brand.name || "" };
+    return product;
 }
 
 // GET best selling products
 export async function getBestSellings(limit = "*") {
     const { data: bestSelling, error } = await supabase
         .from("Products")
-        .select("*")
+        .select(
+            `
+                *,
+                category:Categories (*),
+                brand:Brands (*)
+            `
+        )
         .gt("unitsSold", 10)
         .order("unitsSold", { ascending: false })
         .limit(limit);
@@ -44,7 +54,13 @@ export async function getBestSellings(limit = "*") {
 export async function getProducts(id, getBy) {
     const { data: products, error } = await supabase
         .from("Products")
-        .select("*")
+        .select(
+            `
+                *,
+                category:Categories (*),
+                brand:Brands (*)
+            `
+        )
         .eq(getBy, id);
 
     if (error) {
@@ -56,11 +72,20 @@ export async function getProducts(id, getBy) {
 }
 
 // GET products by keywords
-export async function getSearchProducts(searchKeyWords) {
-    const { data: products, error } = await supabase
+export async function getSearchProducts(searchKeyWords, categoryId) {
+    let query = supabase
         .from("Products")
-        .select("*")
+        .select(
+            `
+                *,
+                category:Categories (*)
+            `
+        )
         .contains("tags", searchKeyWords);
+
+    if (Number(categoryId) !== 0) query = query.eq("categoryId", categoryId);
+
+    const { data: products, error } = await query;
 
     if (error) {
         console.log(error);
@@ -78,7 +103,8 @@ export async function getLikedProducts(userId) {
             `
                 *,
                 product:Products (
-                    *
+                    *,
+                    category:Categories(*)
                 )
             `
         )
@@ -229,7 +255,14 @@ export async function getProductVariants(productid) {
 export async function getVariant(variantId) {
     const { data: variant, error } = await supabase
         .from("Variants")
-        .select("*")
+        .select(
+            `
+                *,
+                product:Products (
+                    *
+                )
+            `
+        )
         .single()
         .eq("id", variantId);
 
@@ -264,7 +297,14 @@ export async function getProductInventories(variantId) {
 export async function getInventory(inventoryId) {
     const { data: inventory, error } = await supabase
         .from("Inventories")
-        .select("*")
+        .select(
+            `
+                *,
+                variant:Variants (
+                    *
+                )
+            `
+        )
         .single()
         .eq("id", inventoryId);
 
@@ -444,6 +484,8 @@ export async function createNewCart(userId) {
 
 // GET userCart
 export async function getUserCart(userId) {
+    if (!userId) return null;
+
     let { data: usersCarts, error } = await supabase
         .from("Users_Carts")
         .select("*")

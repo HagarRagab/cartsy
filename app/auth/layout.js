@@ -11,7 +11,6 @@ import Image from "next/image";
 function Layout({ children }) {
     const { user } = useAuth();
     const pathname = usePathname();
-    console.log(pathname);
     if (user) redirect("/");
 
     let formTitle = "Register/Sign in";

@@ -4,7 +4,6 @@ import {
     ChevronDown,
     CreditCard,
     Heart,
-    LoaderCircle,
     LogOut,
     Settings,
     ShoppingBag,
@@ -25,6 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { useFormStatus } from "react-dom";
+import SpinnerIcon from "@/app/_components/shared/SpinnerIcon";
 
 const profileList = [
     {
@@ -102,7 +102,7 @@ function LogoutBtn({ label, loadingLabel }) {
         <Button type="submit" className="w-full accent-btn" disabled={pending}>
             {pending ? (
                 <>
-                    <LoaderCircle className="animate-spin" size={20} />
+                    <SpinnerIcon />
                     {loadingLabel}
                 </>
             ) : (

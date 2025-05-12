@@ -1,19 +1,5 @@
 import LinksGroup from "@/app/_components/footer/LinksGroup";
-
-import visaImg from "@/public/visa.webp";
-import masterCardImg from "@/public/master-card.webp";
-import americanExpressImg from "@/public/american-express.webp";
-import JCBImg from "@/public/jcb.webp";
-
-const paymentMethodsList = [
-    { label: "visa", src: visaImg },
-    { label: "master card", src: masterCardImg },
-    {
-        label: "american express",
-        src: americanExpressImg,
-    },
-    { label: "JCB", src: JCBImg },
-];
+import { paymentMethodsList } from "@/app/_utils/helper";
 
 function Footer() {
     return (
@@ -21,13 +7,13 @@ function Footer() {
             <div className="flex justify-around gap-6 mb-12">
                 <LinksGroup
                     title="Get to know us"
-                    list={[{ label: "About Cartcy", path: "/aboutUs" }]}
+                    list={[{ label: "About Cartcy", path: "/about-us" }]}
                 />
                 <LinksGroup
                     title="Let us help you"
                     list={[
                         { label: "Help", path: "/help" },
-                        { label: "Contact us", path: "/contactUs" },
+                        { label: "Contact us", path: "/contact-us" },
                     ]}
                 />
                 <LinksGroup

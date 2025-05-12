@@ -1,5 +1,5 @@
+import { MapPinHouse } from "lucide-react";
 import { useState } from "react";
-import { LoaderCircle, MapPinHouse } from "lucide-react";
 
 import { getAddressByCoords } from "@/app/_utils/helper";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import SpinnerIcon from "@/app/_components/shared/SpinnerIcon";
 
 function AddressInput({ form, language }) {
     const [isLoading, setIsLoading] = useState(false);
@@ -49,10 +50,7 @@ function AddressInput({ form, language }) {
                                     title="Get your location"
                                 >
                                     {isLoading ? (
-                                        <LoaderCircle
-                                            className="animate-spin"
-                                            size={20}
-                                        />
+                                        <SpinnerIcon />
                                     ) : (
                                         <MapPinHouse />
                                     )}

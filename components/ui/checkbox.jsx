@@ -5,8 +5,11 @@ import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { CheckIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
 
 function Checkbox({ className, ...props }) {
+    const searchParams = useSearchParams();
+
     return (
         <CheckboxPrimitive.Root
             data-slot="checkbox"
@@ -14,6 +17,7 @@ function Checkbox({ className, ...props }) {
                 "peer border-input dark:bg-input/30 data-[state=checked]:bg-primary-200 data-[state=checked]:text-text-200 dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary-200 focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-5 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
                 className
             )}
+            checked={searchParams.get("select") === "all"}
             {...props}
         >
             <CheckboxPrimitive.Indicator

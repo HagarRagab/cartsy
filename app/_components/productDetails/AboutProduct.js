@@ -1,5 +1,6 @@
 import { getProductShipping } from "@/app/_lib/data-service";
-import InfoContainer from "./InfoContainer";
+import InfoContainer from "@/app/_components/productDetails/InfoContainer";
+import Info from "@/app/_components/productDetails/Info";
 
 async function AboutProduct({ material, condition, brand, productId }) {
     const productShipping = await getProductShipping(productId);
@@ -13,7 +14,7 @@ async function AboutProduct({ material, condition, brand, productId }) {
             <ul className="grid grid-cols-2 gap-2">
                 <Info title="material" info={material} />
                 <Info title="condition" info={condition} />
-                <Info title="brand" info={brand} />
+                <Info title="brand" info={brand.name} />
                 <Info title="weight" info={weight} />
                 <Info
                     title="dimensions"
@@ -21,15 +22,6 @@ async function AboutProduct({ material, condition, brand, productId }) {
                 />
             </ul>
         </InfoContainer>
-    );
-}
-
-function Info({ title, info }) {
-    return (
-        <li>
-            <span className="text-text-400 capitalize">{title}:</span>
-            <span className="font-semibold ml-2">{info}</span>
-        </li>
     );
 }
 

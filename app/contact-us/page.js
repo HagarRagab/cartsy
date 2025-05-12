@@ -1,7 +1,7 @@
 import { Link2, Mails, MapPin, MessageCircle, Phone } from "lucide-react";
 
 import { contactUsInfo } from "@/app/_utils/helper";
-import PageLayout from "@/app/_components/shared/PageLayout";
+import PageContainer from "@/app/_components/shared/PageContainer";
 import ContactInfo from "@/app/_components/contact/ContactInfo";
 import SocialLinks from "@/app/_components/contact/SocialLinks";
 import ContactForm from "@/app/_components/contact/ContactForm";
@@ -24,7 +24,7 @@ const contacts = [
 
 function Page() {
     return (
-        <PageLayout className="max-w-7xl">
+        <PageContainer>
             <div className="grid grid-cols-2 gap-4">
                 <div className="bg-bg-100 px-8 py-6 rounded-lg shadow-2xl flex flex-col">
                     <h1 className="font-semibold text-2xl mb-6">Contact us</h1>
@@ -51,7 +51,7 @@ function Page() {
                 We&apos;re always here for you &mdash; thanks for shopping with
                 Cartsy!
             </p>
-        </PageLayout>
+        </PageContainer>
     );
 }
 

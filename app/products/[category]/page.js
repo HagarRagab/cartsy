@@ -27,8 +27,11 @@ async function Page({ params }) {
     const products = await getProducts(category.id, "categoryId");
 
     return (
-        <PageLayout className="max-w-8xl">
-            <BreadCrumb page={category.name} />
+        <PageLayout
+            className="max-w-8xl"
+            hideFilter="category"
+            page={category.name}
+        >
             <ProductsContainer products={products} />
         </PageLayout>
     );

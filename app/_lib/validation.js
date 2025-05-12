@@ -21,8 +21,8 @@ export const contactFormSchema = z.object({
 });
 
 export const searchFormSchema = z.object({
-    search: z.string(),
-    category: z.string(),
+    search: z.string().trim().min(1, "Please add product name"),
+    category: z.string().min(1, "Please select category"),
 });
 
 export const loginFormSchema = z.object({

@@ -29,7 +29,7 @@ function BreadCrumb({ page, links }) {
                     ))}
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                    <BreadcrumbPage className="max-w-70 whitespace-nowrap overflow-hidden overflow-ellipsis">
+                    <BreadcrumbPage className="max-w-70 whitespace-nowrap overflow-hidden overflow-ellipsis capitalize">
                         {page}
                     </BreadcrumbPage>
                 </BreadcrumbItem>

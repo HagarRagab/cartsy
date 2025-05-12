@@ -1,8 +1,9 @@
-import { loginWithGoogle } from "@/app/auth/actions";
-import { Button } from "@/components/ui/button";
-import { Loader } from "lucide-react";
 import Image from "next/image";
 import { useFormStatus } from "react-dom";
+
+import { loginWithGoogle } from "@/app/auth/actions";
+import { Button } from "@/components/ui/button";
+import SpinnerIcon from "@/app/_components/shared/SpinnerIcon";
 
 function GoogleLogin() {
     return (
@@ -21,7 +22,7 @@ function Submit() {
             disabled={pending}
         >
             {pending ? (
-                <Loader className="animate-spin" size={20} />
+                <SpinnerIcon />
             ) : (
                 <Image
                     src="/google.svg"

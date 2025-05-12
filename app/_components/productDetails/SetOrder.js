@@ -1,31 +1,29 @@
 import { isPast } from "date-fns";
-import { Share2, ShoppingBag, ShoppingCart } from "lucide-react";
+import { Share2 } from "lucide-react";
 import Image from "next/image";
 
 import DiscountLabel from "@/app/_components/productDetails/DiscountLabel";
 import LikeProduct from "@/app/_components/productDetails/LikeProduct";
-import TotalItemPrice from "@/app/_components/productDetails/TotalItemPrice";
 import {
-    checkIfProductIsLiked,
     getAuthUser,
     getDiscount,
     getInventory,
+    getProductById,
     getUser,
     getUserCart,
-    getVariant,
 } from "@/app/_lib/data-service";
 import { convertCurrency } from "@/app/_utils/helper";
 import { Button } from "@/components/ui/button";
-import ItemActionBtn from "@/app/_components/shared/ItemActionBtn";
-import AddToCart from "@/app/_components/cart/AddToCart";
+import ProductPurchaseBox from "@/app/_components/productDetails/ProductPurchaseBox";
 
 async function SetOrder({ selectedInventoryId }) {
     const inventory = await getInventory(selectedInventoryId);
 
-    const variant = await getVariant(inventory.variantId);
+    const variant = inventory.variant;
+    const product = await getProductById(variant.productId);
 
     // Check if this product has valid discount
-    const discount = await getDiscount(variant.productId);
+    const discount = await getDiscount(product.id);
     const isDiscountValid = !discount
         ? false
         : !isPast(new Date(discount?.endDate));
@@ -33,20 +31,15 @@ async function SetOrder({ selectedInventoryId }) {
     // Get current user data
     const authUser = await getAuthUser();
     const user = authUser && (await getUser("email", authUser.email))[0];
-    const userCurrency = user.currency || "USD";
+    const userCurrency = user?.currency || "EGP";
 
     // GET user cart
-    const userCart = await getUserCart(user.id);
+    const userCart = await getUserCart(user?.id);
 
     const currencyRate =
         inventory.currency === userCurrency
             ? null
             : await convertCurrency(inventory.currency, userCurrency);
-
-    const likedProduct = await checkIfProductIsLiked(
-        user.id,
-        variant.productId
-    );
 
     return (
         <div className="flex flex-col gap-4">
@@ -75,39 +68,28 @@ async function SetOrder({ selectedInventoryId }) {
                     </div>
                 </div>
 
-                <TotalItemPrice
-                    stock={inventory.stock}
-                    price={inventory.price}
-                    discount={discount?.percentage}
+                <ProductPurchaseBox
+                    inventory={inventory}
+                    discount={discount}
                     isDiscountValid={isDiscountValid}
-                    productCurrency={inventory.currency}
                     userCurrency={userCurrency}
                     currencyRate={currencyRate}
+                    userCart={userCart}
+                    selectedInventoryId={selectedInventoryId}
+                    product={product}
                 />
-
-                <div className="border-b-2 border-text-600 py-4">
-                    <ItemActionBtn
-                        icon={<ShoppingBag />}
-                        label="Buy now"
-                        style="primary-btn"
-                    />
-
-                    <AddToCart
-                        userCart={userCart}
-                        defaultInventoryId={selectedInventoryId}
-                    />
-                </div>
 
                 <div className="mt-4 flex gap-2">
                     <Button className="accent-btn">
                         <Share2 />
                         <span>Share product</span>
                     </Button>
-                    <LikeProduct
-                        likedProduct={likedProduct}
-                        productId={variant.productId}
-                        userId={user.id}
-                    />
+                    {user && (
+                        <LikeProduct
+                            productId={variant.productId}
+                            userId={user.id}
+                        />
+                    )}
                 </div>
             </div>
         </div>

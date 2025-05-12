@@ -1,8 +1,8 @@
-import PageLayout from "@/app/_components/shared/PageLayout";
+import PageContainer from "@/app/_components/shared/PageContainer";
 
 function Page() {
     return (
-        <PageLayout>
+        <PageContainer>
             <h1 className="font-semibold text-2xl mb-6">About us</h1>
             <div className="bg-bg-100 px-10 py-6 shadow-2xl rounded-2xl">
                 <div className="mt-6 mb-4">
@@ -62,7 +62,7 @@ function Page() {
                     </ul>
                 </div>
             </div>
-        </PageLayout>
+        </PageContainer>
     );
 }
 

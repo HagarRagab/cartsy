@@ -1,26 +1,25 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearch } from "@/app/_hooks/useSearch";
+import { useSearchParams } from "next/navigation";
 import InfoContainer from "./InfoContainer";
 
 function ProductSizes({ inventories }) {
     const searchParams = useSearchParams();
+    const { setParam } = useSearch();
 
     const params = new URLSearchParams(searchParams);
-    const selectedInventoryId = +params.get("inventory") || inventories[0].id;
-
-    const router = useRouter();
-    const pathname = usePathname();
+    const selectedInventoryId =
+        Number(params.get("inventory")) || inventories?.[0].id;
 
     function handleSelectInventrory(inventoryId) {
-        params.set("inventory", inventoryId);
-        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+        setParam("inventory", inventoryId);
     }
 
     return (
         <InfoContainer title="Choose Size:">
             <ul className="flex items-center gap-2">
-                {inventories.map((inventory) => (
+                {inventories?.map((inventory) => (
                     <li
                         key={inventory.id}
                         className={`w-12 text-sm aspect-square flex justify-center items-center rounded-sm transition-colors border-2 ${

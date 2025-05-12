@@ -31,7 +31,7 @@ function RegionalSettings() {
         defaultValues: {
             country: user?.country || "",
             city: user?.city || "",
-            currency: user?.currency || "USD",
+            currency: user?.currency || "EGP",
             language: user?.language || "English",
         },
     });
@@ -75,7 +75,7 @@ function RegionalSettings() {
                             {user?.language?.slice(0, 2).toUpperCase() || "EN"}/
                         </p>
                         <p className="flex items-center gap-1 font-semibold">
-                            {user?.currency || "USD"}
+                            {user?.currency || "EGP"}
                             <ChevronDown size={20} />
                         </p>
                     </div>

@@ -1,30 +1,30 @@
-"use client";
-
 import { Heart } from "lucide-react";
-import { usePathname } from "next/navigation";
 
 import {
     addToWishlistAction,
     removeFromWishlistAction,
 } from "@/app/_lib/actions";
 import { Button } from "@/components/ui/button";
+import { checkIfProductIsLiked } from "@/app/_lib/data-service";
 
-function LikeProduct({ likedProduct, productId, userId }) {
-    const pathname = usePathname();
+async function LikeProduct({ productId, userId }) {
+    const likedProduct = await checkIfProductIsLiked(userId, productId);
 
     const isLikedProduct = likedProduct.length > 0;
 
-    async function handleWishlist() {
-        if (!isLikedProduct)
-            await addToWishlistAction(userId, productId, pathname);
-        else await removeFromWishlistAction(likedProduct[0].id, pathname);
-    }
+    const toggleWishlist = !isLikedProduct
+        ? addToWishlistAction.bind(this, userId, productId, "/")
+        : removeFromWishlistAction.bind(this, likedProduct[0].id, "/");
 
     return (
-        <Button className="accent-btn" onClick={handleWishlist}>
-            <Heart className={`${isLikedProduct ? "fill-accent-200" : ""}`} />
-            <span>Like</span>
-        </Button>
+        <form action={toggleWishlist}>
+            <Button className="accent-btn">
+                <Heart
+                    className={`${isLikedProduct ? "fill-accent-200" : ""}`}
+                />
+                <span>Like</span>
+            </Button>
+        </form>
     );
 }
 
