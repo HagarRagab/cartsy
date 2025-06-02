@@ -1,0 +1,195 @@
+{
+    "sectionCard": {
+        "showMore": "Show More",
+        "titles": {
+            "bestSelling": "Best Selling",
+            "onSale": "on Sale",
+            "shopByCategory": "Shop By Category"
+        },
+        "noContect": "No available products"
+    },
+    "header": {
+        "searchAll": "All Categories",
+        "SearchListPlaceholder": "Select category",
+        "findProduct": "Find product here",
+        "locationTitle": "deliver to"
+    },
+    "account": {
+        "welcome": "welcome",
+        "logIn": "Log in / Register",
+        "logInLoading": "Logging in...",
+        "logOut": "Log out",
+        "logOutLoading": "Logging out..."
+    },
+    "settings": {
+        "language": "Language:",
+        "currency": "Currency:",
+        "searchPlaceholder": "search...",
+        "save": "save",
+        "noResult": "No Result",
+        "select": "Select"
+    },
+    "general": {
+        "home": "Home",
+        "all": "All",
+        "loading": "Loading...",
+        "sale": "Sale",
+        "size": "Size",
+        "color": "Color",
+        "buyBtn": "Buy now"
+    },
+    "cart": {
+        "title": "Cart",
+        "selectAll": "Select all",
+        "deselectAll": "Deselect all",
+        "summary": "Summary",
+        "itemsTotal": "Items total",
+        "itemsDiscount": "Items discount",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "estimatedTotal": "Estimated total",
+        "free": "free",
+        "startSelecting": "Start selecting items from your cart"
+    },
+    "productDetails": {
+        "chooseSize": "Choose size",
+        "chooseColor": "Choose color",
+        "about": "About item",
+        "condition": "Condition",
+        "material": "Material",
+        "weight": "Weight",
+        "brand": "Brand",
+        "dimensions": "Dimensions",
+        "description": "Description",
+        "setOrder": "Set order",
+        "selectedSize": "Selected size",
+        "stock": "Stock",
+        "price": "Price",
+        "reviewsTitle": "Reviews",
+        "customerReviews": "Customer Reviews",
+        "globalRatings": "Global ratings",
+        "noReviews": "No reviews",
+        "outOf": "out of",
+        "like": "Like",
+        "share": "Share product",
+        "addCartBtn": "Add to cart",
+        "sold": "Sold",
+        "reviews": "Reviews",
+        "ratings": "Ratings",
+        "shareVia": "Share product link via",
+        "orCopyLink": "Or copy link",
+        "copyBtn": "Copy",
+        "copyNotification": "Url has been copied to your clipboard."
+    },
+    "footer": { "copyWrite": "Cartcy, Inc. or its affiliates" },
+    "aboutUs": {
+        "title": "About us",
+        "styleTitle": "Welcome to Cartsy - Where Style Meets Simplicity.",
+        "styleContent": "At Cartsy, we believe shopping should be effortless, enjoyable, and inspiring. Founded in 2023 by a passionate team of tech-savvy retail experts and design enthusiasts, Cartsy was born out of a simple idea: to create a smarter way to shop online. We're more than just an e-commerce platform - we're a community-first shopping destination that connects people with curated collections of fashion, home goods, beauty, gadgets, and everyday essentials, all in one place.",
+        "missionTitle": "Our Mission",
+        "missionContent": "To redefine the online shopping experience by making it more personalized, efficient, and joyful. We combine cutting-edge technology with intuitive design to help our customers discover products they love - faster and easier.",
+        "differentTitle": "What Makes Us Different",
+        "differentContents": {
+            "first": {
+                "title": "Curated Collections",
+                "content": "We don't just stock items - we curate them. Every product on Cartsy is handpicked by our team for quality, style, and value."
+            },
+            "second": {
+                "title": "Smart Shopping",
+                "content": "Our AI-powered recommendation engine tailors your shopping experience based on your taste, preferences, and shopping habits."
+            },
+            "third": {
+                "title": "Fast & Reliable Delivery",
+                "content": "With our advanced logistics partnerships, we ensure your orders arrive safely and swiftly, no matter where you are."
+            },
+            "fourth": {
+                "title": "Sustainability Focus",
+                "content": "We work closely with eco-conscious brands and strive to reduce our environmental footprint through greener packaging and operations."
+            }
+        }
+    },
+    "help": {
+        "title": "How can we assist you today?",
+        "content": "At Cartsy, your satisfaction is our top priority. Whether you're tracking an order, making a return, or just have a quick question — we're here to help. Below, you'll find answers to the most frequently asked questions. If you need more personalized support, don't hesitate to reach out!",
+        "stillNeedHelp": "Still need help? We've got your back.",
+        "visitContactUs": "Visit our contact us page"
+    },
+    "contact": {
+        "title": "Contact us",
+        "question": "Still need help? We've got your back.",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phoneNumber": "Phone Number",
+        "message": "Message",
+        "submit": "submit",
+        "ending": "We're always here for you - thanks for shopping with Cartsy!"
+    },
+    "myAccount": {
+        "title": "My Account"
+    },
+    "personalInfo": {
+        "title": "Personal Information",
+        "subTitle": "Manage your personal information, including phone numbers and email address where you can be contacted.",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phoneNumber": "Phone Number",
+        "code": "Code",
+        "currency": "Currency",
+        "country": "Country",
+        "address": "Address",
+        "save": "Save",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "locationLabel": "Get your location"
+    },
+    "paymentMethods": {
+        "title": "Payment methods",
+        "subTitle": "Add You payment method. Cartsy accepts major credit and debit cards."
+    },
+    "wishList": {
+        "title": "Wish list",
+        "empty": "Empty wish list",
+        "startAdding": "Start adding items to your wishlist"
+    },
+    "search": {
+        "noResultTitle": "No products found",
+        "noResultSubTitle": "No products match your request. Please search different products",
+        "noResultSubTitleDefault": "Adjust filter options",
+        "exploreBtn": "Explore items"
+    },
+    "filter": {
+        "brands": "Brands",
+        "categories": "categories",
+        "deals": "Deals",
+        "condition": "Condition",
+        "ratings": "Ratings",
+        "price": "Price",
+        "onSale": "on Sale",
+        "new": "New",
+        "used": "Used",
+        "up": "Up",
+        "above": "above"
+    },
+    "signInUp": {
+        "title": "Register/Sign in",
+        "subTitle": "You information is protected",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "userName": "Username",
+        "email": "Email",
+        "pass": "Passwrod",
+        "re-pass": "Re-write password",
+        "forgotPass": "Forgot password?",
+        "login": "Log in",
+        "signup": "Sign up",
+        "or": "OR",
+        "continueGoogle": "Continue with Google",
+        "createNewAccount": "Create new account?",
+        "alreadyHaveAccount": "Already have an account",
+        "setPassMsg": "Please kindly set your new password",
+        "resetPassTitle": "Reset password",
+        "forgotPassSubTitle": "Enter your email so that we can send you password reset link"
+    }
+}

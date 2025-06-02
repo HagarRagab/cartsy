@@ -1,0 +1,37 @@
+"use client";
+
+import { Star } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+
+function SelectRatingStars({ rating, setRating }) {
+    const [tempRating, setTempRating] = useState(0);
+
+    const t = useTranslations("filter");
+
+    return (
+        <div className="flex items-center">
+            {Array.from({ length: 5 }, (_, index) => (
+                <button
+                    key={index}
+                    onMouseOver={() => setTempRating(index + 1)}
+                    onMouseLeave={() => setTempRating(0)}
+                    onClick={() => setRating(index + 1)}
+                >
+                    <Star
+                        size={18}
+                        className={`stroke-0 ${
+                            (tempRating >= index + 1 && !!tempRating) ||
+                            (rating >= index + 1 && !tempRating)
+                                ? "fill-yellow-500"
+                                : "fill-bg-300"
+                        }`}
+                    />
+                </button>
+            ))}
+            {!!rating && <span className="ml-2">& {t("up")}</span>}
+        </div>
+    );
+}
+
+export default SelectRatingStars;

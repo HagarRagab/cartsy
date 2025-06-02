@@ -1,0 +1,58 @@
+"use client";
+
+import { Minus, Trash } from "lucide-react";
+import { toast } from "sonner";
+import { useLocale } from "next-intl";
+
+import ConfirmAction from "@/src/app/_components/shared/ConfirmAction";
+import Counter from "@/src/app/_components/shared/Counter";
+import PlusMinusBtn from "@/src/app/_components/shared/PlusMinusBtn";
+import {
+    removeCartItemAction,
+    updateCartItemQuantity,
+} from "@/src/app/_lib/actions";
+import { Button } from "@/src/components/ui/button";
+
+function CartActions({ inventory, initQuantity, cartItemId, children }) {
+    const locale = useLocale();
+    async function updateCartQuantity(quantity) {
+        await updateCartItemQuantity(cartItemId, inventory.id, quantity);
+    }
+
+    async function handleRemovingCartItem() {
+        const result = await removeCartItemAction(cartItemId);
+        toast(result.message[locale]);
+    }
+
+    return (
+        <div className="md:h-full flex md:flex-col items-end justify-end gap-4 md:justify-between row-start-2 md:row-start-1 md:col-start-3">
+            <div className="flex items-center gap-2">
+                {children}
+                <ConfirmAction
+                    onConfirm={handleRemovingCartItem}
+                    btnStyle="ghost-btn"
+                    message="This action cannot be undone. This will permanently delete this item."
+                >
+                    <Button variant="ghost" className="hover:bg-transparent">
+                        <Trash size={17} />
+                    </Button>
+                </ConfirmAction>
+            </div>
+            <Counter
+                stock={inventory.stock}
+                quantity={initQuantity}
+                onQuantityChange={updateCartQuantity}
+            >
+                <ConfirmAction
+                    onConfirm={handleRemovingCartItem}
+                    btnStyle="bg-transparent cursor-pointer shadow-none text-text-100 hover:bg-bg-200"
+                    message="This action cannot be undone. This will permanently delete this item."
+                >
+                    <PlusMinusBtn icon={<Minus size={10} />} />
+                </ConfirmAction>
+            </Counter>
+        </div>
+    );
+}
+
+export default CartActions;
