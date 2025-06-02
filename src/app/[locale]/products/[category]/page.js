@@ -7,6 +7,8 @@ import {
 import { getProducts } from "@/src/app/_lib/data-services/data-product";
 import { filterProducts } from "@/src/app/_utils/helper";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
     const categories = await getCategories();
     const values = categories.map((category) => {

@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
+
 import {
     AlertDialog,
     AlertDialogAction,
@@ -11,29 +13,33 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/src/components/ui/alert-dialog";
+import { direction } from "../../_utils/helper";
 
 function ConfirmAction({ onConfirm, children, btnStyle, message }) {
+    const t = useTranslations("general");
+    const locale = useLocale();
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild className={btnStyle}>
                 {children}
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent dir={direction(locale)}>
                 <AlertDialogHeader>
                     <AlertDialogTitle>
-                        Are you absolutely sure?
+                        {t("deleteWarningTitle")}
                     </AlertDialogTitle>
                     <AlertDialogDescription>{message}</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel className="cancel-btn">
-                        Cancel
+                        {t("cancel")}
                     </AlertDialogCancel>
                     <AlertDialogAction
                         className="delete-btn"
                         onClick={onConfirm}
                     >
-                        Confirm
+                        {t("confirm")}
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

@@ -16,7 +16,7 @@ async function Review({ rate }) {
             <RatingStars totalRating={rate.stars} />
             <p className="text-sm text-text-300 mt-2">
                 Reviewed in {user.country} on{" "}
-                {/* {format(new Date(rate.created_at), "MMM dd, yyy")} */}
+                {format(new Date(rate.created_at), "MMM dd, yyy")}
             </p>
             <p className="font-semibold">{rate.comment}</p>
         </div>

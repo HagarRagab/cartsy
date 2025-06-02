@@ -46,7 +46,7 @@ function CheckboxFilter({ items, label }) {
                         htmlFor={item.slug}
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
-                        {item.name[locale]}
+                        {item.name[locale] || item.name}
                     </label>
                 </div>
             ))}

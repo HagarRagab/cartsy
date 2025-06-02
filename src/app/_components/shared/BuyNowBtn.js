@@ -10,7 +10,7 @@ function BuyNowBtn({ selectedCartItems }) {
     const t = useTranslations("general");
 
     return (
-        <form className="mx-auto my-1 w-full max-w-96" action={checkoutAction}>
+        <form className="mx-auto my-1 w-full max-w-96">
             <input
                 type="hidden"
                 name="items"

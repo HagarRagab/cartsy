@@ -17,6 +17,7 @@ function CartSummary({ selectedCartItems }) {
 
     function formatCurrency(value) {
         const formattedValue = format.number(value, {
+            numberingSystem: "latn",
             style: "currency",
             currency: settings.currency,
         });

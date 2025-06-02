@@ -1,6 +1,6 @@
 "use client";
 
-// import { Children, cloneElement, isValidElement } from "react";
+import { useTranslations } from "next-intl";
 
 import EmptyCart from "@/src/app/_components/cart/EmptyCart";
 import CartSummary from "@/src/app/_components/cart/CartSummary";
@@ -12,6 +12,8 @@ import { paymentMethodsList } from "@/src/app/_utils/utils";
 import { Checkbox } from "@/src/components/ui/checkbox";
 
 function CartContainer({ cart, children }) {
+    const t = useTranslations("cart");
+
     if (!cart.length) return <EmptyCart />;
 
     const selectedCartItems = cart.filter((item) => item.isSelected === true);
@@ -32,7 +34,7 @@ function CartContainer({ cart, children }) {
             <div className="bg-bg-100 p-2 sm:p-8 rounded-md col-span-full lg:col-span-1 row-span-full">
                 <header className="flex items-center justify-between">
                     <PageHeader>
-                        Cart <span>({selectedCartItems?.length})</span>
+                        {t("title")} <span>({selectedCartItems?.length})</span>
                     </PageHeader>
                     <div className="flex items-center space-x-2 mb-6">
                         <label
@@ -40,8 +42,8 @@ function CartContainer({ cart, children }) {
                             className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
                             {areAllItemsSelected
-                                ? "Deselect all"
-                                : "Select all"}
+                                ? t("deselectAll")
+                                : t("selectAll")}
                         </label>
                         <Checkbox
                             checked={areAllItemsSelected}

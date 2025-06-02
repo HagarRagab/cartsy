@@ -2,7 +2,7 @@
 
 import { Minus, Trash } from "lucide-react";
 import { toast } from "sonner";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import ConfirmAction from "@/src/app/_components/shared/ConfirmAction";
 import Counter from "@/src/app/_components/shared/Counter";
@@ -15,6 +15,8 @@ import { Button } from "@/src/components/ui/button";
 
 function CartActions({ inventory, initQuantity, cartItemId, children }) {
     const locale = useLocale();
+    const t = useTranslations("cart");
+
     async function updateCartQuantity(quantity) {
         await updateCartItemQuantity(cartItemId, inventory.id, quantity);
     }
@@ -31,7 +33,7 @@ function CartActions({ inventory, initQuantity, cartItemId, children }) {
                 <ConfirmAction
                     onConfirm={handleRemovingCartItem}
                     btnStyle="ghost-btn"
-                    message="This action cannot be undone. This will permanently delete this item."
+                    message={t("deleteMsg")}
                 >
                     <Button variant="ghost" className="hover:bg-transparent">
                         <Trash size={17} />

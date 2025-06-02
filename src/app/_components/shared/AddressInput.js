@@ -1,8 +1,9 @@
+"use client";
+
 import { MapPinHouse } from "lucide-react";
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
-import { useAuth } from "@/src/app/_context/AuthContext";
 import { getAddressByCoords } from "@/src/app/_utils/helper";
 import { Button } from "@/src/components/ui/button";
 import {

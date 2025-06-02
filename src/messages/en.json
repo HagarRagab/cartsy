@@ -36,7 +36,10 @@
         "sale": "Sale",
         "size": "Size",
         "color": "Color",
-        "buyBtn": "Buy now"
+        "buyBtn": "Buy now",
+        "deleteWarningTitle": "Are you absolutely sure?",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
     },
     "cart": {
         "title": "Cart",
@@ -49,7 +52,8 @@
         "shipping": "Shipping",
         "estimatedTotal": "Estimated total",
         "free": "free",
-        "startSelecting": "Start selecting items from your cart"
+        "startSelecting": "Start selecting items from your cart",
+        "deleteMsg": "This action cannot be undone. This will permanently delete this item."
     },
     "productDetails": {
         "chooseSize": "Choose size",
@@ -151,7 +155,8 @@
     "wishList": {
         "title": "Wish list",
         "empty": "Empty wish list",
-        "startAdding": "Start adding items to your wishlist"
+        "startAdding": "Start adding items to your wishlist",
+        "deleteMsg": "You will delete this item from your wish list."
     },
     "search": {
         "noResultTitle": "No products found",

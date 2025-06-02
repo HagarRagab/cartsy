@@ -6,6 +6,8 @@ import { getDiscounts } from "@/src/app/_lib/data-services/data-deals";
 import { filterProducts } from "@/src/app/_utils/helper";
 import { getTranslations } from "next-intl/server";
 
+export const dynamic = "force-dynamic";
+
 async function Page({ searchParams }) {
     const { search, category, ...searchValues } = await searchParams;
 
