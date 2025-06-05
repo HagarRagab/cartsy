@@ -21,7 +21,7 @@ async function Page() {
             {!likedProducts.length ? (
                 <NoResult
                     imgSrc={wishlistImg.src}
-                    alt="empty wishlist"
+                    alt={t("empty")}
                     title={t("empty")}
                     subTitle={t("startAdding")}
                 />

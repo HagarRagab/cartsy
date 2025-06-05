@@ -37,7 +37,7 @@ export const metadata = {
 
 export default async function RootLayout({ children, params }) {
     const authUser = await getAuthUser();
-    const user = authUser && (await getUser("email", authUser.email))[0];
+    const user = authUser && (await getUser("id", authUser.id))[0];
 
     const { locale } = await params;
     const settingsCookie = await getCookie("settings");

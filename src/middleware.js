@@ -13,7 +13,6 @@ const protectedRoutes = [
     "/account/orders",
     "/account/wishlist",
     "/account/settings",
-    "/cart",
     "/checkout",
 ];
 
@@ -37,13 +36,13 @@ export async function middleware(request) {
     if (isProtectedRoute) {
         // Check if user is authenticated
         const authUser = await getAuthUser();
-        const userInfo = await getUser("id", authUser.id);
-        const guestLanguage = await getCookie("settings")?.language;
+        const userInfo = authUser && await getUser("id", authUser.id);
+        const guestLanguage = !authUser && await getCookie("settings")?.language;
 
         if (!authUser) {
             // Get the locale from the pathname
             const locale =
-                userInfo.language || guestLanguage || pathname.match(/^\/(en|ar)/)?.[1];
+                userInfo?.language || guestLanguage || pathname.match(/^\/(en|ar)/)?.[1];
 
             // Redirect to login page with locale
             const loginUrl = new URL(`/${locale}/auth/login`, request.url);
@@ -60,7 +59,7 @@ export async function middleware(request) {
 
 export const config = {
     matcher: [
-        "/:locale(account|account/orders|account/wishlist|account/settings|cart|checkout)",
+        "/:locale(account|account/orders|account/wishlist|account/settings|checkout)",
         "/",
         "/(en|ar)/:path*",
     ],

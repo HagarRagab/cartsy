@@ -11,7 +11,7 @@ async function Page() {
     const selectedCartItems = cartItems.filter((item) => item.isSelected);
 
     const authUser = await getAuthUser();
-    const user = authUser && (await getUser("email", authUser.email))[0];
+    const user = authUser && (await getUser("id", authUser.id))[0];
 
     return (
         <PageContainer>

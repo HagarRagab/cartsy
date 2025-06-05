@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import GoogleLogin from "@/src/app/_components/auth/GoogleLogin";
 import ErrorMsg from "@/src/app/_components/shared/ErrorMsg";
@@ -26,24 +26,22 @@ function LoginForm() {
     const form = useForm({
         resolver: zodResolver(loginFormSchema),
         defaultValues: {
-            email: "gogo.2019hhh@gmail.com",
-            password: "123456789",
+            email: "rohipa8233@eduhed.com",
+            password: "123456",
         },
     });
 
     const [isLoading, setIsLoading] = useState(false);
     const [loginError, setLoginError] = useState("");
 
-    const router = useRouter();
-
     const t = useTranslations("signInUp");
 
     async function onSubmit(values) {
         setIsLoading(true);
         const logingUser = await login(values);
-        if (!logingUser.success) setLoginError(logingUser.message);
-        else router.push("/");
         setIsLoading(false);
+        if (!logingUser.success) setLoginError(logingUser.message);
+        else redirect("/");
     }
 
     return (

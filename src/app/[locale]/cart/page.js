@@ -12,7 +12,7 @@ async function Page({ searchParams }) {
     const { variant: variantId } = await searchParams;
 
     const authUser = await getAuthUser();
-    const user = authUser && (await getUser("email", authUser.email))[0];
+    const user = authUser && (await getUser("id", authUser.id))[0];
 
     const variant = variantId && (await getVariant(+variantId));
     // Fetching inventories associated to variant on the searchParams

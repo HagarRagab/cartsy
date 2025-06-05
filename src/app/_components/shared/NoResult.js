@@ -1,9 +1,11 @@
-import { getTranslations } from "next-intl/server";
+'use client'
+
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
-async function NoResult({ imgSrc, alt, title, subTitle }) {
-    const t = await getTranslations("search");
+function NoResult({ imgSrc, alt, title, subTitle }) {
+    const t =  useTranslations("search");
 
     return (
         <div className="flex flex-col gap-2 items-center justify-center min-h-[calc(100vh-212px)]">

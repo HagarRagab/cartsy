@@ -53,7 +53,9 @@
         "estimatedTotal": "Estimated total",
         "free": "free",
         "startSelecting": "Start selecting items from your cart",
-        "deleteMsg": "This action cannot be undone. This will permanently delete this item."
+        "deleteMsg": "This action cannot be undone. This will permanently delete this item.",
+        "emptyCart": "Empty cart",
+        "addItems": "Start adding items to your cart"
     },
     "productDetails": {
         "chooseSize": "Choose size",

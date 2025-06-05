@@ -1,8 +1,8 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useLocale, useTranslations } from "next-intl";
@@ -24,7 +24,6 @@ import { Input } from "@/src/components/ui/input";
 function SignupForm() {
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
     const locale = useLocale();
     const t = useTranslations("signInUp");
 
@@ -43,19 +42,17 @@ function SignupForm() {
     async function onSubmit(values) {
         setIsLoading(true);
         const result = await signup(values);
+        setIsLoading(false);
+
         if (!result.success) {
             setError(result.message[locale]);
         } else {
             toast.success("Success", {
                 description: result.message[locale],
-                action: {
-                    label: "Close",
-                    onClick: () => router.push(`${locale}/auth/login`),
-                },
             });
             form.reset();
+            redirect(`/${locale}/auth/login`);
         }
-        setIsLoading(false);
     }
 
     return (
