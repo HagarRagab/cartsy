@@ -361,7 +361,7 @@ export async function setCookie(key, value) {
         ),
     });
 
-    return JSON.parse(cookieStore.get("cartsy-cart")?.value);
+    return JSON.parse(cookieStore.get(key)?.value);
 }
 
 export async function getPromoCodeAction(code) {

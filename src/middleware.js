@@ -3,6 +3,7 @@ import createMiddleware from "next-intl/middleware";
 import { routing } from "@/src/i18n/routing";
 import { NextResponse } from "next/server";
 import { getAuthUser, getUser } from "@/src/app/_lib/data-services/data-user";
+import { getCookie } from "./app/_lib/actions";
 
 const handleI18nRouting = createMiddleware(routing);
 
@@ -37,11 +38,12 @@ export async function middleware(request) {
         // Check if user is authenticated
         const authUser = await getAuthUser();
         const userInfo = await getUser("id", authUser.id);
+        const guestLanguage = await getCookie("settings")?.language;
 
         if (!authUser) {
             // Get the locale from the pathname
             const locale =
-                pathname.match(/^\/(en|ar)/)?.[1] || userInfo.language;
+                userInfo.language || guestLanguage || pathname.match(/^\/(en|ar)/)?.[1];
 
             // Redirect to login page with locale
             const loginUrl = new URL(`/${locale}/auth/login`, request.url);

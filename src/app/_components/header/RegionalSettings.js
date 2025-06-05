@@ -6,7 +6,6 @@ import { redirect, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import Link from "next/link";
 
 import RegionalPreference from "@/src/app/_components/header/RegionalPreference";
 import SubmitBtn from "@/src/app/_components/shared/SubmitBtn";
@@ -53,34 +52,30 @@ function RegionalSettings() {
         setSettings(newData);
 
         // In guest mood
-        if (!user) {
+        if (!user) 
             await setCookie("settings", newData, {
                 expires: new Date(
                     Date.now() * 1000 * 60 * 60 * 24 * COOKIES_EXPIRATION
                 ),
-            });
-            setIsLoading(false);
-            return;
-        }
-
-        const result = await updateProfileAction(newData, pathname);
-
-        if (!result.success) {
-            toast.error("Event has not been created", {
-                description: result.message[locale],
-                action: {
-                    label: "Close",
-                    onClick: () => router.push("/error"),
-                },
-            });
-        } else {
-            toast.success("Event has been created", {
-                description: result.message[locale],
-            });
+            })
+        else {
+            const result = await updateProfileAction(newData, pathname);
+            if (!result.success) {
+                toast.error("Event has not been created", {
+                    description: result.message[locale],
+                    action: {
+                        label: "Close",
+                        onClick: () => router.push("/error"),
+                    },
+                });
+            } else {
+                toast.success("Event has been created", {
+                    description: result.message[locale],
+                });
+            }
         }
 
         setIsLoading(false);
-
         redirect(`/${newData.language}/${pathnameWithoutLocale}`);
     }
 
