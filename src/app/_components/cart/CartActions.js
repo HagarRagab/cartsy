@@ -1,8 +1,9 @@
 "use client";
 
-import { Minus, Trash } from "lucide-react";
-import { toast } from "sonner";
+import { useOptimistic, useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { toast } from "sonner";
+import { Minus, Trash } from "lucide-react";
 
 import ConfirmAction from "@/src/app/_components/shared/ConfirmAction";
 import Counter from "@/src/app/_components/shared/Counter";
@@ -17,8 +18,25 @@ function CartActions({ inventory, initQuantity, cartItemId, children }) {
     const locale = useLocale();
     const t = useTranslations("cart");
 
+    const [, startTransition] = useTransition();
+    const [optimisticQuantity, optimisticUpdateQuantity] = useOptimistic(
+        initQuantity,
+        (_, newQuantity) => newQuantity
+    );
+
     async function updateCartQuantity(quantity) {
-        await updateCartItemQuantity(cartItemId, inventory.id, quantity);
+        startTransition(async () => {
+            try {
+                optimisticUpdateQuantity(quantity);
+                await updateCartItemQuantity(
+                    cartItemId,
+                    inventory.id,
+                    quantity
+                );
+            } catch (error) {
+                console.error("Cannot update quantity");
+            }
+        });
     }
 
     async function handleRemovingCartItem() {
@@ -42,7 +60,7 @@ function CartActions({ inventory, initQuantity, cartItemId, children }) {
             </div>
             <Counter
                 stock={inventory.stock}
-                quantity={initQuantity}
+                quantity={optimisticQuantity}
                 onQuantityChange={updateCartQuantity}
             >
                 <ConfirmAction
