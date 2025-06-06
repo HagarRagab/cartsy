@@ -30,7 +30,9 @@ function PriceLabel({ price, productCurrency, discount, isDiscountValid }) {
                 productCurrency,
                 settings.currency
             );
-            setCurrencyRate(rate);
+            setCurrencyRate(
+                rate.quotes?.[`${productCurrency}${settings.currency}`]
+            );
             setIsLoading(false);
         }
 
@@ -39,9 +41,7 @@ function PriceLabel({ price, productCurrency, discount, isDiscountValid }) {
 
     if (isLoading) return <SpinnerIcon />;
 
-    const priceInUserCurrency = !currencyRate
-        ? price
-        : currencyRate.quotes[`${productCurrency}${settings.currency}`] * price;
+    const priceInUserCurrency = !currencyRate ? price : currencyRate * price;
 
     const priceWithoutDiscount = priceInUserCurrency.toFixed(2);
 

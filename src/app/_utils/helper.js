@@ -14,7 +14,7 @@ export async function getAddressByCoords(lat, lng, language) {
 export async function convertCurrency(from, to) {
     try {
         const currenciesRatesRes = await fetch(
-            `${process.env.CURRENCY_CONVERTOR_URL}?access_key=${process.env.CURRENCY_CONVERTOR_KEY}&source=${from}&currencies=${to}`
+            `/api/currency-exchange?from=${from}&to=${to}`
         );
 
         if (!currenciesRatesRes.ok)
