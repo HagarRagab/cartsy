@@ -2,7 +2,6 @@ import PageContainer from "@/src/app/_components/shared/PageContainer";
 import ResultPage from "@/src/app/_components/shared/ResultPage";
 import { getTranslations } from "next-intl/server";
 import FormattedPrice from "@/src/app/_components/shared/FormattedPrice";
-import successImg from "@/public/success.png";
 import { getAuthUser, getUser } from "@/src/app/_lib/data-services/data-user";
 import { getCart, resetCartAction } from "@/src/app/_lib/actions";
 import { createOrder } from "@/src/app/_lib/data-services/data-orders";
@@ -74,7 +73,7 @@ async function Page({ searchParams }) {
     return (
         <PageContainer className="flex items-center justify-center min-h-[calc(100vh-136px)]">
             <ResultPage
-                imgSrc={successImg}
+                imgSrc="/success.png"
                 alt={t("title")}
                 title={t("title")}
                 subTitle={t("subTitle")}
