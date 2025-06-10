@@ -43,7 +43,6 @@ function ProductPurchaseBox({
                     price={inventory.price}
                     discount={discount?.percentage}
                     isDiscountValid={isDiscountValid}
-                    productCurrency={inventory.currency}
                 />
             </div>
 

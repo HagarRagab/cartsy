@@ -25,7 +25,7 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 
-function PersonalInfoEditForm({ user }) {
+function PersonalInfoEditForm({ user, path, onOpenChange }) {
     const {
         firstName,
         lastName,
@@ -55,7 +55,6 @@ function PersonalInfoEditForm({ user }) {
     });
 
     const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
 
     const t = useTranslations("personalInfo");
 
@@ -75,27 +74,21 @@ function PersonalInfoEditForm({ user }) {
             city: values.city,
         };
 
-        const result = await updateProfileAction(newData, "/account");
+        const result = await updateProfileAction(newData, `/${locale}/${path}`);
 
         if (!result.success) {
             toast.error("Failed", {
                 description: result.message[locale],
-                action: {
-                    label: "Close",
-                    onClick: () => router.push("/error"),
-                },
             });
         } else {
             toast.success("Success", {
                 description: result.message[locale],
-                action: {
-                    label: "Close",
-                    onClick: () => router.push("/account"),
-                },
             });
         }
 
         setIsLoading(false);
+
+        if (path === "/checkout") onOpenChange(false);
     }
 
     return (
@@ -173,7 +166,7 @@ function PersonalInfoEditForm({ user }) {
                         items={countries}
                         className="flex flex-col overflow-hidden"
                     />
-                    <div className="grid grid-cols-[70px_1fr] gap-1">
+                    <div className="grid grid-cols-[90px_1fr] gap-1">
                         <SelectBox
                             form={form}
                             name="phoneCode"

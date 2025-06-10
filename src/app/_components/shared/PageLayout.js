@@ -1,7 +1,7 @@
 import FilterSidebar from "@/src/app/_components/filter/FilterSidebar";
 import BreadCrumb from "@/src/app/_components/navbar/BreadCrumb";
 import SheetFilter from "@/src/app/_components/shared/Sheet";
-import NoResult from "@/src/app/_components/shared/NoResult";
+import ResultPage from "@/src/app/_components/shared/ResultPage";
 import ProductsContainer from "@/src/app/_components/shared/ProductsContainer";
 import noSearchResult from "@/public/no-search-result.png";
 import { getTranslations } from "next-intl/server";
@@ -24,7 +24,7 @@ async function PageLayout({ filteredProducts, page, hideFilter, subTitle }) {
             <div className="p-3 sm:p-8">
                 <BreadCrumb page={page} />
                 {!filteredProducts?.length ? (
-                    <NoResult
+                    <ResultPage
                         imgSrc={noSearchResult.src}
                         alt={t("noResultTitle")}
                         title={t("noResultTitle")}

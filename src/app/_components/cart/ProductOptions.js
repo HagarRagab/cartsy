@@ -105,7 +105,6 @@ function ProductOptions({
                                     price={inventory.price}
                                     discount={discount?.percentage}
                                     isDiscountValid={isDiscountValid}
-                                    productCurrency={inventory.currency}
                                 />
                                 <ProductSizes inventories={inventories} />
                                 {variants.length > 1 && (

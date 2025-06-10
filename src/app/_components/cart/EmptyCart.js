@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
 import PageContainer from "@/src/app/_components/shared/PageContainer";
-import NoResult from "@/src/app/_components/shared/NoResult";
+import ResultPage from "@/src/app/_components/shared/ResultPage";
 import shoppingCart from "@/public/shopping-cart.png";
 import PageHeader from "@/src/app/_components/shared/PageHeader";
 import { useTranslations } from "next-intl";
@@ -15,7 +15,7 @@ function EmptyCart() {
                 <PageHeader>
                     Cart <span>(0)</span>
                 </PageHeader>
-                <NoResult
+                <ResultPage
                     imgSrc={shoppingCart.src}
                     alt={t("emptyCart")}
                     title={t("emptyCart")}

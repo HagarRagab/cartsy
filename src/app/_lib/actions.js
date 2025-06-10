@@ -1,7 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getPromoCode } from "@/src/app/_lib/data-services/data-deals";
+import {
+    getPromoCode,
+    setPromoCode,
+} from "@/src/app/_lib/data-services/data-deals";
 import {
     addToWishlist,
     removeFromWishlist,
@@ -11,6 +14,7 @@ import {
     getCartItems,
     getUserCart,
     removeCartItem,
+    resetCart,
     updateCartItem,
 } from "@/src/app/_lib/data-services/data-cart";
 import { updateUserData } from "@/src/app/_lib/data-services/data-user";
@@ -215,6 +219,19 @@ export async function updateCartItemAction(cartItemId, newValues) {
     revalidatePath("/cart");
 }
 
+export async function resetCartAction() {
+    const supabase = await createClient();
+
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    const userCart = await getUserCart(user.id);
+    await resetCart(userCart.id);
+
+    revalidatePath("/cart");
+}
+
 export async function selectionItemAction(cartItemId, newValues) {
     const supabase = await createClient();
 
@@ -364,10 +381,16 @@ export async function setCookie(key, value) {
     return JSON.parse(cookieStore.get(key)?.value);
 }
 
-export async function getPromoCodeAction(code) {
-    const { promoCode, error } = await getPromoCode(code);
+export async function setPromoCodeAction(code) {
+    const supabase = await createClient();
 
-    if (error)
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    const promoCode = await getPromoCode("code", code);
+
+    if (!promoCode)
         return {
             status: "failed",
             message: {
@@ -391,11 +414,45 @@ export async function getPromoCodeAction(code) {
                 ar: "تجاوزت عدد مرات الاستخدام المحددة. يُرجى تجربة خيار آخر.",
             },
         };
-    else
+    else {
+        const { error } = await setPromoCode(user.id, promoCode.id);
+
+        if (error)
+            return {
+                status: "failed",
+                message: {
+                    en: "Cannot apply this promo code. Please try again later or try another one.",
+                    ar: "لا يمكن استخدام هذا الرمز الترويجي. يُرجى المحاولة لاحقًا أو استخدام رمز آخر.",
+                },
+            };
+
+        revalidatePath("/cart");
         return {
             status: "succeed",
             message: promoCode,
         };
+    }
+}
+
+export async function deletePromoCodeAction() {
+    const supabase = await createClient();
+
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    const { error } = await setPromoCode(user.id, null);
+
+    if (error)
+        return {
+            status: "failed",
+            message: {
+                en: "Cannot remove promo code",
+                ar: "لا يمكن إزالة الرمز الترويجي",
+            },
+        };
+
+    revalidatePath("/cart");
 }
 
 export async function checkoutAction(formData) {

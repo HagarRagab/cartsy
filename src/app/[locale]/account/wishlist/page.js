@@ -1,6 +1,6 @@
 import { getLikedProducts } from "@/src/app/_lib/data-services/data-product";
 import { getAuthUser } from "@/src/app/_lib/data-services/data-user";
-import NoResult from "@/src/app/_components/shared/NoResult";
+import ResultPage from "@/src/app/_components/shared/ResultPage";
 import ProductCard from "@/src/app/_components/shared/ProductCard";
 import WishAction from "@/src/app/_components/wishlist/WishAction";
 import wishlistImg from "@/public/add-to-wishlist.png";
@@ -19,7 +19,7 @@ async function Page() {
             </h1>
 
             {!likedProducts.length ? (
-                <NoResult
+                <ResultPage
                     imgSrc={wishlistImg.src}
                     alt={t("empty")}
                     title={t("empty")}

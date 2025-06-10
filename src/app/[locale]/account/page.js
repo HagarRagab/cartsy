@@ -31,7 +31,7 @@ function Page() {
                     {isEditing ? t("cancel") : t("edit")}
                 </Button>
             </div>
-            {isEditing && <PersonalInfoEditForm user={user} />}
+            {isEditing && <PersonalInfoEditForm user={user} path="/account" />}
         </div>
     );
 }

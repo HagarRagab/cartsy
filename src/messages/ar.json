@@ -39,7 +39,8 @@
         "buyBtn": "اشترى الان",
         "deleteWarningTitle": "هل أنت متأكد تماما؟",
         "cancel": "الغاء",
-        "confirm": "تأكيد"
+        "confirm": "تأكيد",
+        "exploreBtn": "استكشف منتجات أخرى"
     },
     "cart": {
         "title": "عربة التسوق",
@@ -165,8 +166,7 @@
     "search": {
         "noResultTitle": "لم يتم العثور على منتجات",
         "noResultSubTitle": "لا توجد منتجات مطابقة لطلبك. يُرجى البحث عن منتجات أخرى.",
-        "noResultSubTitleDefault": "يرجى ضبط خيارات التصفية",
-        "exploreBtn": "استكشف منتجات أخرى"
+        "noResultSubTitleDefault": "يرجى ضبط خيارات التصفية"
     },
     "filter": {
         "brands": "ماركات",
@@ -200,5 +200,9 @@
         "setPassMsg": "يرجى تعيين كلمة المرور الجديدة الخاصة بك",
         "resetPassTitle": "أعد تعيين كلمة المرور",
         "forgotPassSubTitle": "أدخل بريدك الإلكتروني حتى نتمكن من إرسال رابط إعادة تعيين كلمة المرور إليك"
+    },
+    "paymentSuccess": {
+        "title": "عملية دفع ناجحة",
+        "subTitle": "شكرًا لاختيارك كارتسي. تم معالجة دفعك بنجاح."
     }
 }

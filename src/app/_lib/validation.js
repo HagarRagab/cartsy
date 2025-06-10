@@ -97,6 +97,7 @@ export const infoFormSchema = z
     })
     .superRefine((data, ctx) => {
         const userCountry = countryCodes.find((c) => c.name === data.country);
+
         if (!userCountry) {
             ctx.addIssue({
                 path: ["country"],
@@ -168,50 +169,6 @@ export const updatePasswordSchema = z
 export const promoCodeSchema = z.object({
     promoCode: z.string().min(1, "Please add a valid promo code."),
 });
-
-export const purchaseInfoFormSchema = z
-    .object({
-        firstName: z
-            .string()
-            .min(1, "First name is required")
-            .max(10, "First name must be less than 150 characters"),
-        lastName: z
-            .string()
-            .min(1, "Last name is required")
-            .max(10, "Last name must be less than 10 characters"),
-        phoneCode: z.string().refine((val) => phoneCodes.includes(val), {
-            message: "required",
-        }),
-        phoneNumber: z.string().min(1, {
-            message: "Please add a valid contact phone number.",
-        }),
-    })
-    .superRefine((data, ctx) => {
-        const { phoneNumber } = data;
-
-        if (
-            phoneNumber.length < userCountry.minLength ||
-            phoneNumber.length > userCountry.maxLength
-        )
-            ctx.addIssue({
-                path: ["phoneNumber"],
-                message: `Phone number must be ${
-                    userCountry.minLength === userCountry.maxLength
-                        ? userCountry.minLength
-                        : ` between ${userCountry.minLength} and ${userCountry.maxLength}`
-                } numbers.`,
-            });
-
-        const startsWithValidSuffix = userCountry.suffixes.some((s) =>
-            phoneNumber.startsWith(s)
-        );
-
-        if (!startsWithValidSuffix)
-            ctx.addIssue({
-                path: ["phoneNumber"],
-                message: "Invalid phone number.",
-            });
-    });
 
 export const AddressFormSchema = z
     .object({

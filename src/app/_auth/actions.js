@@ -47,7 +47,7 @@ export async function login(values) {
             userName: data?.user.user_metadata.userName,
             firstName: data?.user.user_metadata.firstName,
             lastName: data?.user.user_metadata.lastName,
-            suffix: Math.floor(Math.random() * 100000)
+            suffix: Math.floor(Math.random() * 100000),
         });
         if (!newUser) redirect("/error");
 
@@ -141,8 +141,10 @@ export async function signup(values) {
     revalidatePath("/", "layout");
     return {
         success: true,
-        message:
-            {en: "Successfully created new account. Please check your email to activate your account.", ar: "تم إنشاء حساب جديد بنجاح. يُرجى مراجعة بريدك الإلكتروني لتفعيله."},
+        message: {
+            en: "Successfully created new account. Please check your email to activate your account.",
+            ar: "تم إنشاء حساب جديد بنجاح. يُرجى مراجعة بريدك الإلكتروني لتفعيله.",
+        },
     };
 }
 

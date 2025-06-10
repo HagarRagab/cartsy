@@ -1,14 +1,5 @@
-import { Check, ChevronsUpDown } from "lucide-react";
+"use client";
 
-import { Button } from "@/src/components/ui/button";
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/src/components/ui/command";
 import {
     FormControl,
     FormField,
@@ -17,11 +8,12 @@ import {
     FormMessage,
 } from "@/src/components/ui/form";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/src/components/ui/popover";
-import { cn } from "@/src/lib/utils";
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/src/components/ui/select";
 
 function SelectCountry({ form, label = "", items, className = "" }) {
     return (
@@ -31,74 +23,39 @@ function SelectCountry({ form, label = "", items, className = "" }) {
             render={({ field }) => (
                 <FormItem className={className}>
                     <FormLabel>{label}</FormLabel>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <FormControl>
-                                <Button
-                                    variant="outline"
-                                    role="combobox"
-                                    className={cn(
-                                        "w-full justify-between",
-                                        !field.value && "text-muted-foreground"
-                                    )}
-                                >
-                                    {field.value
-                                        ? items.find(
-                                              (item) =>
-                                                  item.name === field.value
-                                          )?.name
-                                        : "Select country"}
-                                    <ChevronsUpDown className="opacity-50" />
-                                </Button>
-                            </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                            <Command>
-                                <CommandInput
-                                    placeholder="Search country..."
-                                    className="h-9"
+                    <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                    >
+                        <FormControl>
+                            <SelectTrigger className="bg-bg-100 w-full text-text-200">
+                                <SelectValue
+                                    placeholder={
+                                        field.value
+                                            ? items.find(
+                                                  (item) =>
+                                                      item.name === field.value
+                                              )?.name
+                                            : "Select country"
+                                    }
                                 />
-                                <CommandList>
-                                    <CommandEmpty>
-                                        No country found.
-                                    </CommandEmpty>
-                                    <CommandGroup>
-                                        {items.map((item) => (
-                                            <CommandItem
-                                                value={item.name}
-                                                key={item.name}
-                                                onSelect={() => {
-                                                    form.setValue(
-                                                        "country",
-                                                        item.name
-                                                    );
-                                                }}
-                                                className="w-full flex items-center"
-                                            >
-                                                <p className="flex-1">
-                                                    {item.name}
-                                                </p>
-                                                <img
-                                                    src={item.flag}
-                                                    alt={`${item.name}'s flag`}
-                                                    className="w-5 aspect-auto"
-                                                />
-                                                <Check
-                                                    className={cn(
-                                                        "ml-auto",
-                                                        item.name ===
-                                                            field.value
-                                                            ? "opacity-100"
-                                                            : "opacity-0"
-                                                    )}
-                                                />
-                                            </CommandItem>
-                                        ))}
-                                    </CommandGroup>
-                                </CommandList>
-                            </Command>
-                        </PopoverContent>
-                    </Popover>
+                            </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="w-[250px]">
+                            {items.map((item) => (
+                                <SelectItem value={item.name} key={item.name}>
+                                    <div className="grid grid-cols-[1fr_auto] items-center gap-2">
+                                        <p>{item.name}</p>
+                                        <img
+                                            src={item.flag}
+                                            alt={`${item.name}'s flag`}
+                                            className="w-5 aspect-auto"
+                                        />
+                                    </div>
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                     <FormMessage />
                 </FormItem>
             )}

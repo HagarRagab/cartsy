@@ -65,7 +65,6 @@ async function CartItem({ item, inventories, user = null }) {
                         price={product.originalPrice}
                         discount={discount?.percentage}
                         isDiscountValid={isDiscountValid}
-                        productCurrency={product.currency}
                     />
                 </div>
             </div>

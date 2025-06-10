@@ -1,17 +1,23 @@
-import { getCart } from "@/src/app/_lib/actions";
-import { getAuthUser, getUser } from "@/src/app/_lib/data-services/data-user";
+import CheckoutContainer from "@/src/app/_components/checkout/CheckoutContainer";
+import BreadCrumb from "@/src/app/_components/navbar/BreadCrumb";
 import PageContainer from "@/src/app/_components/shared/PageContainer";
 import PageHeader from "@/src/app/_components/shared/PageHeader";
-import BreadCrumb from "@/src/app/_components/navbar/BreadCrumb";
-import Checkout from "@/src/app/_components/checkout/Checkout";
-import PurchaseInfoCard from "@/src/app/_components/checkout/PurchaseInfoCard";
+import { getCart } from "@/src/app/_lib/actions";
+import { getPromoCode } from "@/src/app/_lib/data-services/data-deals";
+import { getUserCart } from "@/src/app/_lib/data-services/data-cart";
+import { getAuthUser } from "@/src/app/_lib/data-services/data-user";
 
 async function Page() {
+    const authUser = await getAuthUser();
     const cartItems = await getCart();
+    const userCart = await getUserCart(authUser.id);
     const selectedCartItems = cartItems.filter((item) => item.isSelected);
 
-    const authUser = await getAuthUser();
-    const user = authUser && (await getUser("id", authUser.id))[0];
+    console.log(cartItems);
+    console.log(userCart);
+    const promoCode =
+        userCart.promoCodeId &&
+        (await getPromoCode("id", userCart.promoCodeId));
 
     return (
         <PageContainer>
@@ -21,13 +27,10 @@ async function Page() {
                 links={[{ name: "My cart", path: "/cart" }]}
             />
 
-            <div className="flex flex-col md:grid grid-cols-[4fr_2fr] gap-4">
-                <div className="bg-bg-100 p-2 sm:p-8 rounded-md col-span-full lg:col-span-1 row-span-full">
-                    <PurchaseInfoCard user={user} />
-                </div>
-
-                <Checkout selectedCartItems={selectedCartItems} />
-            </div>
+            <CheckoutContainer
+                selectedCartItems={selectedCartItems}
+                promoCode={promoCode}
+            />
         </PageContainer>
     );
 }

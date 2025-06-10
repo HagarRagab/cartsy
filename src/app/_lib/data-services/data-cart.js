@@ -105,3 +105,15 @@ export async function removeCartItem(cartItemId) {
 
     return error;
 }
+
+export async function resetCart(cartId) {
+    const { error } = await supabase
+        .from("Cart_Items")
+        .delete()
+        .eq("cartId", cartId);
+
+    if (error) {
+        console.error(error);
+        throw new Error("Something went wrong. Cannot remove cart items.");
+    }
+}

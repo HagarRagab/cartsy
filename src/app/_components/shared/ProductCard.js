@@ -23,15 +23,8 @@ async function ProductCard({
     containerStyle = "",
     innerContainerStyle = "",
 }) {
-    const {
-        id,
-        title,
-        originalPrice,
-        currency,
-        imagePreview,
-        category,
-        rating,
-    } = product;
+    const { id, title, originalPrice, imagePreview, category, rating } =
+        product;
 
     const variants = await getProductVariants(id);
     const inventories = await getProductInventories(variants[0].id);
@@ -86,7 +79,6 @@ async function ProductCard({
                             price={originalPrice}
                             discount={discount?.percentage}
                             isDiscountValid={isDiscountValid}
-                            productCurrency={currency}
                         />
                     </div>
                     {rating && (

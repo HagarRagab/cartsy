@@ -1,9 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocale } from "next-intl";
 
-import { getPromoCodeAction } from "@/src/app/_lib/actions";
+import {
+    deletePromoCodeAction,
+    setPromoCodeAction,
+} from "@/src/app/_lib/actions";
 import { promoCodeSchema } from "@/src/app/_lib/validation";
 import { Button } from "@/src/components/ui/button";
 import {
@@ -14,8 +19,11 @@ import {
     FormMessage,
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
+import SpinnerIcon from "@/src/app/_components/shared/SpinnerIcon";
 
-function PromoCode({ appliedPromo, setAppliedPromo }) {
+function PromoCode({ promoCode }) {
+    const [isLoading, setIsLoading] = useState(false);
+
     const form = useForm({
         resolver: zodResolver(promoCodeSchema),
         defaultValues: {
@@ -23,34 +31,37 @@ function PromoCode({ appliedPromo, setAppliedPromo }) {
         },
     });
 
+    const locale = useLocale();
+
     async function onSubmit(values) {
-        const { status, message } = await getPromoCodeAction(values.promoCode);
-        if (status === "failed") return form.setError("promoCode", { message });
-        else {
-            setAppliedPromo(message);
-            form.reset();
-        }
+        setIsLoading(true);
+        const { status, message } = await setPromoCodeAction(values.promoCode);
+        setIsLoading(false);
+        if (status === "failed")
+            return form.setError("promoCode", { message: message[locale] });
+        else form.reset();
     }
 
-    function handleDeletePromoCode() {
-        setAppliedPromo(null);
+    async function handleDeletePromoCode() {
+        setIsLoading(true);
+        await deletePromoCodeAction();
+        setIsLoading(false);
     }
 
-    if (appliedPromo?.code)
+    if (promoCode && promoCode.code)
         return (
             <div className="col-span-full border border-bg-200 rounded-md my-2 py-1 px-4 text-text-400 flex items-center justify-between">
                 <span>
-                    <span className="text-accent-200">
-                        {appliedPromo?.code}
-                    </span>{" "}
+                    <span className="text-accent-200">{promoCode?.code}</span>{" "}
                     <span className="ml-2">applied</span>
                 </span>
                 <Button
                     variant="ghost"
                     className="p-0 hover:bg-transparent hover:text-text-200 cursor-pointer"
                     onClick={handleDeletePromoCode}
+                    disabled={isLoading}
                 >
-                    Remove
+                    {isLoading ? <SpinnerIcon /> : "Remove"}
                 </Button>
             </div>
         );
@@ -76,8 +87,12 @@ function PromoCode({ appliedPromo, setAppliedPromo }) {
                         </FormItem>
                     )}
                 />
-                <Button type="submit" className="outline-btn">
-                    Apply
+                <Button
+                    type="submit"
+                    className="outline-btn"
+                    disabled={isLoading}
+                >
+                    {isLoading ? <SpinnerIcon /> : "Apply"}
                 </Button>
             </form>
         </Form>

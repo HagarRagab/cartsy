@@ -1,13 +1,16 @@
 "use client";
 
-import { Search } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { redirect } from "next/navigation";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
 
+import SpinnerIcon from "@/src/app/_components/shared/SpinnerIcon";
 import { searchFormSchema } from "@/src/app/_lib/validation";
+import { direction } from "@/src/app/_utils/helper";
+import { Button } from "@/src/components/ui/button";
 import {
     Form,
     FormControl,
@@ -15,7 +18,6 @@ import {
     FormItem,
     FormMessage,
 } from "@/src/components/ui/form";
-import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import {
     Select,
@@ -25,11 +27,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/src/components/ui/select";
-import SpinnerIcon from "@/src/app/_components/shared/SpinnerIcon";
-import { direction } from "@/src/app/_utils/helper";
 
 function SearchForm({ categories, locale }) {
-    const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const t = useTranslations("header");
 
@@ -44,7 +43,7 @@ function SearchForm({ categories, locale }) {
     function onSubmit(values) {
         const { search, category } = values;
         startTransition(() => {
-            router.push(
+            redirect(
                 `/${locale}/products?search=${search}&category=${category}`
             );
             form.reset();

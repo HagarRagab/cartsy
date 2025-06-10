@@ -39,7 +39,8 @@
         "buyBtn": "Buy now",
         "deleteWarningTitle": "Are you absolutely sure?",
         "cancel": "Cancel",
-        "confirm": "Confirm"
+        "confirm": "Confirm",
+        "exploreBtn": "Explore items"
     },
     "cart": {
         "title": "Cart",
@@ -163,8 +164,7 @@
     "search": {
         "noResultTitle": "No products found",
         "noResultSubTitle": "No products match your request. Please search different products",
-        "noResultSubTitleDefault": "Adjust filter options",
-        "exploreBtn": "Explore items"
+        "noResultSubTitleDefault": "Adjust filter options"
     },
     "filter": {
         "brands": "Brands",
@@ -198,5 +198,9 @@
         "setPassMsg": "Please kindly set your new password",
         "resetPassTitle": "Reset password",
         "forgotPassSubTitle": "Enter your email so that we can send you password reset link"
+    },
+    "paymentSuccess": {
+        "title": "Payment successful",
+        "subTitle": "Thank you for choosing Cartsy. Your payment was successfully processed."
     }
 }

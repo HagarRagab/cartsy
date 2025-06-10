@@ -291,3 +291,21 @@ export async function getInventory(inventoryId) {
 
     return inventory;
 }
+
+/////////////////////////////////////////////////////
+// INVENTORY
+// UPDATE stock
+export async function updateStock(inventoryId, newStock) {
+    const { data, error } = await supabase
+        .from("Inventories")
+        .update({ stock: newStock })
+        .eq("id", inventoryId)
+        .select();
+
+    if (error) {
+        console.log(error);
+        throw new Error("Something went wrong. Cannot update inventory stock.");
+    }
+
+    return data;
+}

@@ -27,6 +27,10 @@ export async function convertCurrency(from, to) {
     }
 }
 
+export function convertToSubCurrency(amount, factor = 100) {
+    return Math.round(amount * factor);
+}
+
 export function calcRatings(ratings) {
     if (!ratings.length) return;
     const ratingsValues = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
@@ -88,4 +92,20 @@ export function filterProducts(products, discounts, searchValues) {
 
 export function direction(locale) {
     return locale === "ar" ? "rtl" : "ltr";
+}
+
+export function generateOrderNumber(prefixLength) {
+    // ORD-2024-001234 (prefix + year + timestamp)
+
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let prefix = "";
+    for (let i = 0; i < prefixLength; i++) {
+        prefix += letters.at(Math.floor(Math.random() * letters.length));
+    }
+
+    const year = new Date().getFullYear();
+
+    const timeStamp = Date.now();
+
+    return `${prefix}-${year}-${timeStamp}`;
 }

@@ -1,42 +1,30 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useFormatter, useTranslations } from "next-intl";
 
+import porductPlaceHolder from "@/public/product-placeholder.png";
 import PromoCode from "@/src/app/_components/cart/PromoCode";
 import BuyNowBtn from "@/src/app/_components/shared/BuyNowBtn";
+import FormattedPrice from "@/src/app/_components/shared/FormattedPrice";
 import { useAuth } from "@/src/app/_context/AuthContext";
-import porductPlaceHolder from "@/public/product-placeholder.png";
-import { useLocalStorage } from "@/src/app/_hooks/useLocalStorage";
 
-function CartSummary({ selectedCartItems }) {
+function CartSummary({ selectedCartItems, promoCode }) {
     const t = useTranslations("cart");
-    const format = useFormatter();
 
-    const { settings } = useAuth();
+    const { currencyRate, user } = useAuth();
 
-    function formatCurrency(value) {
-        const formattedValue = format.number(value, {
-            numberingSystem: "latn",
-            style: "currency",
-            currency: settings.currency,
-        });
-        return formattedValue;
-    }
-
-    const { storedValue: appliedPromo, setValue: setAppliedPromo } =
-        useLocalStorage("appliedPromo", null);
-
-    const itemsTotalPrice = selectedCartItems?.reduce(
-        (total, cur) =>
-            total + Number(cur.inventory?.price) * Number(cur.quantity),
-        0
-    );
+    const itemsTotalPrice =
+        selectedCartItems?.reduce(
+            (total, cur) =>
+                total + Number(cur.inventory?.price) * Number(cur.quantity),
+            0
+        ) * currencyRate;
 
     const promoCodeValue =
-        appliedPromo?.discount_type === "percentage"
-            ? (itemsTotalPrice * appliedPromo?.value) / 100
-            : appliedPromo?.value;
+        promoCode?.discount_type === "percentage"
+            ? (itemsTotalPrice * promoCode?.value) / 100
+            : promoCode?.value * currencyRate;
 
     return (
         <div className="bg-bg-100 p-8 rounded-md row-span-1">
@@ -75,30 +63,28 @@ function CartSummary({ selectedCartItems }) {
                             {t("itemsTotal")}:
                         </p>
                         <p className="w-fit ml-auto">
-                            {formatCurrency(itemsTotalPrice)}
+                            <FormattedPrice value={itemsTotalPrice} />
                         </p>
 
-                        <PromoCode
-                            appliedPromo={appliedPromo}
-                            setAppliedPromo={setAppliedPromo}
-                        />
+                        {user && <PromoCode promoCode={promoCode} />}
 
-                        {appliedPromo && (
+                        {promoCode && (
                             <>
                                 <p className="text-sm text-text-300 my-2">
                                     {t("itemsDiscount")}:
                                 </p>
                                 <p className="w-fit ml-auto text-red-custom-100 my-2">
-                                    &minus; {formatCurrency(promoCodeValue)}
+                                    &minus;
+                                    <FormattedPrice value={promoCodeValue} />
                                 </p>
 
                                 <p className="font-semibold">
                                     {t("subtotal")}:
                                 </p>
                                 <p className="w-fit ml-auto">
-                                    {formatCurrency(
-                                        itemsTotalPrice - promoCodeValue
-                                    )}
+                                    <FormattedPrice
+                                        value={itemsTotalPrice - promoCodeValue}
+                                    />
                                 </p>
                             </>
                         )}
@@ -110,11 +96,13 @@ function CartSummary({ selectedCartItems }) {
                             {t("estimatedTotal")}:
                         </p>
                         <p className="w-fit ml-auto text-xl font-semibold">
-                            {appliedPromo
-                                ? formatCurrency(
-                                      itemsTotalPrice - promoCodeValue
-                                  )
-                                : formatCurrency(itemsTotalPrice)}
+                            {promoCode ? (
+                                <FormattedPrice
+                                    value={itemsTotalPrice - promoCodeValue}
+                                />
+                            ) : (
+                                <FormattedPrice value={itemsTotalPrice} />
+                            )}
                         </p>
                     </div>
 

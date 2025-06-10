@@ -26,7 +26,9 @@ async function BreadCrumb({ page, links }) {
                         <Fragment key={link.name}>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem className="text-accent-200">
-                                <BreadcrumbLink href={`/${locale}${link.name}`}>
+                                <BreadcrumbLink
+                                    href={`/${locale}/${link.path}`}
+                                >
                                     {link.name}
                                 </BreadcrumbLink>
                             </BreadcrumbItem>

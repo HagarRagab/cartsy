@@ -11,7 +11,7 @@ import { selectionItemAction } from "@/src/app/_lib/actions";
 import { paymentMethodsList } from "@/src/app/_utils/utils";
 import { Checkbox } from "@/src/components/ui/checkbox";
 
-function CartContainer({ cart, children }) {
+function CartContainer({ cart, promoCode, children }) {
     const t = useTranslations("cart");
 
     if (!cart.length) return <EmptyCart />;
@@ -55,7 +55,10 @@ function CartContainer({ cart, children }) {
                 <div className="mt-8">{children}</div>
             </div>
 
-            <CartSummary selectedCartItems={selectedCartItems} />
+            <CartSummary
+                selectedCartItems={selectedCartItems}
+                promoCode={promoCode}
+            />
 
             <div className="bg-bg-100 p-8 rounded-md col-start-2 h-fit">
                 <LinksGroup

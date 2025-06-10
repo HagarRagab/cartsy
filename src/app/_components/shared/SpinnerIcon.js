@@ -1,7 +1,7 @@
 import { LoaderCircle } from "lucide-react";
 
-function SpinnerIcon() {
-    return <LoaderCircle size={20} className="animate-spin" />;
+function SpinnerIcon({ className = "" }) {
+    return <LoaderCircle size={20} className={`${className} animate-spin`} />;
 }
 
 export default SpinnerIcon;

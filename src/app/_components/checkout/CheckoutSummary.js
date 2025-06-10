@@ -2,32 +2,29 @@
 
 import Image from "next/image";
 
-import { useAuth } from "@/src/app/_context/AuthContext";
 import porductPlaceHolder from "@/public/product-placeholder.png";
-import { useLocalStorage } from "@/src/app/_hooks/useLocalStorage";
+import { useAuth } from "@/src/app/_context/AuthContext";
+import FormattedPrice from "../shared/FormattedPrice";
 
-function Checkout({ selectedCartItems }) {
-    const { settings } = useAuth();
-    const { storedValue: appliedPromo } = useLocalStorage("appliedPromo", null);
-
-    const itemsTotalPrice = selectedCartItems?.reduce(
-        (total, cur) =>
-            total + Number(cur.inventory?.price) * Number(cur.quantity),
-        0
-    );
-
-    const promoCodeValue =
-        appliedPromo?.discount_type === "percentage"
-            ? (itemsTotalPrice * appliedPromo?.value) / 100
-            : appliedPromo?.value;
+function CheckoutSummary({
+    selectedCartItems,
+    itemsTotalPrice,
+    totalCartValue,
+    shippingCost,
+    promoCodeValue,
+}) {
+    const { currencyRate } = useAuth();
 
     return (
-        <div className="bg-bg-100 p-8 rounded-md row-span-1">
+        <div className="col-span-full lg:col-span-1 bg-bg-100 p-8 rounded-md row-span-1">
             <h2 className="font-semibold text-xl">You order</h2>
 
-            <div className="my-4 flex flex-col gap-2">
+            <div className="my-4 flex flex-col gap-4">
                 {selectedCartItems?.map((item) => (
-                    <div key={item.id} className="flex items-center gap-2">
+                    <div
+                        key={item.id}
+                        className="border-2 border-bg-200 rounded-md p-2 flex items-center gap-2"
+                    >
                         <div className="w-15 aspect-square relative border border-bg-200 rounded-md">
                             <Image
                                 src={
@@ -41,21 +38,25 @@ function Checkout({ selectedCartItems }) {
                         </div>
                         <div className="grid grid-cols-2 items-center gap-2">
                             <p className="text-sm">
-                                Size:
+                                <span>Size:</span>
                                 <span className="ml-1 font-semibold">
                                     {item.inventory.size}
                                 </span>
                             </p>
-                            <p className="text-sm">
-                                Color:
-                                <span className="ml-1 font-semibold">
+                            <p className="text-sm flex items-center">
+                                <span>Color:</span>
+                                <span className="inline-block max-w-20 ml-1 font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap">
                                     {item.inventory.variant.color}
                                 </span>
                             </p>
-                            <p className="text-sm">
+                            <p className="text-sm col-span-full">
                                 Price:
                                 <span className="mx-1 font-semibold text-base">
-                                    {item.inventory.price}
+                                    <FormattedPrice
+                                        value={
+                                            item.inventory.price * currencyRate
+                                        }
+                                    />
                                 </span>
                                 <span>* {item.quantity}</span>
                             </p>
@@ -67,39 +68,38 @@ function Checkout({ selectedCartItems }) {
             <div className="grid grid-cols-2 items-center justify-between mb-4">
                 <p className="text-sm text-text-300">Items total:</p>
                 <p className="w-fit ml-auto">
-                    {itemsTotalPrice.toString()} {settings.currency}
+                    <FormattedPrice value={itemsTotalPrice} />
                 </p>
 
-                {appliedPromo && (
+                {promoCodeValue !== 0 && (
                     <>
                         <p className="text-sm text-text-300 my-2">
                             Items discount:
                         </p>
                         <p className="w-fit ml-auto text-red-custom-100 my-2">
-                            &minus; {promoCodeValue} {settings.currency}
+                            &minus;
+                            <FormattedPrice value={promoCodeValue} />
                         </p>
 
                         <p className="font-semibold">Subtotal:</p>
                         <p className="w-fit ml-auto">
-                            {itemsTotalPrice - promoCodeValue}{" "}
-                            {settings.currency}
+                            <FormattedPrice value={totalCartValue} />
                         </p>
                     </>
                 )}
 
                 <p className="font-semibold my-3">Shipping:</p>
-                <p className="w-fit ml-auto my-3">Free</p>
+                <p className="w-fit ml-auto my-3">
+                    {shippingCost === 0 ? "Free" : shippingCost}
+                </p>
 
                 <p className="font-semibold text-lg">Estimated total:</p>
                 <p className="w-fit ml-auto text-xl font-semibold">
-                    {appliedPromo
-                        ? itemsTotalPrice - promoCodeValue
-                        : itemsTotalPrice}{" "}
-                    {settings.currency}
+                    <FormattedPrice value={totalCartValue + shippingCost} />
                 </p>
             </div>
         </div>
     );
 }
 
-export default Checkout;
+export default CheckoutSummary;

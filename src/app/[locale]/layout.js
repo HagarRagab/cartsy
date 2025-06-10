@@ -62,6 +62,7 @@ export default async function RootLayout({ children, params }) {
                             {children}
                         </main>
                         <div id="modal"></div>
+                        <div id="checkout-modal"></div>
                         <Toaster />
                         <Footer />
                     </AuthProvider>

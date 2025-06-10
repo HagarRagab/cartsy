@@ -51,16 +51,32 @@ export async function getDiscount(productId) {
 
 /////////////////////////////////////////////////////
 // PROMO CODES
-export async function getPromoCode(code) {
+export async function getPromoCode(key, value) {
     let { data: promoCode, error } = await supabase
         .from("Promo_Codes")
         .select("*")
-        .eq("code", code)
+        .eq(key, value)
         .single();
 
     if (error) {
         console.error(error);
     }
 
-    return { promoCode, error };
+    return promoCode;
+}
+
+// SET code
+export async function setPromoCode(userId, promoCodeId) {
+    const { data, error } = await supabase
+        .from("Users_Carts")
+        .update({ promoCodeId })
+        .eq("userId", userId)
+        .select();
+
+    if (error) {
+        console.error(error);
+        throw new Error("Cannot add promoCode to user's cart");
+    }
+
+    return { data, error };
 }
