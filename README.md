@@ -39,7 +39,7 @@ A full-stack e-commerce application built with Next.js, featuring a modern UI, b
 -   **UI Components**: [Shadcn/ui](https://ui.shadcn.com/) - Beautiful, accessible React components
 -   **Authentication**: NextAuth.js
 -   **Database**: Supabase
--   **State Management**: React Context API or Zustand
+-   **State Management**: React Context API
 -   **Internationalization**: next-intl for bilingual support
 
 ## 📦 Installation
@@ -77,7 +77,7 @@ pnpm install
 DATABASE_URL="your-database-connection-string"
 
 # Authentication
-NEXTAUTH_URL="http://localhost:3000"
+NEXT_URL="http://localhost:3000"
 NEXTAUTH_SECRET="your-nextauth-secret"
 
 # Payment Gateway (if applicable)

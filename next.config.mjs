@@ -1,7 +1,27 @@
 import createNextIntlPlugin from "next-intl/plugin";
 
+import autoCert from "anchor-pki/auto-cert/integrations/next";
+
+const withAutoCert = autoCert({
+    enabledEnv: "development",
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    webpack: (config, { isServer }) => {
+        if (!isServer) {
+            config.resolve.fallback = {
+                ...config.resolve.fallback,
+                fs: false,
+                net: false,
+                tls: false,
+            };
+        }
+        return config;
+    },
+    experimental: {
+        serverComponentsExternalPackages: ["@stripe/stripe-js"],
+    },
     images: {
         remotePatterns: [
             {
@@ -24,4 +44,4 @@ const nextConfig = {
 
 const withNextIntl = createNextIntlPlugin();
 
-export default withNextIntl(nextConfig);
+export default withNextIntl(withAutoCert(nextConfig));
