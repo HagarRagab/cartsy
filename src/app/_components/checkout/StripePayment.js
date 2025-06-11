@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useFormatter, useLocale } from "next-intl";
 import {
     PaymentElement,
     useElements,
     useStripe,
 } from "@stripe/react-stripe-js";
-import { useFormatter, useLocale } from "next-intl";
 
 import { Button } from "@/src/components/ui/button";
 import ErrorMsg from "@/src/app/_components/shared/ErrorMsg";

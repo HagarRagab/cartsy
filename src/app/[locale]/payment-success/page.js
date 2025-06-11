@@ -1,6 +1,7 @@
+import { getTranslations } from "next-intl/server";
+
 import PageContainer from "@/src/app/_components/shared/PageContainer";
 import ResultPage from "@/src/app/_components/shared/ResultPage";
-import { getTranslations } from "next-intl/server";
 import FormattedPrice from "@/src/app/_components/shared/FormattedPrice";
 import { getAuthUser, getUser } from "@/src/app/_lib/data-services/data-user";
 import { getCart, resetCartAction } from "@/src/app/_lib/actions";
