@@ -22,11 +22,12 @@ async function Page({ searchParams }) {
 
     // cart items for both guest cart and user cart
     const cartItems = await getCart();
-    const userCart = await getUserCart(user.id);
+    const userCart = await getUserCart(user?.id);
 
     // promo code
     const promoCode =
-        userCart.promoCodeId &&
+        userCart &&
+        userCart?.promoCodeId &&
         (await getPromoCode("id", userCart.promoCodeId));
 
     return (
