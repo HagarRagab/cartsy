@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useFormatter, useLocale } from "next-intl";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
 import {
     PaymentElement,
     useElements,
@@ -12,10 +12,13 @@ import { Button } from "@/src/components/ui/button";
 import ErrorMsg from "@/src/app/_components/shared/ErrorMsg";
 import { convertToSubCurrency } from "@/src/app/_utils/helper";
 import SpinnerIcon from "@/src/app/_components/shared/SpinnerIcon";
+import { useCart } from "@/src/app/_context/CartContext";
 
 function StripePayment({ chargeAmount, currency, user }) {
     const stripe = useStripe();
     const elements = useElements();
+    const { orderSummary } = useCart();
+    const { itemsPrice, discountAmount, shippingCost } = orderSummary;
 
     const [clientSecret, setClientSecret] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -24,6 +27,8 @@ function StripePayment({ chargeAmount, currency, user }) {
 
     const locale = useLocale();
     const format = useFormatter();
+
+    const t = useTranslations("placeOrder");
 
     function formatCurrency(value) {
         const formattedValue = format.number(value, {
@@ -86,7 +91,7 @@ function StripePayment({ chargeAmount, currency, user }) {
             elements,
             clientSecret,
             confirmParams: {
-                return_url: `${fullUrl}/${locale}/payment-success`,
+                return_url: `${fullUrl}/${locale}/payment-success?itemsPrice=${itemsPrice}&discountAmount=${discountAmount}&shippingCost=${shippingCost}`,
             },
         });
 
@@ -117,10 +122,10 @@ function StripePayment({ chargeAmount, currency, user }) {
                 }
             >
                 {isLoading ? (
-                    "Processing..."
+                    `${t("processing")}...`
                 ) : (
                     <>
-                        <span>Pay</span>
+                        <span>{t("pay")}</span>
                         <span className="font-semibold text-base">
                             {formatCurrency(chargeAmount)}
                         </span>

@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import CheckoutContainer from "@/src/app/_components/checkout/CheckoutContainer";
 import BreadCrumb from "@/src/app/_components/navbar/BreadCrumb";
 import PageContainer from "@/src/app/_components/shared/PageContainer";
@@ -13,18 +15,18 @@ async function Page() {
     const userCart = await getUserCart(authUser.id);
     const selectedCartItems = cartItems.filter((item) => item.isSelected);
 
-    console.log(cartItems);
-    console.log(userCart);
+    const t = await getTranslations("placeOrder");
+
     const promoCode =
         userCart.promoCodeId &&
         (await getPromoCode("id", userCart.promoCodeId));
 
     return (
         <PageContainer>
-            <PageHeader>Place order</PageHeader>
+            <PageHeader>{t("title")}</PageHeader>
             <BreadCrumb
-                page="buy now"
-                links={[{ name: "My cart", path: "/cart" }]}
+                page={t("buyNow")}
+                links={[{ name: t("myCart"), path: "/cart" }]}
             />
 
             <CheckoutContainer

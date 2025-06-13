@@ -4,27 +4,20 @@ import { useAuth } from "@/src/app/_context/AuthContext";
 import CheckoutSummary from "@/src/app/_components/checkout/CheckoutSummary";
 import PurchaseInfoCard from "@/src/app/_components/checkout/PurchaseInfoCard";
 import StripePaymentElements from "@/src/app/_components/checkout/StripePaymentElements";
+import { useCart } from "@/src/app/_context/CartContext";
 
 function CheckoutContainer({ selectedCartItems, promoCode }) {
-    const { user, currencyRate } = useAuth();
+    const { user } = useAuth();
 
-    const itemsTotalPrice =
-        selectedCartItems?.reduce(
-            (total, cur) =>
-                total + Number(cur.inventory?.price) * Number(cur.quantity),
-            0
-        ) * currencyRate;
+    const { orderSummary } = useCart();
 
-    const promoCodeValue = !promoCode
-        ? 0
-        : promoCode?.discount_type === "percentage"
-        ? (itemsTotalPrice * promoCode?.value) / 100
-        : promoCode?.value * currencyRate;
-
-    const totalCartValue = itemsTotalPrice - promoCodeValue;
-    const shippingCost = 0 * currencyRate;
-
-    const chargeAmount = totalCartValue + shippingCost;
+    const {
+        itemsPrice,
+        discountAmount,
+        itemsPriceAfterDiscount,
+        shippingCost,
+        chargeAmount,
+    } = orderSummary;
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-[4fr_2fr] gap-4">
@@ -39,10 +32,10 @@ function CheckoutContainer({ selectedCartItems, promoCode }) {
 
             <CheckoutSummary
                 selectedCartItems={selectedCartItems}
-                itemsTotalPrice={itemsTotalPrice}
-                totalCartValue={totalCartValue}
+                itemsPrice={itemsPrice}
+                itemsPriceAfterDiscount={itemsPriceAfterDiscount}
                 shippingCost={shippingCost}
-                promoCodeValue={promoCodeValue}
+                discountAmount={discountAmount}
             />
         </div>
     );

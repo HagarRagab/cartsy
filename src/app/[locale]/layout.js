@@ -13,6 +13,7 @@ import { getAuthUser, getUser } from "@/src/app/_lib/data-services/data-user";
 import "@/src/app/_styles/globals.css";
 import { getMessages } from "next-intl/server";
 import { direction } from "@/src/app/_utils/helper";
+import CartProvider from "@/src/app/_context/CartContext";
 
 const font = Roboto({
     subsets: ["latin"],
@@ -56,15 +57,17 @@ export default async function RootLayout({ children, params }) {
             >
                 <NextIntlClientProvider messages={messages}>
                     <AuthProvider user={user} settingsCookie={settingsCookie}>
-                        <Header user={user} />
-                        <Navbar />
-                        <main className="bg-bg-200 min-h-[calc(100vh-136px)] w-full">
-                            {children}
-                        </main>
-                        <div id="modal"></div>
-                        <div id="checkout-modal"></div>
-                        <Toaster />
-                        <Footer />
+                        <CartProvider>
+                            <Header user={user} />
+                            <Navbar />
+                            <main className="bg-bg-200 min-h-[calc(100vh-136px)] w-full">
+                                {children}
+                            </main>
+                            <div id="modal"></div>
+                            <div id="checkout-modal"></div>
+                            <Toaster />
+                            <Footer />
+                        </CartProvider>
                     </AuthProvider>
                 </NextIntlClientProvider>
             </body>

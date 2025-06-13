@@ -5,19 +5,21 @@ import Image from "next/image";
 import porductPlaceHolder from "@/public/product-placeholder.png";
 import { useAuth } from "@/src/app/_context/AuthContext";
 import FormattedPrice from "../shared/FormattedPrice";
+import { useTranslations } from "use-intl";
 
 function CheckoutSummary({
     selectedCartItems,
-    itemsTotalPrice,
-    totalCartValue,
+    itemsPrice,
+    itemsPriceAfterDiscount,
     shippingCost,
-    promoCodeValue,
+    discountAmount,
 }) {
     const { currencyRate } = useAuth();
+    const t = useTranslations("placeOrder");
 
     return (
         <div className="col-span-full lg:col-span-1 bg-bg-100 p-8 rounded-md row-span-1">
-            <h2 className="font-semibold text-xl">You order</h2>
+            <h2 className="font-semibold text-xl">{t("yourOrder")}</h2>
 
             <div className="my-4 flex flex-col gap-4">
                 {selectedCartItems?.map((item) => (
@@ -37,20 +39,26 @@ function CheckoutSummary({
                             />
                         </div>
                         <div className="grid grid-cols-2 items-center gap-2">
-                            <p className="text-sm">
-                                <span>Size:</span>
-                                <span className="ml-1 font-semibold">
+                            <p className="text-sm flex items-center gap-2">
+                                <span>{t("size")}:</span>
+                                <span
+                                    className="ml-1 font-semibold"
+                                    title={item.inventory.size}
+                                >
                                     {item.inventory.size}
                                 </span>
                             </p>
-                            <p className="text-sm flex items-center">
-                                <span>Color:</span>
-                                <span className="inline-block max-w-20 ml-1 font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap">
+                            <p className="text-sm flex items-center gap-2">
+                                <span>{t("color")}:</span>
+                                <span
+                                    className="inline-block max-w-20 ml-1 font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap"
+                                    title={item.inventory.variant.color}
+                                >
                                     {item.inventory.variant.color}
                                 </span>
                             </p>
-                            <p className="text-sm col-span-full">
-                                Price:
+                            <p className="text-sm col-span-full flex items-center gap-2">
+                                <span>{t("price")}:</span>
                                 <span className="mx-1 font-semibold text-base">
                                     <FormattedPrice
                                         value={
@@ -65,37 +73,41 @@ function CheckoutSummary({
                 ))}
             </div>
 
-            <div className="grid grid-cols-2 items-center justify-between mb-4">
-                <p className="text-sm text-text-300">Items total:</p>
+            <hr />
+
+            <div className="grid grid-cols-2 items-center justify-between my-4">
+                <p className="text-sm text-text-300">{t("itemsTotal")}:</p>
                 <p className="w-fit ml-auto">
-                    <FormattedPrice value={itemsTotalPrice} />
+                    <FormattedPrice value={itemsPrice} />
                 </p>
 
-                {promoCodeValue !== 0 && (
+                {discountAmount !== 0 && (
                     <>
                         <p className="text-sm text-text-300 my-2">
-                            Items discount:
+                            {t("itemsDiscount")}:
                         </p>
                         <p className="w-fit ml-auto text-red-custom-100 my-2">
                             &minus;
-                            <FormattedPrice value={promoCodeValue} />
+                            <FormattedPrice value={discountAmount} />
                         </p>
 
-                        <p className="font-semibold">Subtotal:</p>
+                        <p className="font-semibold">{t("subtotal")}:</p>
                         <p className="w-fit ml-auto">
-                            <FormattedPrice value={totalCartValue} />
+                            <FormattedPrice value={itemsPriceAfterDiscount} />
                         </p>
                     </>
                 )}
 
-                <p className="font-semibold my-3">Shipping:</p>
+                <p className="font-semibold my-3">{t("shipping")}:</p>
                 <p className="w-fit ml-auto my-3">
-                    {shippingCost === 0 ? "Free" : shippingCost}
+                    {shippingCost === 0 ? t("free") : shippingCost}
                 </p>
 
-                <p className="font-semibold text-lg">Estimated total:</p>
+                <p className="font-semibold text-lg">{t("estimatedTotal")}:</p>
                 <p className="w-fit ml-auto text-xl font-semibold">
-                    <FormattedPrice value={totalCartValue + shippingCost} />
+                    <FormattedPrice
+                        value={itemsPriceAfterDiscount + shippingCost}
+                    />
                 </p>
             </div>
         </div>

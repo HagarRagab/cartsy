@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { useAuth } from "@/src/app/_context/AuthContext";
 import { Button } from "@/src/components/ui/button";
 import PersonalInfoGrid from "@/src/app/_components/account/personalInfo/PersonalInfoGrid";
 import PersonalInfoEditForm from "@/src/app/_components/account/personalInfo/PersonalInfoEditForm";
-import { useTranslations } from "next-intl";
 
 function Page() {
     const { user } = useAuth();

@@ -276,9 +276,8 @@ export async function getInventory(inventoryId) {
         .select(
             `
                 *,
-                variant:Variants (
-                    *
-                )
+                variant:Variants (*,
+                product:Products (*))
             `
         )
         .single()

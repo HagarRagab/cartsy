@@ -109,3 +109,31 @@ export function generateOrderNumber(prefixLength) {
 
     return `${prefix}-${year}-${timeStamp}`;
 }
+
+export function CalcOrderSummary(orderItems, currencyRate, promoCode) {
+    const itemsPrice =
+        orderItems?.reduce(
+            (total, cur) =>
+                total + Number(cur.inventory?.price) * Number(cur.quantity),
+            0
+        ) * currencyRate;
+
+    const discountAmount = !promoCode
+        ? 0
+        : promoCode?.discount_type === "percentage"
+        ? (itemsPrice * promoCode?.value) / 100
+        : promoCode?.value * currencyRate;
+
+    const itemsPriceAfterDiscount = itemsPrice - discountAmount;
+    const shippingCost = 0 * currencyRate;
+
+    const chargeAmount = itemsPriceAfterDiscount + shippingCost;
+
+    return {
+        itemsPrice,
+        discountAmount,
+        itemsPriceAfterDiscount,
+        shippingCost,
+        chargeAmount,
+    };
+}

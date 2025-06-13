@@ -47,7 +47,7 @@
         "selectAll": "تحديد الكل",
         "deselectAll": "قم بإلغاء تحديد الكل",
         "summary": "ملخص",
-        "itemsTotal": "السعر قبل الخصم",
+        "itemsTotal": "السعر الابتدائى",
         "itemsDiscount": "الخصم",
         "subtotal": "السعر بعد الخصم",
         "shipping": "التوصيل",
@@ -203,6 +203,30 @@
     },
     "paymentSuccess": {
         "title": "عملية دفع ناجحة",
-        "subTitle": "شكرًا لاختيارك كارتسي. تم معالجة دفعك بنجاح."
+        "subTitle": "شكرًا لاختيارك كارتسي. تم معالجة دفعك بنجاح.",
+        "amountPaid": "المبلغ المدفوع",
+        "transactionId": "معرف المعاملة"
+    },
+    "placeOrder": {
+        "title": "اتمام الشراء",
+        "myCart": "عربة التسوق",
+        "buyNow": "شراء الأن",
+        "infoTitle": "معلومات الشحن",
+        "changeBtn": "تغيير",
+        "pay": "دفع",
+        "yourOrder": "طلبك",
+        "size": "مقاس",
+        "color": "لون",
+        "price": "السعر",
+        "itemsTotal": "أجمالى السعر",
+        "itemsDiscount": "الخصم",
+        "subtotal": "السعر بعد الخصم",
+        "shipping": "الشحن",
+        "estimatedTotal": "السعر النهائى",
+        "free": "مجانى",
+        "noAddress": "لم يتم العثور على عنوان. يُرجى إضافة عنوانك.",
+        "noPhoneNumber": "لم يتم العثور على رقم هاتف. يُرجى إضافة رقم هاتفك للتواصل معك.",
+        "updateInfo": "قم بتحديث معلومات الشحن الخاصة بك",
+        "processing": "تحميل"
     }
 }

@@ -201,6 +201,30 @@
     },
     "paymentSuccess": {
         "title": "Payment successful",
-        "subTitle": "Thank you for choosing Cartsy. Your payment was successfully processed."
+        "subTitle": "Thank you for choosing Cartsy. Your payment was successfully processed.",
+        "amountPaid": "Amount paid",
+        "transactionId": "Transaction ID"
+    },
+    "placeOrder": {
+        "title": "Place order",
+        "myCart": "My cart",
+        "buyNow": "Buy now",
+        "infoTitle": "Shipping info",
+        "changeBtn": "Change",
+        "pay": "Pay",
+        "yourOrder": "Your order",
+        "size": "Size",
+        "color": "Color",
+        "price": "Price",
+        "itemsTotal": "Items total",
+        "itemsDiscount": "Items discount",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "estimatedTotal": "Estimated total",
+        "free": "Free",
+        "noAddress": "No address found. Please add your address",
+        "noPhoneNumber": "No phone number found. Please add your phone number to contact you.",
+        "updateInfo": "Update your shipping info",
+        "processing": "Processing"
     }
 }

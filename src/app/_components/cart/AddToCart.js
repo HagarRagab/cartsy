@@ -11,7 +11,8 @@ function AddToCart({ inventoryId, quantity = 1, className, children }) {
     const [isLoading, setIsLoading] = useState(false);
     const locale = useLocale();
 
-    async function handleAddToCart() {
+    async function handleAddToCart(e) {
+        e.stopPropagation();
         setIsLoading(true);
 
         const result = await addToCartAction(quantity, inventoryId);

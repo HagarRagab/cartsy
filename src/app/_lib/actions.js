@@ -8,6 +8,7 @@ import {
 import {
     addToWishlist,
     removeFromWishlist,
+    updateStock,
 } from "@/src/app/_lib/data-services/data-product";
 import {
     addToCart,
@@ -25,6 +26,10 @@ import { cookies, headers } from "next/headers";
 import { isPast } from "date-fns";
 import { COOKIES_EXPIRATION } from "@/src/app/_utils/constants";
 import { stripe } from "@/src/app/_lib/stripe";
+import {
+    createOrder,
+    getAllOrders,
+} from "@/src/app/_lib/data-services/data-orders";
 
 export async function updateProfileAction(newData, path) {
     const supabase = await createClient();
@@ -219,9 +224,29 @@ export async function updateCartItemAction(cartItemId, newValues) {
     revalidatePath("/cart");
 }
 
-export async function resetCartAction() {
+export async function createOrderAction(selectedCartItems, order) {
     const supabase = await createClient();
 
+    // Add order in user orders database table
+    const orderResult = await createOrder(order);
+
+    if (!orderResult)
+        return {
+            status: "failed",
+            message: {
+                en: "Failed to create order",
+                ar: "حدث خطأ أثناء انشاء الطلب الخاص بك",
+            },
+        };
+
+    // Update stock for all items
+    await Promise.all(
+        selectedCartItems.map((item) =>
+            updateStock(item.inventoryId, item.inventory.stock - item.quantity)
+        )
+    );
+
+    // Reset cart
     const {
         data: { user },
     } = await supabase.auth.getUser();
@@ -229,7 +254,16 @@ export async function resetCartAction() {
     const userCart = await getUserCart(user.id);
     await resetCart(userCart.id);
 
-    revalidatePath("/cart");
+    // Update user cart -> remove promoCode from users_carts table
+    await setPromoCode(user.id, null);
+
+    return {
+        status: "success",
+        message: {
+            en: "Successfully created your order.",
+            ar: "تم اشاء الطلب الخاص بك بنجاح",
+        },
+    };
 }
 
 export async function selectionItemAction(cartItemId, newValues) {
@@ -390,6 +424,10 @@ export async function setPromoCodeAction(code) {
 
     const promoCode = await getPromoCode("code", code);
 
+    // Check if user was already used the same code before
+    const orders = await getAllOrders(user.id);
+    const usedCode = orders.some((order) => order.promoCodeId === promoCode.id);
+
     if (!promoCode)
         return {
             status: "failed",
@@ -398,6 +436,16 @@ export async function setPromoCodeAction(code) {
                 ar: "رمز ترويجي غير صالح. يُرجى تجربة رمز آخر.",
             },
         };
+
+    if (usedCode)
+        return {
+            status: "failed",
+            message: {
+                en: "Used promo code. Please try different one",
+                ar: "رمز ترويجي تم استخدامه. يُرجى تجربة رمز آخر.",
+            },
+        };
+
     if (isPast(new Date(promoCode.expires_at)))
         return {
             status: "failed",
@@ -406,6 +454,7 @@ export async function setPromoCodeAction(code) {
                 ar: "انتهى صلاحية رمز العرض الترويجي. يُرجى تجربة رمز آخر.",
             },
         };
+
     if (promoCode.current_uses >= promoCode.max_uses)
         return {
             status: "failed",

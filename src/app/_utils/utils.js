@@ -229,13 +229,13 @@ export const profileList = [
     //     icon: <CreditCard size={15} />,
     //     href: "/account/payments",
     // },
-    // {
-    //     label: {
-    //         en: "My orders"
-    // },
-    //     icon: <ShoppingBag size={15} />,
-    //     href: "/account/orders",
-    // },
+    {
+        label: {
+            en: "My orders",
+        },
+        icon: <ShoppingBag size={15} />,
+        href: "/account/orders",
+    },
     {
         label: { en: "My wishlist", ar: "قائمة الأمنيات" },
         icon: <Heart size={15} />,

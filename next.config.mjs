@@ -19,9 +19,7 @@ const nextConfig = {
         }
         return config;
     },
-    experimental: {
-        serverComponentsExternalPackages: ["@stripe/stripe-js"],
-    },
+    serverExternalPackages: ["@stripe/stripe-js"],
     images: {
         remotePatterns: [
             {
