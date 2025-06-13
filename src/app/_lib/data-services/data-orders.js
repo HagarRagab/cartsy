@@ -38,3 +38,19 @@ export async function getAllOrders(userId) {
 
     return Users_Orders;
 }
+
+// GET order
+export async function getOrder(orderId) {
+    let { data: order, error } = await supabase
+        .from("Users_Orders")
+        .select("*")
+        .eq("id", orderId)
+        .single();
+
+    if (error) {
+        console.error(error);
+        throw new Error("Cannot get order.");
+    }
+
+    return order;
+}

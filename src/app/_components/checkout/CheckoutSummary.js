@@ -3,7 +3,6 @@
 import Image from "next/image";
 
 import porductPlaceHolder from "@/public/product-placeholder.png";
-import { useAuth } from "@/src/app/_context/AuthContext";
 import FormattedPrice from "../shared/FormattedPrice";
 import { useTranslations } from "use-intl";
 
@@ -13,8 +12,8 @@ function CheckoutSummary({
     itemsPriceAfterDiscount,
     shippingCost,
     discountAmount,
+    currencyRate,
 }) {
-    const { currencyRate } = useAuth();
     const t = useTranslations("placeOrder");
 
     return (

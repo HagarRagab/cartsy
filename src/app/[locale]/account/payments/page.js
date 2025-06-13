@@ -29,7 +29,7 @@ async function Page() {
                     <div className="flex items-center justify-between">
                         <p className="flex flex-col items-start max-w-30 overflow-hidden whitespace-nowrap text-ellipsis">
                             <span className="text-sm text-text-400">Name</span>
-                            <span>Hagar Ragab Abass Mohamed</span>
+                            <span>Demo User Test</span>
                         </p>
                         <p className="flex flex-col items-start">
                             <span className="text-sm text-text-400">

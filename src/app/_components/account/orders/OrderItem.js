@@ -2,6 +2,7 @@ import Image from "next/image";
 import { getLocale } from "next-intl/server";
 import { Dot } from "lucide-react";
 import { format } from "date-fns";
+import Link from "next/link";
 
 import { getInventory } from "@/src/app/_lib/data-services/data-product";
 import { MAX_HISTORY_ORDERS_IMGS } from "@/src/app/_utils/constants";
@@ -9,7 +10,7 @@ import { Button } from "@/src/components/ui/button";
 
 async function OrderItem({ order }) {
     const locale = await getLocale();
-    const { items, status, deliveryEstimate } = order;
+    const { id, items, status, deliveryEstimate } = order;
 
     const inventories = await Promise.all(
         items
@@ -59,7 +60,12 @@ async function OrderItem({ order }) {
                 {status !== "delivered" && (
                     <Button className="primary-btn">Track order</Button>
                 )}
-                <Button className="outline-btn">View order details</Button>
+                <Link
+                    href={`/${locale}/account/orders/${id}`}
+                    className="outline-btn w-full my-1 flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-sm"
+                >
+                    View order details
+                </Link>
             </div>
         </div>
     );

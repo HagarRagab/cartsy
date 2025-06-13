@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import { add } from "date-fns";
-import { toast } from "sonner";
 
 import FormattedPrice from "@/src/app/_components/shared/FormattedPrice";
 import PageContainer from "@/src/app/_components/shared/PageContainer";
@@ -35,6 +34,8 @@ async function Page({ searchParams }) {
     const order = {
         userId: user.id,
         shippingAddress: user.address,
+        receiverName: user.firstName + " " + user.lastName,
+        receiverPhoneNumber: user.phoneNumber,
         subTotalAmount: itemsPrice,
         chargeAmount: intent.amount_received / 100,
         promoCodeId: userCart.promoCodeId,

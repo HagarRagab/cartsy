@@ -6,8 +6,8 @@ import PurchaseInfoCard from "@/src/app/_components/checkout/PurchaseInfoCard";
 import StripePaymentElements from "@/src/app/_components/checkout/StripePaymentElements";
 import { useCart } from "@/src/app/_context/CartContext";
 
-function CheckoutContainer({ selectedCartItems, promoCode }) {
-    const { user } = useAuth();
+function CheckoutContainer({ selectedCartItems }) {
+    const { user, currencyRate } = useAuth();
 
     const { orderSummary } = useCart();
 
@@ -36,6 +36,7 @@ function CheckoutContainer({ selectedCartItems, promoCode }) {
                 itemsPriceAfterDiscount={itemsPriceAfterDiscount}
                 shippingCost={shippingCost}
                 discountAmount={discountAmount}
+                currencyRate={currencyRate}
             />
         </div>
     );

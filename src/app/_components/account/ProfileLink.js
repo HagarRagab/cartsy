@@ -5,11 +5,12 @@ import { usePathname } from "next/navigation";
 
 function ProfileLink({ link, locale }) {
     const pathname = usePathname();
+    const pathnameWithoutLocale = `/${pathname.split("/").slice(2).join("/")}`;
 
     return (
         <li
             className={`${
-                `/${pathname.split("/").slice(2).join("/")}` === link.href
+                pathnameWithoutLocale === link.href
                     ? "text-accent-200 font-semibold text-lg"
                     : "text-text-300 hover:text-text-200"
             } mb-1 transition-all text-xs sm:text-lg`}
