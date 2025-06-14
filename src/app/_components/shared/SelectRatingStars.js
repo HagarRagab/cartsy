@@ -1,13 +1,15 @@
 "use client";
 
 import { Star } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-function SelectRatingStars({ rating, setRating }) {
+function SelectRatingStars({
+    rating,
+    setRating,
+    children = "",
+    starSize = 18,
+}) {
     const [tempRating, setTempRating] = useState(0);
-
-    const t = useTranslations("filter");
 
     return (
         <div className="flex items-center">
@@ -19,7 +21,7 @@ function SelectRatingStars({ rating, setRating }) {
                     onClick={() => setRating(index + 1)}
                 >
                     <Star
-                        size={18}
+                        size={starSize}
                         className={`stroke-0 ${
                             (tempRating >= index + 1 && !!tempRating) ||
                             (rating >= index + 1 && !tempRating)
@@ -29,7 +31,7 @@ function SelectRatingStars({ rating, setRating }) {
                     />
                 </button>
             ))}
-            {!!rating && <span className="ml-2">& {t("up")}</span>}
+            {children && children}
         </div>
     );
 }

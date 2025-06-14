@@ -6,11 +6,10 @@ import Link from "next/link";
 
 import { getInventory } from "@/src/app/_lib/data-services/data-product";
 import { MAX_HISTORY_ORDERS_IMGS } from "@/src/app/_utils/constants";
-import { Button } from "@/src/components/ui/button";
 
 async function OrderItem({ order }) {
     const locale = await getLocale();
-    const { id, items, status, deliveryEstimate } = order;
+    const { id, items, status, deliveryEstimate, trackingId } = order;
 
     const inventories = await Promise.all(
         items
@@ -19,7 +18,7 @@ async function OrderItem({ order }) {
     );
 
     return (
-        <div className="bg-bg-100 p-3 md:p-6 rounded-md hover:border-l-4 hover:border-l-primary-200 transition-all grid grid-cols-[1fr_auto] gap-4 items-center shadow-lg">
+        <div className="bg-bg-100 p-3 md:p-6 rounded-md hover:border-l-4 hover:border-l-primary-200 transition-all grid grid-cols-[1fr_auto] gap-2 md:gap-4 items-center shadow-lg">
             <div
                 className={`col-span-full flex items-center capitalize ${
                     status !== "delivered" ? "text-accent-200" : "text-text-400"
@@ -37,7 +36,7 @@ async function OrderItem({ order }) {
                 }`}
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
                 {inventories.map((inventory) => (
                     <div key={inventory.id} className="w-20 h-20 relative">
                         <Image
@@ -56,9 +55,14 @@ async function OrderItem({ order }) {
                 )}
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 text-center">
                 {status !== "delivered" && (
-                    <Button className="primary-btn">Track order</Button>
+                    <Link
+                        href={`/${locale}/account/orders/${id}/${trackingId}`}
+                        className="primary-btn w-full my-1 flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-sm"
+                    >
+                        Track order
+                    </Link>
                 )}
                 <Link
                     href={`/${locale}/account/orders/${id}`}

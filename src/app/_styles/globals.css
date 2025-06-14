@@ -193,6 +193,19 @@
         background-color: var(--color-bg-200);
         background-blend-mode: luminosity;
     }
+
+    .animateTruck {
+        animation: truckMovement 3s ease;
+    }
+
+    @keyframes truckMovement {
+        from {
+            left: -400px;
+        }
+        to {
+            left: 0;
+        }
+    }
 }
 
 :root {

@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import AddToCart from "@/src/app/_components/cart/AddToCart";
 import Counter from "@/src/app/_components/shared/Counter";
 import PriceLabel from "@/src/app/_components/shared/PriceLabel";
-import BuyNowBtn from "@/src/app/_components/shared/BuyNowBtn";
 
 function ProductPurchaseBox({
     inventory,
@@ -47,8 +46,6 @@ function ProductPurchaseBox({
             </div>
 
             <div className="flex flex-col gap-1 border-b-2 border-text-600 py-4">
-                <BuyNowBtn />
-
                 <AddToCart
                     inventoryId={selectedInventoryId}
                     quantity={quantity}

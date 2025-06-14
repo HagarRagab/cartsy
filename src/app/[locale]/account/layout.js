@@ -9,7 +9,7 @@ async function Layout({ children }) {
     const t = await getTranslations("myAccount");
 
     return (
-        <PageContainer>
+        <PageContainer className="px-4">
             <BreadCrumb page={t("title")} />
             <div className="grid grid-cols-1 sm:grid-cols-[1fr_3fr] gap-4">
                 <div>

@@ -7,7 +7,7 @@ import RatingStars from "@/src/app/_components/productDetails/RatingStars";
 async function Review({ rate }) {
     const result = await getUser("id", rate.userId);
     const user = result[0];
-    if (!user) return;
+    if (!user || !rate.comment) return;
 
     return (
         <div>

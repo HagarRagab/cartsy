@@ -18,7 +18,11 @@ import {
     resetCart,
     updateCartItem,
 } from "@/src/app/_lib/data-services/data-cart";
-import { updateUserData } from "@/src/app/_lib/data-services/data-user";
+import {
+    addReview,
+    updateReview,
+    updateUserData,
+} from "@/src/app/_lib/data-services/data-user";
 import { getInventory } from "@/src/app/_lib/data-services/data-product";
 import { createClient } from "@/src/utils/supabase/server";
 import { redirect } from "next/navigation";
@@ -530,4 +534,55 @@ export async function checkoutAction(formData) {
     });
 
     redirect(session.url);
+}
+
+export async function addReviewAction(userId, reviewInfo, pathname) {
+    const review = await addReview(userId, reviewInfo);
+
+    if (!review)
+        return {
+            status: "failed",
+            message: {
+                en: "Something went wrong cannot add your review. Please try again later.",
+                ar: "حدث خطأ، لا يمكنك إضافة تقييمك. يُرجى المحاولة لاحقًا.",
+            },
+        };
+
+    revalidatePath(pathname);
+
+    return {
+        status: "success",
+        message: {
+            en: "Successfully your review was added.",
+            ar: "لقد تمت إضافة تقييمك بنجاح",
+        },
+    };
+}
+
+export async function editReviewAction(
+    userId,
+    productId,
+    reviewInfo,
+    pathname
+) {
+    const review = await updateReview(productId, userId, reviewInfo);
+
+    if (!review)
+        return {
+            status: "failed",
+            message: {
+                en: "Something went wrong cannot edit your review. Please try again later.",
+                ar: "حدث خطأ، لا يمكنك تعديل تقييمك. يُرجى المحاولة لاحقًا.",
+            },
+        };
+
+    revalidatePath(pathname);
+
+    return {
+        status: "success",
+        message: {
+            en: "Successfully updated your review.",
+            ar: "لقد تمت تعديل تقييمك بنجاح",
+        },
+    };
 }

@@ -6,7 +6,7 @@ async function ProfileLinks() {
     const locale = await getLocale();
 
     return (
-        <ul>
+        <ul className="flex flex-row sm:flex-col justify-between">
             {profileList.map((link) => (
                 <ProfileLink
                     key={link.label[locale]}

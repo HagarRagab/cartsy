@@ -12,7 +12,7 @@ async function Page({ params }) {
 
     const order = await getOrder(orderId);
 
-    const { orderNumber, created_at, status, items, currency } = order;
+    const { orderNumber, created_at, status, items } = order;
 
     return (
         <div className="bg-bg-100 p-4 md:p-6 rounded-md">
@@ -40,7 +40,7 @@ async function Page({ params }) {
                         <OrderDetailsItem
                             key={item.inventoryId}
                             item={item}
-                            currency={currency}
+                            order={order}
                         />
                     ))}
                 </div>

@@ -15,7 +15,7 @@
         "locationTitle": "deliver to"
     },
     "account": {
-        "welcome": "welcome",
+        "welcome": "Welcome",
         "logIn": "Log in / Register",
         "logInLoading": "Logging in...",
         "logOut": "Log out",

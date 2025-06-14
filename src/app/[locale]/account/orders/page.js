@@ -8,14 +8,14 @@ async function Page() {
 
     const orders = await getAllOrders(authUser.id);
 
-    console.log(orders);
-
     return (
         <div className="flex flex-col gap-4">
             <PageHeader>Order history</PageHeader>
-            {orders.map((order) => (
-                <OrderItem key={order.id} order={order} />
-            ))}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {orders.map((order) => (
+                    <OrderItem key={order.id} order={order} />
+                ))}
+            </div>
         </div>
     );
 }
