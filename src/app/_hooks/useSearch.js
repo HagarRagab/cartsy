@@ -20,5 +20,9 @@ export function useSearch() {
         });
     }
 
-    return { setParam, deleteParam };
+    function getParam(key) {
+        return params.get(key);
+    }
+
+    return { setParam, deleteParam, getParam };
 }

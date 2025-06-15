@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 import { useSearch } from "@/src/app/_hooks/useSearch";
@@ -11,12 +10,10 @@ import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
 import { direction } from "../../_utils/helper";
 
 function ConditionFilter({ label }) {
-    const searchParams = useSearchParams();
+    const { setParam, deleteParam, getParam } = useSearch();
     const [condition, setCondition] = useState(() =>
-        searchParams.get("filteredcondition")
+        getParam("filteredcondition")
     );
-
-    const { setParam, deleteParam } = useSearch();
 
     useEffect(() => {
         if (!condition) deleteParam("filteredcondition");

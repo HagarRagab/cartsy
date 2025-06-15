@@ -29,7 +29,8 @@ export async function getAllOrders(userId) {
     let { data: Users_Orders, error } = await supabase
         .from("Users_Orders")
         .select("*")
-        .eq("userId", userId);
+        .eq("userId", userId)
+        .order("created_at", { ascending: false });
 
     if (error) {
         console.error(error);

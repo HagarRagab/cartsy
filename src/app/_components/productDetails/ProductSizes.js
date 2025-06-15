@@ -1,16 +1,13 @@
 "use client";
 
 import { useSearch } from "@/src/app/_hooks/useSearch";
-import { useSearchParams } from "next/navigation";
 import InfoContainer from "@/src/app/_components/productDetails/InfoContainer";
 
 function ProductSizes({ inventories }) {
-    const searchParams = useSearchParams();
-    const { setParam } = useSearch();
+    const { setParam, getParam } = useSearch();
 
-    const params = new URLSearchParams(searchParams);
     const selectedInventoryId =
-        Number(params.get("inventory")) || inventories?.[0].id;
+        Number(getParam("inventory")) || inventories?.[0].id;
 
     function handleSelectInventrory(inventoryId) {
         setParam("inventory", inventoryId);

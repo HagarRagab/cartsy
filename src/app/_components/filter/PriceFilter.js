@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 import FilterAccordionContainer from "@/src/app/_components/filter/FilterAccordionContainer";
@@ -12,17 +11,11 @@ const MIN_PRICE = 10;
 const MAX_PRICE = 100000;
 
 function PriceFilter({ label }) {
-    const searchParams = useSearchParams();
+    const { setParam, deleteParam, getParam } = useSearch();
 
     const [range, setRange] = useState(
-        () =>
-            searchParams.get("filteredrange")?.split("-") || [
-                MIN_PRICE,
-                MAX_PRICE,
-            ]
+        () => getParam("filteredrange")?.split("-") || [MIN_PRICE, MAX_PRICE]
     );
-
-    const { setParam, deleteParam } = useSearch();
 
     const t = useTranslations("filter");
 

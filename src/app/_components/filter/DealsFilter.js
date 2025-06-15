@@ -2,20 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
 
 import FilterAccordionContainer from "@/src/app/_components/filter/FilterAccordionContainer";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { useSearch } from "@/src/app/_hooks/useSearch";
 
 function DealsFilter({ label }) {
-    const searchParams = useSearchParams();
+    const { setParam, deleteParam, getParam } = useSearch();
 
     const [isChecked, setIsChecked] = useState(
-        () => searchParams.get("filtereddeals") || ""
+        () => getParam("filtereddeals") || ""
     );
-
-    const { setParam, deleteParam } = useSearch();
 
     const t = useTranslations("filter");
 

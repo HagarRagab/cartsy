@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useSearchParams } from "next/navigation";
 import { X } from "lucide-react";
 
 import VariantLabel from "@/src/app/_components/cart/VariantLabel";
@@ -30,20 +29,19 @@ function ProductOptions({
     const modalWindow = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const searchParams = useSearchParams();
-    const { setParam, deleteParam } = useSearch();
+    const { setParam, deleteParam, getParam } = useSearch();
 
     const t = useTranslations("general");
 
     async function handleEditCartItem(e) {
         e.preventDefault();
 
-        const variantId = Number(searchParams.get("variant"));
+        const variantId = Number(getParam("variant"));
         const defaultInventory = inventories.find(
             (i) => i.variantId === variantId
         );
         const inventoryId =
-            Number(searchParams.get("inventory")) || defaultInventory.id;
+            Number(getParam("inventory")) || defaultInventory.id;
 
         setIsLoading(true);
 

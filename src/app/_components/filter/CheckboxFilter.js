@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 
 import FilterAccordionContainer from "@/src/app/_components/filter/FilterAccordionContainer";
@@ -9,14 +8,11 @@ import { Checkbox } from "@/src/components/ui/checkbox";
 import { useSearch } from "@/src/app/_hooks/useSearch";
 
 function CheckboxFilter({ items, label }) {
-    const searchParams = useSearchParams();
+    const { setParam, deleteParam, getParam } = useSearch();
 
     const [checkedItems, setCheckedItems] = useState(
-        () =>
-            searchParams.get(`filtered${label.toLowerCase()}`)?.split("-") || []
+        () => getParam(`filtered${label.toLowerCase()}`)?.split("-") || []
     );
-
-    const { setParam, deleteParam } = useSearch();
 
     const locale = useLocale();
 
