@@ -1,6 +1,8 @@
+import { getTranslations } from "next-intl/server";
+
 import SummaryItem from "@/src/app/_components/account/orders/SummaryItem";
 
-function OrderSummary({ order }) {
+async function OrderSummary({ order }) {
     const {
         subTotalAmount,
         discountAmount,
@@ -11,25 +13,27 @@ function OrderSummary({ order }) {
         lastFourCardNumbers,
     } = order;
 
+    const t = await getTranslations("orderDetails");
+
     return (
         <div className="grid grid-cols-[1fr_auto] items-center gap-3">
             <SummaryItem
-                label="Subtotal"
+                label={t("subtotal")}
                 value={subTotalAmount}
                 currency={currency}
             />
             <SummaryItem
-                label="Discount"
+                label={t("discount")}
                 value={discountAmount}
                 currency={currency}
             />
             <SummaryItem
-                label="Shipping"
+                label={t("shipping")}
                 value={shippingCost}
                 currency={currency}
             />
             <SummaryItem
-                label="Total"
+                label={t("total")}
                 value={chargeAmount}
                 currency={currency}
                 className="font-semibold"
@@ -37,11 +41,11 @@ function OrderSummary({ order }) {
 
             <hr className="col-span-full" />
 
-            <SummaryItem label="Payment method" value={paymentMethod} />
+            <SummaryItem label={t("paymentMethod")} value={paymentMethod} />
 
             {lastFourCardNumbers && (
                 <SummaryItem
-                    label="Card number"
+                    label={t("cardNumber")}
                     value={lastFourCardNumbers.toString().padStart(16, "*")}
                 />
             )}

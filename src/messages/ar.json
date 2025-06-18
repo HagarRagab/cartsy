@@ -89,7 +89,8 @@
         "shareVia": "مشاركة رابط المنتج عبر",
         "orCopyLink": "أو انسخ الرابط",
         "copyBtn": "انسخ",
-        "copyNotification": "تم نسخ الرابط الى الحافظة"
+        "copyNotification": "تم نسخ الرابط الى الحافظة",
+        "relatedProductTitle": "المنتجات ذات الصلة بهذا العنصر"
     },
     "footer": {
         "copyWrite": "حقوق الطبع و النشر محفوظة لشركة كارتسى أو جميع الشركات التابعه لها"
@@ -155,6 +156,51 @@
         "cancel": "الغاء",
         "edit": "تعديل",
         "locationLabel": "أحصل على عنوانك"
+    },
+    "myOrders": {
+        "title": "سجل الطلبات",
+        "orders": "الطلبات",
+        "notShipped": "لم يتم الشحن بعد",
+        "shipped": "تم الشحن",
+        "delivered": "تم التوصيل",
+        "out for delivery": "خارج للتوصيل",
+        "rateMsg": "يرجى تقييم تجربتك.",
+        "ordered": "تم الطلب",
+        "all": "الكل",
+        "thisYear": "هذا العام",
+        "lastYear": "العام الماضي",
+        "lastMonth": "آخر 30 يومًا",
+        "trackOrder": "تتبع الطلب",
+        "viewDetails": "عرض تفاصيل الطلب",
+        "noOrders": "لم يتم العثور على أي طلبات",
+        "on": "فى"
+    },
+    "orderDetails": {
+        "title": "تفاصيل الطلب",
+        "orderId": "رقم الطلب",
+        "createdAt": "تاريخ الإنشاء",
+        "ordered": "تم الطلب",
+        "shipped": "تم الشحن",
+        "delivered": "تم التوصيل",
+        "out for delivery": "قيد التوصيل",
+        "orderItems": "عناصر الطلب",
+        "orderSummary": "ملخص الطلب",
+        "subtotal": "المجموع الفرعي",
+        "discount": "الخصم",
+        "shipping": "الشحن",
+        "total": "الإجمالي",
+        "paymentMethod": "طريقة الدفع",
+        "cardNumber": "رقم البطاقة",
+        "receiverInfo": "معلومات المستلم"
+    },
+    "orderTracking": {
+        "title": "تتبع الطلب",
+        "trackingId": "رقم التتبع",
+        "notShipped": "لم يتم الشحن بعد.",
+        "ordered": "تم الطلب",
+        "shipped": "تم الشحن",
+        "delivered": "تم التوصيل",
+        "out for delivery": "قيد التوصيل"
     },
     "paymentMethods": {
         "title": "طرق الدفع",

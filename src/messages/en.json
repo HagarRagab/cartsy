@@ -89,7 +89,8 @@
         "shareVia": "Share product link via",
         "orCopyLink": "Or copy link",
         "copyBtn": "Copy",
-        "copyNotification": "Url has been copied to your clipboard."
+        "copyNotification": "Url has been copied to your clipboard.",
+        "relatedProductTitle": "Products related to this item"
     },
     "footer": { "copyWrite": "Cartcy, Inc. or its affiliates" },
     "aboutUs": {
@@ -153,6 +154,51 @@
         "cancel": "Cancel",
         "edit": "Edit",
         "locationLabel": "Get your location"
+    },
+    "myOrders": {
+        "title": "Order history",
+        "orders": "Orders",
+        "notShipped": "Not yet shipped",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "out for delivery": "Out for delivery",
+        "rateMsg": "Please rate your experience.",
+        "ordered": "Ordered",
+        "all": "All",
+        "thisYear": "This year",
+        "lastYear": "Last year",
+        "lastMonth": "Last 30 days",
+        "trackOrder": "Track order",
+        "viewDetails": "View order details",
+        "noOrders": "No orders found",
+        "on": "on"
+    },
+    "orderDetails": {
+        "title": "Order details",
+        "orderId": "Order ID",
+        "createdAt": "Created at",
+        "ordered": "Ordered",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "out for delivery": "Out for delivery",
+        "orderItems": "Order items",
+        "orderSummary": "Order summary",
+        "subtotal": "Subtotal",
+        "discount": "Discount",
+        "shipping": "Shipping",
+        "total": "Total",
+        "paymentMethod": "Payment method",
+        "cardNumber": "Card number",
+        "receiverInfo": "Receiver information"
+    },
+    "orderTracking": {
+        "title": "Order tracking",
+        "trackingId": "Tracking ID",
+        "notShipped": "Has not been shipped yet.",
+        "ordered": "Ordered",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "out for delivery": "Out for delivery"
     },
     "paymentMethods": {
         "title": "Payment methods",

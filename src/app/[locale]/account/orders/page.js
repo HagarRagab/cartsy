@@ -4,6 +4,7 @@ import RateOrderMsg from "@/src/app/_components/account/orders/RateOrderMsg";
 import PageHeader from "@/src/app/_components/shared/PageHeader";
 import { getAllOrders } from "@/src/app/_lib/data-services/data-orders";
 import { getAuthUser } from "@/src/app/_lib/data-services/data-user";
+import { getTranslations } from "next-intl/server";
 
 async function Page({ searchParams }) {
     const { status = "orders", period = "thisYear" } = await searchParams;
@@ -11,6 +12,8 @@ async function Page({ searchParams }) {
     const authUser = await getAuthUser();
 
     const orders = await getAllOrders(authUser.id);
+
+    const t = await getTranslations("myOrders");
 
     const filteredOrdersByStatus =
         status === "orders"
@@ -42,7 +45,7 @@ async function Page({ searchParams }) {
     return (
         <div className="flex flex-col gap-4 ">
             <PageHeader>
-                <span>Order history</span>
+                <span>{t("title")}</span>
                 <span className="text-base bg-bg-300 py-1 px-2 rounded-sm mx-2">
                     {filteredOrders.length}
                 </span>
@@ -55,7 +58,7 @@ async function Page({ searchParams }) {
             <div className="flex flex-col gap-4 bg-bg-100 rounded-md p-0 md:p-8">
                 {!filteredOrders || !filteredOrders.length ? (
                     <p className="text-xl font-semibold mx-auto">
-                        No orders found
+                        {t("noOrders")}
                     </p>
                 ) : (
                     filteredOrders.map((order) => (

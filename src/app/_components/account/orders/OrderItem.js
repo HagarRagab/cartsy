@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Dot } from "lucide-react";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -26,15 +26,20 @@ async function OrderItem({ order }) {
             .map((item) => getInventory(item.inventoryId))
     );
 
+    const t = await getTranslations("myOrders");
+
     return (
         <div className="rounded-md hover:border-l-4 hover:border-l-primary-200 transition-all grid grid-cols-[1fr_auto] gap-2 md:gap-4 items-center shadow-lg overflow-hidden border-2 border-text-700">
             <div
                 className={`bg-bg-200 border-b-2 px-4 py-2 border-b-text-700 col-span-full flex items-center justify-between`}
             >
                 <div className="flex items-center capitalize text-lg font-semibold">
-                    {`${status} ${
+                    {`${t(status)} ${
                         status === "delivered"
-                            ? `on ${format(deliveryEstimate, "dd, MMMM yyyy")}`
+                            ? `${t("on")} ${format(
+                                  deliveryEstimate,
+                                  "dd, MMMM yyyy"
+                              )}`
                             : ""
                     }`}
                 </div>
@@ -70,14 +75,14 @@ async function OrderItem({ order }) {
                         }`}
                         className="primary-btn w-full my-1 flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-sm"
                     >
-                        Track order
+                        {t("trackOrder")}
                     </Link>
                 )}
                 <Link
                     href={`/${locale}/account/orders/${id}`}
                     className="outline-btn w-full my-1 flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-sm"
                 >
-                    View order details
+                    {t("viewDetails")}
                 </Link>
             </div>
         </div>

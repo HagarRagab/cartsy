@@ -232,6 +232,7 @@ export const profileList = [
     {
         label: {
             en: "My orders",
+            ar: "طلباتى",
         },
         icon: <ShoppingBag size={15} />,
         href: "/account/orders",

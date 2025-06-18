@@ -194,16 +194,29 @@
         background-blend-mode: luminosity;
     }
 
-    .animateTruck {
-        animation: truckMovement 3s ease;
+    .animateTruckLeft {
+        animation: truckMovementLeft 3s ease;
     }
 
-    @keyframes truckMovement {
+    .animateTruckRight {
+        animation: truckMovementRight 3s ease;
+    }
+
+    @keyframes truckMovementLeft {
         from {
             left: -400px;
         }
         to {
             left: 0;
+        }
+    }
+
+    @keyframes truckMovementRight {
+        from {
+            right: -400px;
+        }
+        to {
+            right: 0;
         }
     }
 }

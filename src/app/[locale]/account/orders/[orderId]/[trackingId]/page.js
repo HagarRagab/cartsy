@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { getTranslations } from "next-intl/server";
 
 import PageHeader from "@/src/app/_components/shared/PageHeader";
 import { getOrder } from "@/src/app/_lib/data-services/data-orders";
@@ -9,28 +10,28 @@ async function Page({ params }) {
 
     const order = await getOrder(orderId);
 
+    const t = await getTranslations("orderTracking");
+
     const { status, created_at, deliveryEstimate, trackingId } = order;
 
     return (
         <div className="overflow-hidden">
-            <PageHeader>Order tracking</PageHeader>
+            <PageHeader>{t("title")}</PageHeader>
 
             <div className="flex items-center gap-4 mb-4">
                 <h2 className="flex items-center gap-2 text-lg md:text-xl">
-                    <span className="font-semibold">Tracking ID:</span>
+                    <span className="font-semibold">{t("trackingId")}:</span>
                     <span>
                         {trackingId ? (
                             <span>#{trackingId}</span>
                         ) : (
-                            <span className="text-base">
-                                Has not been shipped yet.
-                            </span>
+                            <span className="text-base">{t("notShipped")}</span>
                         )}
                     </span>
                 </h2>
 
                 <div className="w-fit bg-primary-100 text-accent-200 px-6 py-1 rounded-full capitalize text-sm">
-                    {status}
+                    {t(status)}
                 </div>
             </div>
 

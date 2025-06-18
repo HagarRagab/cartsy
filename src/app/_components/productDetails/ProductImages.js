@@ -1,22 +1,29 @@
 "use client";
 
+import { useLocale } from "next-intl";
+import { useState } from "react";
+
+import ProductImageCard from "@/src/app/_components/productDetails/ProductImageCard";
+import ProductImagePreview from "@/src/app/_components/productDetails/ProductImagePreview";
 import {
     Carousel,
     CarouselContent,
     CarouselNext,
     CarouselPrevious,
 } from "@/src/components/ui/carousel";
-import { useState } from "react";
-import ProductImageCard from "@/src/app/_components/productDetails/ProductImageCard";
-import ProductImagePreview from "@/src/app/_components/productDetails/ProductImagePreview";
+import { direction } from "@/src/app/_utils/helper";
 
 function ProductImages({ variants, className = "" }) {
     const [displayedImage, setDisplayedImage] = useState(variants[0].images[0]);
+    const locale = useLocale();
 
     return (
         <div className={className}>
             <ProductImagePreview image={displayedImage} />
-            <Carousel className="sm:w-[calc(100%-80px)] mx-auto">
+            <Carousel
+                className="sm:w-[calc(100%-80px)] mx-auto"
+                opts={{ direction: direction(locale) }}
+            >
                 <CarouselContent className="ml-0 sm:-ml-1">
                     {variants.length !== 0 &&
                         variants.map((variant) => (

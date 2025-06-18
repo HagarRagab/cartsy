@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { useSearch } from "@/src/app/_hooks/useSearch";
 import {
     Select,
@@ -12,6 +14,7 @@ import {
 
 function OrdersFilterSelect() {
     const { setParam } = useSearch();
+    const t = useTranslations("myOrders");
 
     function selectOrderPeriod(value) {
         setParam("period", value);
@@ -24,10 +27,10 @@ function OrdersFilterSelect() {
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectItem value="all">All</SelectItem>
-                    <SelectItem value="lastMonth">Last 30 days</SelectItem>
-                    <SelectItem value="thisYear">This year</SelectItem>
-                    <SelectItem value="lastYear">last year</SelectItem>
+                    <SelectItem value="all">{t("all")}</SelectItem>
+                    <SelectItem value="lastMonth">{t("lastMonth")}</SelectItem>
+                    <SelectItem value="thisYear">{t("thisYear")}</SelectItem>
+                    <SelectItem value="lastYear">{t("lastYear")}</SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>
