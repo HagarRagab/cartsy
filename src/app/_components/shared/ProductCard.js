@@ -11,7 +11,7 @@ import SaleLabel from "@/src/app/_components/shared/SaleLabel";
 import { getUserCart } from "@/src/app/_lib/data-services/data-cart";
 import { getDiscount } from "@/src/app/_lib/data-services/data-deals";
 import {
-    getProductInventories,
+    getVariantInventories,
     getProductVariants,
 } from "@/src/app/_lib/data-services/data-product";
 import { getAuthUser } from "@/src/app/_lib/data-services/data-user";
@@ -27,7 +27,7 @@ async function ProductCard({
         product;
 
     const variants = await getProductVariants(id);
-    const inventories = await getProductInventories(variants[0].id);
+    const inventories = await getVariantInventories(variants[0].id);
     const defaultInventoryId = inventories[0]?.id;
 
     const discount = await getDiscount(id);

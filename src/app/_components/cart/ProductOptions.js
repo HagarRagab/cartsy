@@ -1,68 +1,63 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import { X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useLocale, useTranslations } from "use-intl";
 
 import VariantLabel from "@/src/app/_components/cart/VariantLabel";
 import ProductImages from "@/src/app/_components/productDetails/ProductImages";
 import ProductModels from "@/src/app/_components/productDetails/ProductModels";
 import ProductSizes from "@/src/app/_components/productDetails/ProductSizes";
 import PriceLabel from "@/src/app/_components/shared/PriceLabel";
-import ProductTitle from "@/src/app/_components/shared/ProductTitle";
 import SubmitBtn from "@/src/app/_components/shared/SubmitBtn";
-import { useSearch } from "@/src/app/_hooks/useSearch";
-import { Button } from "@/src/components/ui/button";
 import { updateCartItemAction } from "@/src/app/_lib/actions";
-import { useTranslations } from "use-intl";
+import { Button } from "@/src/components/ui/button";
+import ProductTitle from "@/src/app/_components/shared/ProductTitle";
 
 function ProductOptions({
     variants,
-    inventories,
     inventory,
+    productInventories,
     discount,
     isDiscountValid,
-    product,
     cartItemId,
+    product,
 }) {
-    const dialog = useRef();
-    const modalWindow = useRef(null);
+    const dialogRef = useRef();
     const [isLoading, setIsLoading] = useState(false);
 
-    const { setParam, deleteParam, getParam } = useSearch();
-
     const t = useTranslations("general");
+    const locale = useLocale("");
+
+    const [selectedVariant, setSelectedVariant] = useState(inventory.variant);
+
+    const variantInventories = productInventories
+        .flat()
+        .filter((inventory) => inventory.variantId === selectedVariant.id);
+
+    const [selectedInventory, setSelectedInventory] = useState(inventory);
+
+    useEffect(() => {
+        const sameSizeInventory = variantInventories.find(
+            (inventory) => inventory.size === selectedInventory.size
+        );
+        if (!sameSizeInventory) setSelectedInventory(variantInventories[0]);
+        else setSelectedInventory(sameSizeInventory);
+    }, [selectedVariant.id]);
 
     async function handleEditCartItem(e) {
         e.preventDefault();
-
-        const variantId = Number(getParam("variant"));
-        const defaultInventory = inventories.find(
-            (i) => i.variantId === variantId
-        );
-        const inventoryId =
-            Number(getParam("inventory")) || defaultInventory.id;
-
         setIsLoading(true);
-
-        await updateCartItemAction(cartItemId, { inventoryId });
-
-        deleteParam("variant");
-        deleteParam("inventory");
-
+        await updateCartItemAction(locale, cartItemId, {
+            inventoryId: selectedInventory.id,
+        });
         setIsLoading(false);
-
-        dialog.current.close();
+        dialogRef.current.close();
     }
 
     function openProductModal() {
-        setParam("variant", inventory.variantId);
-        dialog.current?.showModal();
+        dialogRef.current.showModal();
     }
-
-    useEffect(() => {
-        modalWindow.current = document.getElementById("modal");
-    }, []);
 
     return (
         <div className="w-fit flex flex-col xs:flex-row items-center gap-2">
@@ -77,53 +72,54 @@ function ProductOptions({
                 onOpenModal={openProductModal}
             />
 
-            {modalWindow.current &&
-                createPortal(
-                    <dialog
-                        ref={dialog}
-                        className="bg-bg-100 p-6 m-auto w-[90%] max-w-3xl max-h-2/3 sm:max-h-fit rounded-md"
+            <dialog
+                ref={dialogRef}
+                className="bg-bg-100 p-6 m-auto w-[90%] max-w-3xl max-h-2/3 sm:max-h-fit rounded-md"
+            >
+                <form method="dialog" className="flex flex-col gap-2">
+                    <Button
+                        variant="ghost"
+                        className="cursor-pointer hover:bg-transparent hover:scale-125 transition-all origin-center self-end"
                     >
-                        <form method="dialog" className="flex flex-col gap-2">
-                            <Button
-                                variant="ghost"
-                                className="cursor-pointer hover:bg-transparent hover:scale-125 transition-all origin-center self-end"
-                            >
-                                <X size={15} />
-                            </Button>
-                        </form>
+                        <X size={15} />
+                    </Button>
+                </form>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <ProductImages
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <ProductImages
+                        variants={variants}
+                        className="w-full max-w-lg mx-auto col-span-full lg:col-span-1"
+                    />
+                    <div className="flex flex-col gap-4">
+                        <ProductTitle product={product} />
+                        <PriceLabel
+                            price={selectedInventory.price}
+                            discount={discount?.percentage}
+                            isDiscountValid={isDiscountValid}
+                        />
+                        <ProductSizes
+                            inventories={variantInventories}
+                            selectedInventory={selectedInventory}
+                            onSelectInventory={setSelectedInventory}
+                        />
+                        {variants.length > 1 && (
+                            <ProductModels
                                 variants={variants}
-                                className="max-w-96"
+                                selectedVariant={selectedVariant}
+                                onSelectVariant={setSelectedVariant}
+                                onSelectInventory={setSelectedInventory}
                             />
-                            <div className="flex flex-col gap-3">
-                                <ProductTitle product={product} />
-                                <PriceLabel
-                                    price={inventory.price}
-                                    discount={discount?.percentage}
-                                    isDiscountValid={isDiscountValid}
-                                />
-                                <ProductSizes inventories={inventories} />
-                                {variants.length > 1 && (
-                                    <ProductModels
-                                        variants={variants}
-                                        selectedInventory={inventory}
-                                    />
-                                )}
-
-                                <SubmitBtn
-                                    isLoading={isLoading}
-                                    onClick={handleEditCartItem}
-                                    btnClass="primary-btn"
-                                >
-                                    Apply
-                                </SubmitBtn>
-                            </div>
-                        </div>
-                    </dialog>,
-                    modalWindow.current
-                )}
+                        )}
+                        <SubmitBtn
+                            isLoading={isLoading}
+                            onClick={handleEditCartItem}
+                            btnClass="primary-btn"
+                        >
+                            Apply
+                        </SubmitBtn>
+                    </div>
+                </div>
+            </dialog>
         </div>
     );
 }

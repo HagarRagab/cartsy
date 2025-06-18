@@ -1,9 +1,10 @@
-import { getProductShipping } from "@/src/app/_lib/data-services/data-product";
+"use client";
+
 import InfoContainer from "@/src/app/_components/productDetails/InfoContainer";
 import Info from "@/src/app/_components/productDetails/Info";
 
-async function AboutProduct({ material, condition, brand, productId }) {
-    const productShipping = await getProductShipping(productId);
+function AboutProduct({ product, productShipping }) {
+    const { material, condition, brand } = product;
     const {
         weight,
         dimensions: { length, width, height },

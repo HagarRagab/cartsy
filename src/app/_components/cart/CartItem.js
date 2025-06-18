@@ -12,19 +12,22 @@ import SaleLabel from "@/src/app/_components/shared/SaleLabel";
 import { getDiscount } from "@/src/app/_lib/data-services/data-deals";
 import {
     getProductById,
-    getInventory,
     getProductVariants,
     checkIfProductIsLiked,
+    getVariantInventories,
 } from "@/src/app/_lib/data-services/data-product";
 
-async function CartItem({ item, inventories, user = null }) {
-    const { id: cartItemId, inventoryId, quantity: initQuantity } = item;
-
-    const inventory = await getInventory(inventoryId);
+async function CartItem({ item, user = null }) {
+    const { id: cartItemId, inventory, quantity: initQuantity } = item;
 
     const product = await getProductById(inventory.variant.productId);
 
     const variants = await getProductVariants(product.id);
+
+    // All inventories associated to each variant
+    const productInventories = await Promise.all(
+        variants.map((variant) => getVariantInventories(variant.id))
+    );
 
     const likedProduct =
         user && (await checkIfProductIsLiked(user.id, product.id));
@@ -57,12 +60,12 @@ async function CartItem({ item, inventories, user = null }) {
 
                     <ProductOptions
                         variants={variants}
-                        inventories={inventories}
                         inventory={inventory}
+                        productInventories={productInventories}
                         discount={discount}
                         isDiscountValid={isDiscountValid}
-                        product={product}
                         cartItemId={cartItemId}
+                        product={product}
                     />
 
                     <PriceLabel

@@ -76,7 +76,7 @@ export async function addToWishlistAction(userId, productId) {
 }
 
 export async function removeFromWishlistAction(id) {
-    if (!id) throw new Error("No passed id");
+    if (!id) return;
 
     const { error } = await removeFromWishlist(id);
 
@@ -164,7 +164,7 @@ export async function addToCartAction(quantity, inventoryId) {
     }
 }
 
-export async function updateCartItemAction(cartItemId, newValues) {
+export async function updateCartItemAction(locale, cartItemId, newValues) {
     const supabase = await createClient();
 
     const {
@@ -213,6 +213,7 @@ export async function updateCartItemAction(cartItemId, newValues) {
                 },
             };
 
+        revalidatePath(`/${locale}/cart`);
         return {
             status: "failed",
             message: {
@@ -227,9 +228,8 @@ export async function updateCartItemAction(cartItemId, newValues) {
             Number(similarItem.quantity) + Number(cartItem.quantity)
         );
         await removeCartItemAction(cartItemId);
+        revalidatePath(`/${locale}/cart`);
     }
-
-    revalidatePath("/cart");
 }
 
 export async function createOrderAction(selectedCartItems, order) {

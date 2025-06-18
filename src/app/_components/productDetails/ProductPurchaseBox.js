@@ -8,17 +8,12 @@ import AddToCart from "@/src/app/_components/cart/AddToCart";
 import Counter from "@/src/app/_components/shared/Counter";
 import PriceLabel from "@/src/app/_components/shared/PriceLabel";
 
-function ProductPurchaseBox({
-    inventory,
-    discount,
-    isDiscountValid,
-    selectedInventoryId,
-}) {
+function ProductPurchaseBox({ inventory, discount, isDiscountValid }) {
     const [quantity, setQuantity] = useState(1);
 
     const t = useTranslations("productDetails");
 
-    useEffect(() => setQuantity(1), [selectedInventoryId]);
+    useEffect(() => setQuantity(1), [inventory.id]);
 
     return (
         <>
@@ -48,7 +43,7 @@ function ProductPurchaseBox({
             {
                 <div className="flex flex-col gap-1 border-b-2 border-text-600 py-4">
                     <AddToCart
-                        inventoryId={selectedInventoryId}
+                        inventoryId={inventory.id}
                         quantity={quantity}
                         className="outline-btn w-full max-w-96 mx-auto"
                     >

@@ -275,7 +275,7 @@ export async function getVariant(variantId) {
 /////////////////////////////////////////////////////
 // INVENTORY
 // GET Product inventories by variantId
-export async function getProductInventories(variantId) {
+export async function getVariantInventories(variantId) {
     const { data: inventories, error } = await supabase
         .from("Inventories")
         .select("*")
@@ -333,7 +333,7 @@ export async function updateStock(inventoryId, newStock) {
     const variants = await getProductVariants(inventory.variant.productId);
     const inventories = (
         await Promise.all(
-            variants.map((variant) => getProductInventories(variant.id))
+            variants.map((variant) => getVariantInventories(variant.id))
         )
     ).flat();
 

@@ -77,6 +77,8 @@
         "globalRatings": "Global ratings",
         "noReviews": "No reviews",
         "outOf": "out of",
+        "outOfStock": "Out of stock",
+        "outOfStockMsg": "This product is currently out of stock",
         "like": "Like",
         "liked": "Liked",
         "share": "Share product",

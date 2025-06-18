@@ -1,18 +1,8 @@
 "use client";
 
-import { useSearch } from "@/src/app/_hooks/useSearch";
 import InfoContainer from "@/src/app/_components/productDetails/InfoContainer";
 
-function ProductSizes({ inventories }) {
-    const { setParam, getParam } = useSearch();
-
-    const selectedInventoryId =
-        Number(getParam("inventory")) || inventories?.[0].id;
-
-    function handleSelectInventrory(inventoryId) {
-        setParam("inventory", inventoryId);
-    }
-
+function ProductSizes({ inventories, selectedInventory, onSelectInventory }) {
     return (
         <InfoContainer titleKey="chooseSize">
             <ul className="flex items-center gap-2">
@@ -24,7 +14,7 @@ function ProductSizes({ inventories }) {
                                 ? "border-dashed text-text-500"
                                 : "hover:border-text-200"
                         } ${
-                            selectedInventoryId === inventory.id
+                            selectedInventory.id === inventory.id
                                 ? "border-text-200"
                                 : "border-text-600"
                         }`}
@@ -32,7 +22,7 @@ function ProductSizes({ inventories }) {
                         <button
                             className={`w-full h-full cursor-pointer disabled:cursor-not-allowed`}
                             disabled={inventory.stock < 1}
-                            onClick={() => handleSelectInventrory(inventory.id)}
+                            onClick={() => onSelectInventory(inventory)}
                         >
                             {inventory.size}
                         </button>

@@ -1,40 +1,32 @@
+"use client";
+
 import { isPast } from "date-fns";
 import { MessageCircleWarning, Share2 } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
+import { useAuth } from "@/src/app/_context/AuthContext";
 import DiscountLabel from "@/src/app/_components/productDetails/DiscountLabel";
 import LikeProduct from "@/src/app/_components/productDetails/LikeProduct";
 import ProductPurchaseBox from "@/src/app/_components/productDetails/ProductPurchaseBox";
-import { getDiscount } from "@/src/app/_lib/data-services/data-deals";
-import {
-    checkIfProductIsLiked,
-    getInventory,
-    getProductById,
-} from "@/src/app/_lib/data-services/data-product";
-import { getAuthUser } from "@/src/app/_lib/data-services/data-user";
 import { Button } from "@/src/components/ui/button";
 import ShareProductLinks from "@/src/app/_components/productDetails/ShareProductLinks";
 
-async function SetOrder({ selectedInventoryId }) {
-    const inventory = await getInventory(selectedInventoryId);
-
-    const variant = inventory.variant;
-    const product = await getProductById(variant.productId);
-
+function SetOrder({
+    product,
+    selectedInventory,
+    selectedVariant,
+    discount,
+    likedProduct,
+}) {
     // Check if this product has valid discount
-    const discount = await getDiscount(product.id);
     const isDiscountValid = !discount
         ? false
         : !isPast(new Date(discount?.endDate));
 
-    // Get current user data
-    const authUser = await getAuthUser();
+    const { user } = useAuth();
 
-    const likedProduct =
-        authUser && (await checkIfProductIsLiked(authUser.id, product.id));
-
-    const t = await getTranslations("productDetails");
+    const t = useTranslations("productDetails");
 
     return (
         <div className="flex flex-col gap-4 max-w-full w-96 lg:w-fit">
@@ -47,8 +39,8 @@ async function SetOrder({ selectedInventoryId }) {
                 <div className="flex gap-2 items-center mt-4">
                     <div className="relative w-20 aspect-square">
                         <Image
-                            src={variant.images[0]}
-                            alt={variant.color}
+                            src={selectedVariant.images[0]}
+                            alt={selectedVariant.color}
                             className="object-contain border-2 border-text-600 rounded-sm px-2"
                             fill
                         />
@@ -58,7 +50,7 @@ async function SetOrder({ selectedInventoryId }) {
                             {t("selectedSize")}:
                         </span>
                         <span className="uppercase font-semibold text-base">
-                            {inventory.size}
+                            {selectedInventory.size}
                         </span>
                     </div>
                 </div>
@@ -66,17 +58,18 @@ async function SetOrder({ selectedInventoryId }) {
                 {!product.hasStock ? (
                     <div className="mt-4 text-center border-2 border-bg-300 rounded-md p-2">
                         <MessageCircleWarning size={20} className="mx-auto" />
-                        <h3 className="font-semibold my-2">Out of stock</h3>
-                        <p>This product is currently out of stock</p>
+                        <h3 className="font-semibold my-2">
+                            {t("outOfStock")}
+                        </h3>
+                        <p>{t("outOfStockMsg")}</p>
                     </div>
                 ) : (
                     <>
                         <ProductPurchaseBox
-                            inventory={inventory}
+                            product={product}
+                            inventory={selectedInventory}
                             discount={discount}
                             isDiscountValid={isDiscountValid}
-                            selectedInventoryId={selectedInventoryId}
-                            product={product}
                         />
 
                         <div className="mt-4 flex gap-2">
@@ -86,10 +79,10 @@ async function SetOrder({ selectedInventoryId }) {
                                     <span>{t("share")}</span>
                                 </Button>
                             </ShareProductLinks>
-                            {authUser && (
+                            {user && (
                                 <LikeProduct
                                     productId={product.id}
-                                    userId={authUser.id}
+                                    userId={user.id}
                                     likedProduct={likedProduct}
                                     btnStyle="accent-btn"
                                 >

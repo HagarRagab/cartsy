@@ -28,8 +28,9 @@ function LikeProduct({
                 optimisticLike();
                 if (!optimisticIsLiked)
                     return await addToWishlistAction(userId, productId);
-                else return await removeFromWishlistAction(likedProduct[0].id);
+                else return await removeFromWishlistAction(likedProduct[0]?.id);
             } catch (error) {
+                console.log(error);
                 console.error("Cannot update like status");
             }
         });

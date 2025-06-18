@@ -1,3 +1,5 @@
+"use client";
+
 import InfoContainer from "@/src/app/_components/productDetails/InfoContainer";
 
 function ProductDescription({ description }) {

@@ -1,13 +1,15 @@
+"use client";
+
 import { Star } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
 import { calcTotalRating, handleCounting } from "@/src/app/_utils/helper";
 
-async function ProductHeading({ title, unitsSold, ratings }) {
+function ProductHeading({ title, unitsSold, ratings }) {
     let totalRating = 0;
     if (ratings.length) totalRating = calcTotalRating(ratings);
 
-    const t = await getTranslations("productDetails");
+    const t = useTranslations("productDetails");
 
     return (
         <div>

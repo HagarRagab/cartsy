@@ -1,11 +1,11 @@
 import { Button } from "@/src/components/ui/button";
 import Image from "next/image";
 
-function ProductModel({ variant, onSelectModel, selectedVariantId }) {
+function ProductModel({ variant, onSelectVariant, selectedVariant }) {
     return (
         <li className="w-20 relative aspect-square overflow-hidden">
             <Button
-                onClick={() => onSelectModel(variant.id)}
+                onClick={() => onSelectVariant(variant)}
                 className="cursor-pointer overflow-hidden"
             >
                 <Image
@@ -13,7 +13,7 @@ function ProductModel({ variant, onSelectModel, selectedVariantId }) {
                     src={variant.images[0]}
                     alt={variant.color}
                     className={`object-contain ${
-                        selectedVariantId === variant.id
+                        selectedVariant.id === variant.id
                             ? "border-text-200"
                             : "border-text-600"
                     } border-2 rounded-sm bg-white hover:border-text-200 transition-colors`}

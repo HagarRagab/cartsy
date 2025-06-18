@@ -63,7 +63,6 @@ export default async function RootLayout({ children, params }) {
                             <main className="bg-bg-200 min-h-[calc(100vh-136px)] w-full">
                                 {children}
                             </main>
-                            <div id="modal"></div>
                             <div id="checkout-modal"></div>
                             <Toaster />
                             <Footer />
