@@ -6,6 +6,7 @@ import ShopByCategory from "@/src/app/_components/home/ShopByCategory";
 
 export default async function Page({ params }) {
     const { locale } = await params;
+
     return (
         <>
             <Advertisements locale={locale} />

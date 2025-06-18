@@ -5,11 +5,11 @@ import { getOrder } from "@/src/app/_lib/data-services/data-orders";
 import TrackingSpot from "@/src/app/_components/account/orders/TrackingSpot";
 
 async function Page({ params }) {
-    const { orderId, trackingId } = await params;
+    const { orderId } = await params;
 
     const order = await getOrder(orderId);
 
-    const { status, created_at, deliveryEstimate } = order;
+    const { status, created_at, deliveryEstimate, trackingId } = order;
 
     return (
         <div className="overflow-hidden">
@@ -18,7 +18,15 @@ async function Page({ params }) {
             <div className="flex items-center gap-4 mb-4">
                 <h2 className="flex items-center gap-2 text-lg md:text-xl">
                     <span className="font-semibold">Tracking ID:</span>
-                    <span>#{trackingId}</span>
+                    <span>
+                        {trackingId ? (
+                            <span>#{trackingId}</span>
+                        ) : (
+                            <span className="text-base">
+                                Has not been shipped yet.
+                            </span>
+                        )}
+                    </span>
                 </h2>
 
                 <div className="w-fit bg-primary-100 text-accent-200 px-6 py-1 rounded-full capitalize text-sm">
@@ -26,7 +34,7 @@ async function Page({ params }) {
                 </div>
             </div>
 
-            <div className="bg-bg-100 p-4 md:p-6 rounded-md">
+            <div className="bg-bg-100 px-4 pt-4 pb-10 rounded-md">
                 <div className="flex items-center justify-between gap-2">
                     <p className="text-text-400">
                         {format(created_at, "dd, MMMM yyyy hh:mm:ss")}

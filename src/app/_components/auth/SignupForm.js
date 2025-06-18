@@ -56,16 +56,16 @@ function SignupForm() {
     }
 
     return (
-        <div>
+        <>
             {error && (
                 <ErrorMsg className="mb-8 text-sm text-wrap">{error}</ErrorMsg>
             )}
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8 min-w-96 max-w-full"
+                    className="space-y-4 min-w-full"
                 >
-                    <div className="grid grid-cols-2 items-center gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-2">
                         <FormField
                             control={form.control}
                             name="firstName"
@@ -174,7 +174,7 @@ function SignupForm() {
                     </SubmitBtn>
                 </form>
             </Form>
-        </div>
+        </>
     );
 }
 

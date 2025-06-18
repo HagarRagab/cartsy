@@ -1,3 +1,6 @@
+"use client";
+
+import { useOptimistic, useTransition } from "react";
 import { Heart } from "lucide-react";
 
 import {
@@ -5,30 +8,44 @@ import {
     removeFromWishlistAction,
 } from "@/src/app/_lib/actions";
 import { Button } from "@/src/components/ui/button";
-import { checkIfProductIsLiked } from "@/src/app/_lib/data-services/data-product";
 
-async function LikeProduct({ productId, userId, children, btnStyle = "" }) {
-    const likedProduct = await checkIfProductIsLiked(userId, productId);
+function LikeProduct({
+    productId,
+    userId,
+    likedProduct,
+    children,
+    btnStyle = "",
+}) {
+    const [, startTransition] = useTransition();
+    const [optimisticIsLiked, optimisticLike] = useOptimistic(
+        likedProduct.length > 0,
+        (currentLikeStatus) => !currentLikeStatus
+    );
 
-    const isLikedProduct = likedProduct.length > 0;
-
-    const toggleWishlist = !isLikedProduct
-        ? addToWishlistAction.bind(this, userId, productId)
-        : removeFromWishlistAction.bind(this, likedProduct[0].id);
+    async function toggleWishlist() {
+        startTransition(async () => {
+            try {
+                optimisticLike();
+                if (!optimisticIsLiked)
+                    return await addToWishlistAction(userId, productId);
+                else return await removeFromWishlistAction(likedProduct[0].id);
+            } catch (error) {
+                console.error("Cannot update like status");
+            }
+        });
+    }
 
     return (
-        <form action={toggleWishlist}>
-            <Button className={btnStyle}>
-                <Heart
-                    className={`${
-                        isLikedProduct
-                            ? "text-red-custom-100 fill-red-custom-100"
-                            : ""
-                    }`}
-                />
-                {children}
-            </Button>
-        </form>
+        <Button className={btnStyle} onClick={toggleWishlist}>
+            <Heart
+                className={`${
+                    optimisticIsLiked
+                        ? "text-red-custom-100 fill-red-custom-100"
+                        : ""
+                }`}
+            />
+            {children}
+        </Button>
     );
 }
 

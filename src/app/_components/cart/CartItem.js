@@ -8,12 +8,13 @@ import CartItemImg from "@/src/app/_components/cart/CartItemImg";
 import PriceLabel from "@/src/app/_components/shared/PriceLabel";
 import ProductTitle from "@/src/app/_components/shared/ProductTitle";
 import SaleLabel from "@/src/app/_components/shared/SaleLabel";
-import LikeProduct from "@/src/app/_components/productDetails/LikeProduct";
+
 import { getDiscount } from "@/src/app/_lib/data-services/data-deals";
 import {
     getProductById,
     getInventory,
     getProductVariants,
+    checkIfProductIsLiked,
 } from "@/src/app/_lib/data-services/data-product";
 
 async function CartItem({ item, inventories, user = null }) {
@@ -24,6 +25,9 @@ async function CartItem({ item, inventories, user = null }) {
     const product = await getProductById(inventory.variant.productId);
 
     const variants = await getProductVariants(product.id);
+
+    const likedProduct =
+        user && (await checkIfProductIsLiked(user.id, product.id));
 
     // Check if this product has valid discount
     const discount = await getDiscount(product.id);
@@ -73,15 +77,9 @@ async function CartItem({ item, inventories, user = null }) {
                 inventory={inventory}
                 cartItemId={cartItemId}
                 product={product}
-            >
-                {user && (
-                    <LikeProduct
-                        productId={product.id}
-                        userId={user.id}
-                        btnStyle="ghost-btn"
-                    />
-                )}
-            </CartActions>
+                userId={user.id}
+                likedProduct={likedProduct}
+            />
         </div>
     );
 }

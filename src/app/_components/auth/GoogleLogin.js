@@ -24,7 +24,7 @@ function Submit() {
     return (
         <Button
             variant="outline"
-            className="min-w-96 bg-transparent border-primary-200 flex items-center gap-2 py-0 cursor-pointer"
+            className="w-full min-w-80 bg-transparent border-primary-200 flex items-center gap-2 py-0 cursor-pointer"
             disabled={pending}
         >
             {pending ? (

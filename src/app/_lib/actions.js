@@ -64,6 +64,8 @@ export async function updateProfileAction(newData, path) {
 }
 
 export async function addToWishlistAction(userId, productId) {
+    if (!userId || !productId) throw new Error("No userId or productId");
+
     const { error } = await addToWishlist(userId, productId);
 
     if (error) redirect("/error");
@@ -74,6 +76,8 @@ export async function addToWishlistAction(userId, productId) {
 }
 
 export async function removeFromWishlistAction(id) {
+    if (!id) throw new Error("No passed id");
+
     const { error } = await removeFromWishlist(id);
 
     if (error) redirect("/error");

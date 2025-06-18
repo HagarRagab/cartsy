@@ -1,19 +1,20 @@
 import { isPast } from "date-fns";
-import { Share2 } from "lucide-react";
-import Image from "next/image";
+import { MessageCircleWarning, Share2 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
 import DiscountLabel from "@/src/app/_components/productDetails/DiscountLabel";
 import LikeProduct from "@/src/app/_components/productDetails/LikeProduct";
 import ProductPurchaseBox from "@/src/app/_components/productDetails/ProductPurchaseBox";
 import { getDiscount } from "@/src/app/_lib/data-services/data-deals";
-import { getAuthUser } from "@/src/app/_lib/data-services/data-user";
 import {
-    getProductById,
+    checkIfProductIsLiked,
     getInventory,
+    getProductById,
 } from "@/src/app/_lib/data-services/data-product";
+import { getAuthUser } from "@/src/app/_lib/data-services/data-user";
 import { Button } from "@/src/components/ui/button";
-import ShareProductLinks from "./ShareProductLinks";
+import ShareProductLinks from "@/src/app/_components/productDetails/ShareProductLinks";
 
 async function SetOrder({ selectedInventoryId }) {
     const inventory = await getInventory(selectedInventoryId);
@@ -29,6 +30,9 @@ async function SetOrder({ selectedInventoryId }) {
 
     // Get current user data
     const authUser = await getAuthUser();
+
+    const likedProduct =
+        authUser && (await checkIfProductIsLiked(authUser.id, product.id));
 
     const t = await getTranslations("productDetails");
 
@@ -59,31 +63,46 @@ async function SetOrder({ selectedInventoryId }) {
                     </div>
                 </div>
 
-                <ProductPurchaseBox
-                    inventory={inventory}
-                    discount={discount}
-                    isDiscountValid={isDiscountValid}
-                    selectedInventoryId={selectedInventoryId}
-                    product={product}
-                />
+                {!product.hasStock ? (
+                    <div className="mt-4 text-center border-2 border-bg-300 rounded-md p-2">
+                        <MessageCircleWarning size={20} className="mx-auto" />
+                        <h3 className="font-semibold my-2">Out of stock</h3>
+                        <p>This product is currently out of stock</p>
+                    </div>
+                ) : (
+                    <>
+                        <ProductPurchaseBox
+                            inventory={inventory}
+                            discount={discount}
+                            isDiscountValid={isDiscountValid}
+                            selectedInventoryId={selectedInventoryId}
+                            product={product}
+                        />
 
-                <div className="mt-4 flex gap-2">
-                    <ShareProductLinks product={product}>
-                        <Button className="accent-btn">
-                            <Share2 />
-                            <span>{t("share")}</span>
-                        </Button>
-                    </ShareProductLinks>
-                    {authUser && (
-                        <LikeProduct
-                            productId={product.id}
-                            userId={authUser.id}
-                            btnStyle="accent-btn"
-                        >
-                            <span>{t("like")}</span>
-                        </LikeProduct>
-                    )}
-                </div>
+                        <div className="mt-4 flex gap-2">
+                            <ShareProductLinks product={product}>
+                                <Button className="accent-btn">
+                                    <Share2 />
+                                    <span>{t("share")}</span>
+                                </Button>
+                            </ShareProductLinks>
+                            {authUser && (
+                                <LikeProduct
+                                    productId={product.id}
+                                    userId={authUser.id}
+                                    likedProduct={likedProduct}
+                                    btnStyle="accent-btn"
+                                >
+                                    <span>
+                                        {likedProduct.length > 0
+                                            ? t("liked")
+                                            : t("like")}
+                                    </span>
+                                </LikeProduct>
+                            )}
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );

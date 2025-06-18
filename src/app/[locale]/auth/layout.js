@@ -43,7 +43,7 @@ function Layout({ children }) {
 
     return (
         <div className="w-full min-h-screen flex items-center justify-center bg-image">
-            <div className="p-10 flex flex-col justify-center items-center bg-bg-100 shadow-2xl rounded-2xl m-10">
+            <div className="max-w-full min-w-96 p-4 md:p-10 flex flex-col justify-center items-center bg-bg-100 shadow-2xl rounded-2xl m-2">
                 <div className="text-center mb-8">
                     {formImg && (
                         <div className="relative w-25 aspect-square mx-auto mb-4">

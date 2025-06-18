@@ -49,7 +49,7 @@ function LoginForm() {
             {loginError && <ErrorMsg className="mb-8">{loginError}</ErrorMsg>}
             <Form {...form}>
                 <form
-                    className="space-y-4 min-w-96"
+                    className="space-y-4 min-w-full"
                     onSubmit={form.handleSubmit(onSubmit)}
                 >
                     <FormField
@@ -95,7 +95,7 @@ function LoginForm() {
                 </form>
             </Form>
             <div
-                className={`relative my-8 before:min-w-96 before:h-[0.5px] before:bg-primary-200 before:absolute before:top-1/2 before:left-1/2 before:-translate-1/2 after:px-4 after:content-['${t(
+                className={`relative my-8 before:min-w-80 before:h-[0.5px] before:bg-primary-200 before:absolute before:top-1/2 before:left-1/2 before:-translate-1/2 after:px-4 after:content-['${t(
                     "or"
                 )}'] after:bg-bg-100 after:absolute after:top-1/2 after:left-1/2 after:-translate-1/2 after:text-sm`}
             />

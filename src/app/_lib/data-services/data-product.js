@@ -36,6 +36,7 @@ export async function getBestSellings(limit = "*") {
             `
         )
         .gt("unitsSold", 10)
+        .eq("hasStock", true)
         .order("unitsSold", { ascending: false })
         .limit(limit);
 
@@ -61,6 +62,8 @@ export async function getProducts(id, getBy) {
 
     if (getBy) query = query.eq(getBy, id);
 
+    query = query.eq("hasStock", true);
+
     const { data: products, error } = await query;
 
     if (error) {
@@ -81,6 +84,7 @@ export async function getSearchProducts(searchKeyWords, categoryId) {
                 category:Categories (*)
             `
         )
+        .eq("hasStock", true)
         .contains("tags", searchKeyWords);
 
     if (Number(categoryId) !== 0) query = query.eq("categoryId", categoryId);
@@ -93,6 +97,24 @@ export async function getSearchProducts(searchKeyWords, categoryId) {
     }
 
     return products;
+}
+
+// UPDATE product
+export async function updateProduct(productId, hasStock) {
+    const { data, error } = await supabase
+        .from("Products")
+        .update({ hasStock })
+        .eq("id", productId)
+        .select();
+
+    if (error) {
+        console.log(error);
+        throw new Error(
+            "Something went wrong. Cannot update product has stock column."
+        );
+    }
+
+    return data;
 }
 
 // GET liked products
@@ -305,6 +327,21 @@ export async function updateStock(inventoryId, newStock) {
         console.log(error);
         throw new Error("Something went wrong. Cannot update inventory stock.");
     }
+
+    // Getting all inventories associated to this product
+    const inventory = await getInventory(inventoryId);
+    const variants = await getProductVariants(inventory.variant.productId);
+    const inventories = (
+        await Promise.all(
+            variants.map((variant) => getProductInventories(variant.id))
+        )
+    ).flat();
+
+    // Check if at least one inventory still has stock
+    const hasStock = inventories.some((inventory) => inventory.stock > 0);
+
+    // Update product hasStock
+    await updateProduct(inventory.variant.productId, hasStock);
 
     return data;
 }

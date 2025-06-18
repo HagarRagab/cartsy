@@ -45,15 +45,18 @@ function ProductPurchaseBox({
                 />
             </div>
 
-            <div className="flex flex-col gap-1 border-b-2 border-text-600 py-4">
-                <AddToCart
-                    inventoryId={selectedInventoryId}
-                    quantity={quantity}
-                    className="outline-btn w-full max-w-96 mx-auto"
-                >
-                    <ShoppingCart size={20} /> <span>{t("addCartBtn")}</span>
-                </AddToCart>
-            </div>
+            {
+                <div className="flex flex-col gap-1 border-b-2 border-text-600 py-4">
+                    <AddToCart
+                        inventoryId={selectedInventoryId}
+                        quantity={quantity}
+                        className="outline-btn w-full max-w-96 mx-auto"
+                    >
+                        <ShoppingCart size={20} />{" "}
+                        <span>{t("addCartBtn")}</span>
+                    </AddToCart>
+                </div>
+            }
         </>
     );
 }

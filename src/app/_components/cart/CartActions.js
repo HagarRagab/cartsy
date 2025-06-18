@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic, useTransition } from "react";
+import { useOptimistic, useState, useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Minus, Trash } from "lucide-react";
@@ -13,10 +13,20 @@ import {
     updateCartItemQuantity,
 } from "@/src/app/_lib/actions";
 import { Button } from "@/src/components/ui/button";
+import LikeProduct from "@/src/app/_components/productDetails/LikeProduct";
+import SpinnerIcon from "../shared/SpinnerIcon";
 
-function CartActions({ inventory, initQuantity, cartItemId, children }) {
+function CartActions({
+    inventory,
+    initQuantity,
+    cartItemId,
+    product,
+    userId,
+    likedProduct,
+}) {
     const locale = useLocale();
     const t = useTranslations("cart");
+    const [isLoading, setIsLoading] = useState(false);
 
     const [, startTransition] = useTransition();
     const [optimisticQuantity, optimisticUpdateQuantity] = useOptimistic(
@@ -40,22 +50,37 @@ function CartActions({ inventory, initQuantity, cartItemId, children }) {
     }
 
     async function handleRemovingCartItem() {
+        setIsLoading(true);
         const result = await removeCartItemAction(cartItemId);
+        setIsLoading(false);
         toast(result.message[locale]);
     }
 
     return (
         <div className="md:h-full flex md:flex-col items-end justify-end gap-4 md:justify-between row-start-2 md:row-start-1 md:col-start-3">
             <div className="flex items-center gap-2">
-                {children}
+                <LikeProduct
+                    productId={product.id}
+                    userId={userId}
+                    likedProduct={likedProduct}
+                    btnStyle="ghost-btn"
+                />
+
                 <ConfirmAction
                     onConfirm={handleRemovingCartItem}
                     btnStyle="ghost-btn"
                     message={t("deleteMsg")}
                 >
-                    <Button variant="ghost" className="hover:bg-transparent">
-                        <Trash size={17} />
-                    </Button>
+                    {isLoading ? (
+                        <SpinnerIcon />
+                    ) : (
+                        <Button
+                            variant="ghost"
+                            className="hover:bg-transparent"
+                        >
+                            <Trash size={17} />
+                        </Button>
+                    )}
                 </ConfirmAction>
             </div>
             <Counter
