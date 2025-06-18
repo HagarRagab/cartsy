@@ -7,7 +7,7 @@ async function CustomersReviews({ ratings }) {
     const t = await getTranslations("productDetails");
 
     return (
-        <div className="my-8">
+        <div className="my-8 pb-8 border-b-2 border-text-500">
             <h2 className="w-fit font-semibold text-2xl">
                 {t("reviewsTitle")}
             </h2>

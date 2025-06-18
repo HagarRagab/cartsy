@@ -16,6 +16,7 @@ import {
 import BreadCrumb from "@/src/app/_components/navbar/BreadCrumb";
 import { getDiscount } from "@/src/app/_lib/data-services/data-deals";
 import { getAuthUser } from "@/src/app/_lib/data-services/data-user";
+import SimilarProducts from "@/src/app/_components/productDetails/SimilarProducts";
 
 export async function generateMetadata({ params }) {
     const { locale, productId } = await params;
@@ -99,6 +100,7 @@ async function Page({ params }) {
                 likedProduct={likedProduct}
             />
             {!!ratings.length && <CustomersReviews ratings={ratings} />}
+            <SimilarProducts product={product} />
         </PageContainer>
     );
 }

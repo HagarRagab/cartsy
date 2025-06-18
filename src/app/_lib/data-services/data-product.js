@@ -75,7 +75,15 @@ export async function getProducts(id, getBy) {
 }
 
 // GET products by keywords
-export async function getSearchProducts(searchKeyWords, categoryId) {
+export async function getSearchProducts({
+    searchKeyWords,
+    limit = "*",
+    productId = "",
+    categoryId = 0,
+}) {
+    if (!Array.isArray(searchKeyWords))
+        throw new Error("searchKeyWords must be an array.");
+
     let query = supabase
         .from("Products")
         .select(
@@ -85,9 +93,12 @@ export async function getSearchProducts(searchKeyWords, categoryId) {
             `
         )
         .eq("hasStock", true)
-        .contains("tags", searchKeyWords);
+        .overlaps("tags", searchKeyWords)
+        .limit(limit);
 
     if (Number(categoryId) !== 0) query = query.eq("categoryId", categoryId);
+
+    if (productId) query = query.neq("id", productId);
 
     const { data: products, error } = await query;
 

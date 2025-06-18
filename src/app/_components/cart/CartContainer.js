@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 
 import EmptyCart from "@/src/app/_components/cart/EmptyCart";
@@ -10,8 +11,10 @@ import PageContainer from "@/src/app/_components/shared/PageContainer";
 import { selectionItemAction } from "@/src/app/_lib/actions";
 import { paymentMethodsList } from "@/src/app/_utils/utils";
 import { Checkbox } from "@/src/components/ui/checkbox";
+import SpinnerIcon from "@/src/app/_components/shared/SpinnerIcon";
 
 function CartContainer({ cart, promoCode, children }) {
+    const [isLoading, setIsLoading] = useState(false);
     const t = useTranslations("cart");
 
     if (!cart.length) return <EmptyCart />;
@@ -20,6 +23,7 @@ function CartContainer({ cart, promoCode, children }) {
     const areAllItemsSelected = selectedCartItems.length === cart.length;
 
     async function handleSelectAll() {
+        setIsLoading(true);
         await Promise.all(
             cart.map((item) =>
                 selectionItemAction(item.id, {
@@ -27,6 +31,7 @@ function CartContainer({ cart, promoCode, children }) {
                 })
             )
         );
+        setIsLoading(false);
     }
 
     return (
@@ -37,18 +42,24 @@ function CartContainer({ cart, promoCode, children }) {
                         {t("title")} <span>({selectedCartItems?.length})</span>
                     </PageHeader>
                     <div className="flex items-center space-x-2 mb-6">
-                        <label
-                            htmlFor="select"
-                            className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                            {areAllItemsSelected
-                                ? t("deselectAll")
-                                : t("selectAll")}
-                        </label>
-                        <Checkbox
-                            checked={areAllItemsSelected}
-                            onCheckedChange={handleSelectAll}
-                        />
+                        {isLoading ? (
+                            <SpinnerIcon />
+                        ) : (
+                            <>
+                                <label
+                                    htmlFor="select"
+                                    className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                    {areAllItemsSelected
+                                        ? t("deselectAll")
+                                        : t("selectAll")}
+                                </label>
+                                <Checkbox
+                                    checked={areAllItemsSelected}
+                                    onCheckedChange={handleSelectAll}
+                                />
+                            </>
+                        )}
                     </div>
                 </header>
 

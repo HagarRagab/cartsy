@@ -15,7 +15,10 @@ async function Page({ searchParams }) {
 
     const searchKeyWords = search.toLowerCase().trim().split(" ");
 
-    const products = await getSearchProducts(searchKeyWords, category);
+    const products = await getSearchProducts({
+        searchKeyWords,
+        categoryId: category,
+    });
 
     const productsIdsList = products.map((p) => p.id);
 
