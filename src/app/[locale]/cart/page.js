@@ -5,13 +5,22 @@ import CheckCartItem from "@/src/app/_components/cart/CheckCartItem";
 import CartItem from "@/src/app/_components/cart/CartItem";
 import { getPromoCode } from "@/src/app/_lib/data-services/data-deals";
 import { getUserCart } from "@/src/app/_lib/data-services/data-cart";
+import { getInventory } from "../../_lib/data-services/data-product";
 
 async function Page() {
     const authUser = await getAuthUser();
     const user = authUser && (await getUser("id", authUser.id))[0];
 
     // cart items for both guest cart and user cart
-    const cartItems = await getCart();
+    const cart = await getCart();
+    const cartItems = !user
+        ? await Promise.all(
+              cart.map(async (item) => ({
+                  ...item,
+                  inventory: await getInventory(item.inventoryId),
+              }))
+          )
+        : cart;
     const userCart = await getUserCart(user?.id);
 
     // promo code

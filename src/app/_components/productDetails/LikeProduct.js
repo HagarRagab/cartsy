@@ -18,7 +18,7 @@ function LikeProduct({
 }) {
     const [, startTransition] = useTransition();
     const [optimisticIsLiked, optimisticLike] = useOptimistic(
-        likedProduct.length > 0,
+        likedProduct?.length > 0,
         (currentLikeStatus) => !currentLikeStatus
     );
 

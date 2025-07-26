@@ -13,7 +13,7 @@ import { useCart } from "@/src/app/_context/CartContext";
 import SpinnerIcon from "@/src/app/_components/shared/SpinnerIcon";
 import { CalcOrderSummary } from "@/src/app/_utils/helper";
 
-function CartSummary({ selectedCartItems, promoCode }) {
+function CartSummary({ selectedCartItems, promoCode, optimisticSelectAll }) {
     const t = useTranslations("cart");
 
     const { user, currencyRate } = useAuth();
@@ -49,7 +49,9 @@ function CartSummary({ selectedCartItems, promoCode }) {
         <div className="bg-bg-100 p-8 rounded-md row-span-1">
             <h2 className="font-semibold text-xl">{t("summary")}</h2>
 
-            {!selectedCartItems || !selectedCartItems?.length ? (
+            {!selectedCartItems ||
+            !selectedCartItems?.length ||
+            !optimisticSelectAll ? (
                 <p className="m-2 text-center">{t("startSelecting")}</p>
             ) : !itemsPrice || !chargeAmount ? (
                 <SpinnerIcon className="mx-auto" />

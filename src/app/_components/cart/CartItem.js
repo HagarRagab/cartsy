@@ -15,10 +15,13 @@ import {
     getProductVariants,
     checkIfProductIsLiked,
     getVariantInventories,
+    getInventory,
 } from "@/src/app/_lib/data-services/data-product";
 
 async function CartItem({ item, user = null }) {
-    const { id: cartItemId, inventory, quantity: initQuantity } = item;
+    const { id: cartItemId, inventoryId, quantity: initQuantity } = item;
+
+    const inventory = !user ? await getInventory(inventoryId) : item.inventory;
 
     const product = await getProductById(inventory.variant.productId);
 
@@ -80,7 +83,7 @@ async function CartItem({ item, user = null }) {
                 inventory={inventory}
                 cartItemId={cartItemId}
                 product={product}
-                userId={user.id}
+                userId={user?.id}
                 likedProduct={likedProduct}
             />
         </div>

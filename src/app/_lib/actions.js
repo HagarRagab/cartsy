@@ -131,7 +131,6 @@ export async function addToCartAction(quantity, inventoryId) {
                   {
                       id: crypto.randomUUID(),
                       inventoryId,
-                      inventory,
                       quantity,
                       isSelected: true,
                   },
@@ -290,7 +289,7 @@ export async function selectionItemAction(cartItemId, newValues) {
                   item.id === cartItemId
                       ? {
                             ...item,
-                            isSelected: newValues.isSelected,
+                            ...newValues,
                         }
                       : item
               )
@@ -304,8 +303,6 @@ export async function selectionItemAction(cartItemId, newValues) {
                 ar: "فشل تحديث عنصر عربة التسوق",
             },
         };
-
-    revalidatePath("/cart");
 }
 
 export async function updateCartItemQuantity(

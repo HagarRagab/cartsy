@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useOptimistic, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 
 import EmptyCart from "@/src/app/_components/cart/EmptyCart";
@@ -16,22 +16,33 @@ import SpinnerIcon from "@/src/app/_components/shared/SpinnerIcon";
 function CartContainer({ cart, promoCode, children }) {
     const [isLoading, setIsLoading] = useState(false);
     const t = useTranslations("cart");
+    const selectedCartItems = cart?.filter((item) => item.isSelected === true);
+
+    const [, startTransition] = useTransition();
+    const [optimisticSelectAll, optimisticUpdateAllSelection] = useOptimistic(
+        selectedCartItems.length === cart.length,
+        (currentSelection) => !currentSelection
+    );
 
     if (!cart.length) return <EmptyCart />;
 
-    const selectedCartItems = cart.filter((item) => item.isSelected === true);
-    const areAllItemsSelected = selectedCartItems.length === cart.length;
-
     async function handleSelectAll() {
-        setIsLoading(true);
-        await Promise.all(
-            cart.map((item) =>
-                selectionItemAction(item.id, {
-                    isSelected: !areAllItemsSelected,
-                })
-            )
-        );
-        setIsLoading(false);
+        startTransition(async () => {
+            try {
+                optimisticUpdateAllSelection();
+                setIsLoading(true);
+                await Promise.all(
+                    cart.map((item) =>
+                        selectionItemAction(item.id, {
+                            isSelected: !optimisticSelectAll,
+                        })
+                    )
+                );
+                setIsLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
+        });
     }
 
     return (
@@ -42,34 +53,34 @@ function CartContainer({ cart, promoCode, children }) {
                         {t("title")} <span>({selectedCartItems?.length})</span>
                     </PageHeader>
                     <div className="flex items-center space-x-2 mb-6">
-                        {isLoading ? (
-                            <SpinnerIcon />
-                        ) : (
-                            <>
-                                <label
-                                    htmlFor="select"
-                                    className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                >
-                                    {areAllItemsSelected
-                                        ? t("deselectAll")
-                                        : t("selectAll")}
-                                </label>
-                                <Checkbox
-                                    checked={areAllItemsSelected}
-                                    onCheckedChange={handleSelectAll}
-                                />
-                            </>
-                        )}
+                        <label
+                            htmlFor="select"
+                            className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                            {optimisticSelectAll
+                                ? t("deselectAll")
+                                : t("selectAll")}
+                        </label>
+                        <Checkbox
+                            id="select"
+                            checked={optimisticSelectAll}
+                            onCheckedChange={handleSelectAll}
+                        />
                     </div>
                 </header>
 
                 <div className="mt-8">{children}</div>
             </div>
 
-            <CartSummary
-                selectedCartItems={selectedCartItems}
-                promoCode={promoCode}
-            />
+            {isLoading ? (
+                <SpinnerIcon />
+            ) : (
+                <CartSummary
+                    selectedCartItems={selectedCartItems}
+                    promoCode={promoCode}
+                    optimisticSelectAll={optimisticSelectAll}
+                />
+            )}
 
             <div className="bg-bg-100 p-8 rounded-md col-start-2 h-fit">
                 <LinksGroup

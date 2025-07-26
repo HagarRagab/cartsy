@@ -59,12 +59,14 @@ function CartActions({
     return (
         <div className="md:h-full flex md:flex-col items-end justify-end gap-4 md:justify-between row-start-2 md:row-start-1 md:col-start-3">
             <div className="flex items-center gap-2">
-                <LikeProduct
-                    productId={product.id}
-                    userId={userId}
-                    likedProduct={likedProduct}
-                    btnStyle="ghost-btn"
-                />
+                {userId && (
+                    <LikeProduct
+                        productId={product.id}
+                        userId={userId}
+                        likedProduct={likedProduct}
+                        btnStyle="ghost-btn"
+                    />
+                )}
 
                 <ConfirmAction
                     onConfirm={handleRemovingCartItem}

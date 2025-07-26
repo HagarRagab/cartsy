@@ -57,7 +57,6 @@ async function Page({ searchParams }) {
 
     if (intent.status === "succeeded") {
         const result = await createOrderAction(selectedCartItems, order);
-        console.log(result.message);
     }
 
     return (
