@@ -39,7 +39,7 @@ async function Footer() {
                 />
             </div>
             <p className="text-center" dir="ltr">
-                &copy;2023&mdash;2025, Hagar Ragab | All Rights Reserved
+                &copy;{new Date().getFullYear()}, Hagar Ragab | All Rights Reserved
             </p>
         </footer>
     );
