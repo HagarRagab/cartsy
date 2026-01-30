@@ -14,7 +14,7 @@ function CartIcon({ numCartItems, locale }) {
             ...prevOrderSummary,
             totalCartItems: numCartItems,
         }));
-    }, []);
+    }, [numCartItems]);
 
     return (
         <Link href={`/${locale}/cart`} className="relative cursor-pointer">
