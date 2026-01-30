@@ -21,7 +21,7 @@ function OrdersFilterSelect() {
     }
 
     return (
-        <Select defaultValue="thisYear" onValueChange={selectOrderPeriod}>
+        <Select defaultValue="all" onValueChange={selectOrderPeriod}>
             <SelectTrigger className="w-[180px] bg-bg-100">
                 <SelectValue placeholder="Select period" />
             </SelectTrigger>

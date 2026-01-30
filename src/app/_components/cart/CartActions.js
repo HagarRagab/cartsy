@@ -15,6 +15,7 @@ import {
 import { Button } from "@/src/components/ui/button";
 import LikeProduct from "@/src/app/_components/productDetails/LikeProduct";
 import SpinnerIcon from "../shared/SpinnerIcon";
+import { useCart } from "../../_context/CartContext";
 
 function CartActions({
     inventory,
@@ -26,34 +27,45 @@ function CartActions({
 }) {
     const locale = useLocale();
     const t = useTranslations("cart");
-    const [isLoading, setIsLoading] = useState(false);
+    const { setIsLoading } = useCart();
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const [, startTransition] = useTransition();
     const [optimisticQuantity, optimisticUpdateQuantity] = useOptimistic(
         initQuantity,
-        (_, newQuantity) => newQuantity
+        (_, newQuantity) => newQuantity,
     );
 
     async function updateCartQuantity(quantity) {
+        setIsLoading(true);
         startTransition(async () => {
             try {
                 optimisticUpdateQuantity(quantity);
                 await updateCartItemQuantity(
                     cartItemId,
                     inventory.id,
-                    quantity
+                    quantity,
                 );
             } catch (error) {
                 console.error("Cannot update quantity");
+            } finally {
+                setIsLoading(false);
             }
         });
     }
 
     async function handleRemovingCartItem() {
-        setIsLoading(true);
-        const result = await removeCartItemAction(cartItemId);
-        setIsLoading(false);
-        toast(result.message[locale]);
+        setIsDeleting(true);
+        startTransition(async () => {
+            try {
+                const result = await removeCartItemAction(cartItemId);
+                toast(result.message[locale]);
+            } catch (error) {
+                console.error("Cannot update quantity");
+            } finally {
+                setIsDeleting(false);
+            }
+        });
     }
 
     return (
@@ -73,7 +85,7 @@ function CartActions({
                     btnStyle="ghost-btn"
                     message={t("deleteMsg")}
                 >
-                    {isLoading ? (
+                    {isDeleting ? (
                         <SpinnerIcon />
                     ) : (
                         <Button

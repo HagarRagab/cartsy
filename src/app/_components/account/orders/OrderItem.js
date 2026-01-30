@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
-import { Dot } from "lucide-react";
 import { format } from "date-fns";
 import Link from "next/link";
 
@@ -23,7 +22,7 @@ async function OrderItem({ order }) {
     const inventories = await Promise.all(
         items
             .slice(0, MAX_HISTORY_ORDERS_IMGS)
-            .map((item) => getInventory(item.inventoryId))
+            .map((item) => getInventory(item.inventoryId)),
     );
 
     const t = await getTranslations("myOrders");
@@ -38,7 +37,7 @@ async function OrderItem({ order }) {
                         status === "delivered"
                             ? `${t("on")} ${format(
                                   deliveryEstimate,
-                                  "dd, MMMM yyyy"
+                                  "dd, MMMM yyyy",
                               )}`
                             : ""
                     }`}
@@ -68,16 +67,14 @@ async function OrderItem({ order }) {
             </div>
 
             <div className="flex flex-col gap-2 text-center p-4 md:p-6">
-                {status !== "delivered" && (
-                    <Link
-                        href={`/${locale}/account/orders/${id}/${
-                            trackingId || "preparing"
-                        }`}
-                        className="primary-btn w-full my-1 flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-sm"
-                    >
-                        {t("trackOrder")}
-                    </Link>
-                )}
+                <Link
+                    href={`/${locale}/account/orders/${id}/${
+                        trackingId || "preparing"
+                    }`}
+                    className="primary-btn w-full my-1 flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-sm"
+                >
+                    {t("trackOrder")}
+                </Link>
                 <Link
                     href={`/${locale}/account/orders/${id}`}
                     className="outline-btn w-full my-1 flex items-center justify-center gap-2 px-4 py-2 text-sm rounded-sm"

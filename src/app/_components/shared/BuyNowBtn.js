@@ -3,11 +3,10 @@
 import { ShoppingBag } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
-import { checkoutAction } from "@/src/app/_lib/actions";
-import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
+import SpinnerIcon from "./SpinnerIcon";
 
-function BuyNowBtn({ selectedCartItems }) {
+function BuyNowBtn({ selectedCartItems, isLoading = false }) {
     const t = useTranslations("general");
     const locale = useLocale();
 
@@ -18,14 +17,20 @@ function BuyNowBtn({ selectedCartItems }) {
                 name="items"
                 value={JSON.stringify(selectedCartItems)}
             />
-            <Link
-                className="primary-btn w-full flex items-center justify-center gap-2 px-4 py-2 text-sm"
-                type="submit"
-                href={`/${locale}/checkout`}
-            >
-                <ShoppingBag size={20} />
-                <span>{t("buyBtn")}</span>
-            </Link>
+            {isLoading ? (
+                <div className="primary-btn w-full flex items-center justify-center gap-2 px-4 py-2 text-sm">
+                    <SpinnerIcon />
+                </div>
+            ) : (
+                <Link
+                    className="primary-btn  w-full flex items-center justify-center gap-2 px-4 py-2 text-sm"
+                    type="submit"
+                    href={`/${locale}/checkout`}
+                >
+                    <ShoppingBag size={20} />
+                    <span>{t("buyBtn")}</span>
+                </Link>
+            )}
         </form>
     );
 }

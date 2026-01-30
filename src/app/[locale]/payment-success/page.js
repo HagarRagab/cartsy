@@ -25,7 +25,7 @@ async function Page({ searchParams }) {
 
     const intent = await stripe.paymentIntents.retrieve(payment_intent);
     const paymentMethod = await stripe.paymentMethods.retrieve(
-        intent.payment_method
+        intent.payment_method,
     );
 
     const t = await getTranslations("paymentSuccess");
@@ -56,7 +56,7 @@ async function Page({ searchParams }) {
     };
 
     if (intent.status === "succeeded") {
-        const result = await createOrderAction(selectedCartItems, order);
+        await createOrderAction(selectedCartItems, order);
     }
 
     return (

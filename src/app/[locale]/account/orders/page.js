@@ -7,23 +7,18 @@ import { getAuthUser } from "@/src/app/_lib/data-services/data-user";
 import { getTranslations } from "next-intl/server";
 
 async function Page({ searchParams }) {
-    const { status = "orders", period = "thisYear" } = await searchParams;
+    const { status = "orders", period = "all" } = await searchParams;
 
     const authUser = await getAuthUser();
 
-    const orders = await getAllOrders(authUser.id);
+    const orders = await getAllOrders(authUser.id, status);
 
     const t = await getTranslations("myOrders");
 
-    const filteredOrdersByStatus =
-        status === "orders"
-            ? orders
-            : orders.filter((order) => order.status === status);
-
     const filteredOrders =
         period === "all"
-            ? filteredOrdersByStatus
-            : filteredOrdersByStatus.filter((order) => {
+            ? orders
+            : orders.filter((order) => {
                   const durations = {
                       lastMonth: new Date().getMonth() + 1,
                       thisYear: new Date().getFullYear(),

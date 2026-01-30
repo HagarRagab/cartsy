@@ -13,6 +13,7 @@ import SubmitBtn from "@/src/app/_components/shared/SubmitBtn";
 import { updateCartItemAction } from "@/src/app/_lib/actions";
 import { Button } from "@/src/components/ui/button";
 import ProductTitle from "@/src/app/_components/shared/ProductTitle";
+import { useCart } from "../../_context/CartContext";
 
 function ProductOptions({
     variants,
@@ -24,7 +25,7 @@ function ProductOptions({
     product,
 }) {
     const dialogRef = useRef();
-    const [isLoading, setIsLoading] = useState(false);
+    const { isLoading, setIsLoading } = useCart();
 
     const t = useTranslations("general");
     const locale = useLocale("");
@@ -39,7 +40,7 @@ function ProductOptions({
 
     useEffect(() => {
         const sameSizeInventory = variantInventories.find(
-            (inventory) => inventory.size === selectedInventory.size
+            (inventory) => inventory.size === selectedInventory.size,
         );
         if (!sameSizeInventory) setSelectedInventory(variantInventories[0]);
         else setSelectedInventory(sameSizeInventory);

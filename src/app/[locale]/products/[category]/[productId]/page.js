@@ -64,7 +64,7 @@ async function Page({ params }) {
 
     // All inventories associated to each variant
     const productInventories = await Promise.all(
-        variants.map((variant) => getVariantInventories(variant.id))
+        variants.map((variant) => getVariantInventories(variant.id)),
     );
 
     const productShipping = await getProductShipping(productId);

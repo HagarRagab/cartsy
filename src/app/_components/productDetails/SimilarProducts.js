@@ -13,14 +13,14 @@ async function SimilarProducts({ product }) {
         productId: product.id,
     });
 
+    if (!relatedProducts.length || !relatedProducts) return;
+
     return (
-        <div>
+        <div className="border-t-2 border-text-500 pt-8">
             <h2 className="w-fit font-semibold text-2xl mb-8">
                 {t("relatedProductTitle")}
             </h2>
-            {relatedProducts.length > 0 && relatedProducts && (
-                <ProductsContainer products={relatedProducts} />
-            )}
+            <ProductsContainer products={relatedProducts} />
         </div>
     );
 }

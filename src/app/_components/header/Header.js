@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { getLocale } from "next-intl/server";
+import { Home } from "lucide-react";
 
 import Account from "@/src/app/_components/header/Account";
 import CartIcon from "@/src/app/_components/header/CartIcon";
@@ -6,21 +8,16 @@ import Location from "@/src/app/_components/header/Location";
 import Logo from "@/src/app/_components/header/Logo";
 import RegionalSettings from "@/src/app/_components/header/RegionalSettings";
 import Search from "@/src/app/_components/header/Search";
-import { getCookie } from "@/src/app/_lib/actions";
-import {
-    getCartItems,
-    getUserCart,
-} from "@/src/app/_lib/data-services/data-cart";
-import Link from "next/link";
-import { Home } from "lucide-react";
+import { getCartItems, getUserCart } from "../../_lib/data-services/data-cart";
+import { getCookie } from "../../_lib/actions";
 
 async function Header({ user }) {
+    const locale = await getLocale();
+
     const cookieCart = await getCookie("cartsy-cart");
     const userCart = user && (await getUserCart(user?.id));
     const userCartItems = userCart && (await getCartItems(userCart.id));
-
     const numCartItems = !user ? cookieCart.length : userCartItems.length;
-    const locale = await getLocale();
 
     return (
         <header className="bg-bg-800 text-text-700">
@@ -31,7 +28,7 @@ async function Header({ user }) {
                 <div className="hidden sm:flex col-span-3 col-start-3 lg:col-start-6 row-start-1 gap-4 items-center justify-end">
                     <RegionalSettings />
                     <span className="bg-text-400 w-[1px] h-8" />
-                    <CartIcon numCartItems={numCartItems} locale={locale} />
+                    <CartIcon locale={locale} numCartItems={numCartItems} />
                     <span className="block bg-text-400 w-[1px] h-8" />
                     <Account locale={locale} />
                 </div>
@@ -40,7 +37,7 @@ async function Header({ user }) {
                         <Home />
                     </Link>
                     <RegionalSettings />
-                    <CartIcon numCartItems={numCartItems} locale={locale} />
+                    <CartIcon locale={locale} numCartItems={numCartItems} />
                     <Account locale={locale} />
                 </div>
             </div>

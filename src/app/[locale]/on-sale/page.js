@@ -8,7 +8,7 @@ export const metadata = {
 
 async function Page({ searchParams }) {
     const searchValues = await searchParams;
-    const discounts = await getDiscounts();
+    const discounts = await getDiscounts(8);
     const products = discounts.map((discount) => discount.product);
     const filteredProducts = filterProducts(products, undefined, searchValues);
 

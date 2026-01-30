@@ -18,7 +18,7 @@ export async function createOrder(order) {
 }
 
 // GET orders
-export async function getAllOrders(userId) {
+export async function getAllOrders(userId, status = "orders") {
     const supabase = await createClient();
     const {
         data: { user },
@@ -26,11 +26,15 @@ export async function getAllOrders(userId) {
 
     if (user.id !== userId) return;
 
-    let { data: Users_Orders, error } = await supabase
+    let query = supabase
         .from("Users_Orders")
         .select("*")
         .eq("userId", userId)
         .order("created_at", { ascending: false });
+
+    if (status !== "orders") query = query.eq("status", status);
+
+    const { data: Users_Orders, error } = await query;
 
     if (error) {
         console.error(error);

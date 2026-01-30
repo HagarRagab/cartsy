@@ -18,7 +18,7 @@ function CartSummary({ selectedCartItems, promoCode, optimisticSelectAll }) {
 
     const { user, currencyRate } = useAuth();
 
-    const { setOrderSummary } = useCart();
+    const { setOrderSummary, isLoading } = useCart();
 
     const {
         itemsPrice,
@@ -36,6 +36,7 @@ function CartSummary({ selectedCartItems, promoCode, optimisticSelectAll }) {
             itemsPriceAfterDiscount,
             shippingCost,
             chargeAmount,
+            totalCartItems: selectedCartItems.length,
         }));
     }, [
         itemsPrice,
@@ -125,7 +126,10 @@ function CartSummary({ selectedCartItems, promoCode, optimisticSelectAll }) {
                         </p>
                     </div>
 
-                    <BuyNowBtn selectedCartItems={selectedCartItems} />
+                    <BuyNowBtn
+                        selectedCartItems={selectedCartItems}
+                        isLoading={isLoading}
+                    />
                 </>
             )}
         </div>
