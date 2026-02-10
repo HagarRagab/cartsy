@@ -29,7 +29,7 @@ async function CartItem({ item, user = null }) {
 
     // All inventories associated to each variant
     const productInventories = await Promise.all(
-        variants.map((variant) => getVariantInventories(variant.id))
+        variants.map((variant) => getVariantInventories(variant.id)),
     );
 
     const likedProduct =
@@ -72,7 +72,7 @@ async function CartItem({ item, user = null }) {
                     />
 
                     <PriceLabel
-                        price={product.originalPrice}
+                        price={inventory.price}
                         discount={discount?.percentage}
                         isDiscountValid={isDiscountValid}
                     />

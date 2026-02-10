@@ -75,7 +75,7 @@ function ProductOptions({
 
             <dialog
                 ref={dialogRef}
-                className="bg-bg-100 p-6 m-auto w-[90%] max-w-3xl max-h-2/3 sm:max-h-fit rounded-md"
+                className="bg-bg-100 p-6 m-auto w-[90%] max-w-3xl rounded-md"
             >
                 <form method="dialog" className="flex flex-col gap-2">
                     <Button
@@ -91,7 +91,7 @@ function ProductOptions({
                         variants={variants}
                         className="w-full max-w-lg mx-auto col-span-full lg:col-span-1"
                     />
-                    <div className="flex flex-col gap-4">
+                    <div className="col-span-2 lg:col-span-1 items-center lg:items-start text-center lg:text-start flex flex-col gap-4">
                         <ProductTitle product={product} />
                         <PriceLabel
                             price={selectedInventory.price}
@@ -114,7 +114,7 @@ function ProductOptions({
                         <SubmitBtn
                             isLoading={isLoading}
                             onClick={handleEditCartItem}
-                            btnClass="primary-btn"
+                            btnClass="primary-btn w-full"
                         >
                             Apply
                         </SubmitBtn>
