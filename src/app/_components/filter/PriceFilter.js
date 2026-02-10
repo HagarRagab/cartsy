@@ -8,13 +8,13 @@ import { Slider } from "@/src/components/ui/slider";
 import { useSearch } from "@/src/app/_hooks/useSearch";
 
 const MIN_PRICE = 10;
-const MAX_PRICE = 100000;
+const MAX_PRICE = 10000;
 
 function PriceFilter({ label }) {
     const { setParam, deleteParam, getParam } = useSearch();
 
     const [range, setRange] = useState(
-        () => getParam("filteredrange")?.split("-") || [MIN_PRICE, MAX_PRICE]
+        () => getParam("filteredrange")?.split("-") || [MIN_PRICE, MAX_PRICE],
     );
 
     const t = useTranslations("filter");
@@ -39,7 +39,7 @@ function PriceFilter({ label }) {
                 onValueCommit={handleSetRange}
                 min={MIN_PRICE}
                 max={MAX_PRICE}
-                step={1}
+                step={100}
                 className="my-3"
             />
         </FilterAccordionContainer>

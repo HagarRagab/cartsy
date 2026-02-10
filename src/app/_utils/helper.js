@@ -1,7 +1,7 @@
 export async function getAddressByCoords(lat, lng, language) {
     try {
         const res = await fetch(
-            `/api/reverse-geocode?lat=${lat}&lng=${lng}&langugae=${language}`
+            `/api/reverse-geocode?lat=${lat}&lng=${lng}&langugae=${language}`,
         );
         if (!res.ok) throw new Error("failed to fetch address");
         const address = await res.json();
@@ -14,7 +14,7 @@ export async function getAddressByCoords(lat, lng, language) {
 export async function convertCurrency(from, to) {
     try {
         const currenciesRatesRes = await fetch(
-            `/api/currency-exchange?from=${from}&to=${to}`
+            `/api/currency-exchange?from=${from}&to=${to}`,
         );
 
         if (!currenciesRatesRes.ok)
@@ -67,24 +67,26 @@ export function filterProducts(products, discounts, searchValues) {
     if (filtereddeals && discounts)
         filteredProducts = discounts.map((d) => d.product);
     if (filteredbrands)
-        filteredProducts = products.filter((p) =>
-            filteredbrands?.split("-").includes(p.brand.slug)
+        filteredProducts = filteredProducts.filter((p) =>
+            filteredbrands?.split("-").includes(p.brand.slug),
         );
     if (filteredcategories)
-        filteredProducts = products.filter((p) =>
-            filteredcategories?.split("-").includes(p.category.slug)
+        filteredProducts = filteredProducts.filter((p) =>
+            filteredcategories?.split("-").includes(p.category.slug),
         );
     if (filteredcondition)
-        filteredProducts = products.filter(
-            (p) => filteredcondition === p.condition
+        filteredProducts = filteredProducts.filter(
+            (p) => filteredcondition === p.condition,
         );
     if (filteredrating)
-        filteredProducts = products.filter((p) => filteredrating >= p.rating);
+        filteredProducts = filteredProducts.filter(
+            (p) => filteredrating <= p.rating,
+        );
     if (filteredrange)
-        filteredProducts = products.filter(
+        filteredProducts = filteredProducts.filter(
             (p) =>
                 filteredrange?.split("-")[0] <= p.originalPrice &&
-                filteredrange?.split("-")[1] >= p.originalPrice
+                filteredrange?.split("-")[1] >= p.originalPrice,
         );
 
     return filteredProducts;
@@ -115,14 +117,14 @@ export function CalcOrderSummary(orderItems, currencyRate, promoCode) {
         orderItems?.reduce(
             (total, cur) =>
                 total + Number(cur.inventory?.price) * Number(cur.quantity),
-            0
+            0,
         ) * currencyRate;
 
     const discountAmount = !promoCode
         ? 0
         : promoCode?.discount_type === "percentage"
-        ? (itemsPrice * promoCode?.value) / 100
-        : promoCode?.value * currencyRate;
+          ? (itemsPrice * promoCode?.value) / 100
+          : promoCode?.value * currencyRate;
 
     const itemsPriceAfterDiscount = itemsPrice - discountAmount;
     const shippingCost = 0 * currencyRate;
