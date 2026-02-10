@@ -11,7 +11,7 @@ export async function getProductById(productId) {
                 *,
                 category:Categories (*),
                 brand:Brands (*)
-            `
+            `,
         )
         .eq("id", productId)
         .single();
@@ -33,7 +33,7 @@ export async function getBestSellings(limit = "*") {
                 *,
                 category:Categories (*),
                 brand:Brands (*)
-            `
+            `,
         )
         .gt("unitsSold", 10)
         .eq("hasStock", true)
@@ -43,7 +43,7 @@ export async function getBestSellings(limit = "*") {
     if (error) {
         console.log(error);
         throw new Error(
-            "Something went wrong. Cannot get best selling products."
+            "Something went wrong. Cannot get best selling products.",
         );
     }
 
@@ -57,7 +57,7 @@ export async function getProducts(id, getBy) {
         *,
         category:Categories (*),
         brand:Brands (*)
-      `
+      `,
     );
 
     if (getBy) query = query.eq(getBy, id);
@@ -90,7 +90,7 @@ export async function getSearchProducts({
             `
                 *,
                 category:Categories (*)
-            `
+            `,
         )
         .eq("hasStock", true)
         .overlaps("tags", searchKeyWords)
@@ -121,7 +121,7 @@ export async function updateProduct(productId, hasStock) {
     if (error) {
         console.log(error);
         throw new Error(
-            "Something went wrong. Cannot update product has stock column."
+            "Something went wrong. Cannot update product has stock column.",
         );
     }
 
@@ -144,7 +144,7 @@ export async function getLikedProducts(userId) {
                         *
                     )
                 )
-            `
+            `,
         )
         .eq("userId", userId);
 
@@ -182,7 +182,7 @@ export async function addToWishlist(userId, productId) {
     if (error) {
         console.log(error);
         throw new Error(
-            "Something went wrong. Cannot add this product to wish list."
+            "Something went wrong. Cannot add this product to wish list.",
         );
     }
 
@@ -199,7 +199,7 @@ export async function removeFromWishlist(id) {
     if (error) {
         console.log(error);
         throw new Error(
-            "Something went wrong. Cannot remove this product from wish list."
+            "Something went wrong. Cannot remove this product from wish list.",
         );
     }
 
@@ -213,13 +213,13 @@ export async function getProductShipping(productId) {
     const { data: productShipping, error } = await supabase
         .from("Product_Shipping")
         .select("*")
-        .single()
-        .eq("productId", productId);
+        .eq("productId", productId)
+        .maybeSingle();
 
     if (error) {
         console.log(error);
         throw new Error(
-            "Something went wrong. Cannot get product shipping data."
+            "Something went wrong. Cannot get product shipping data.",
         );
     }
 
@@ -270,7 +270,7 @@ export async function getVariant(variantId) {
                 product:Products (
                     *
                 )
-            `
+            `,
         )
         .single()
         .eq("id", variantId);
@@ -295,7 +295,7 @@ export async function getVariantInventories(variantId) {
     if (error) {
         console.log(error);
         throw new Error(
-            "Something went wrong. Cannot get product inventories."
+            "Something went wrong. Cannot get product inventories.",
         );
     }
 
@@ -311,7 +311,7 @@ export async function getInventory(inventoryId) {
                 *,
                 variant:Variants (*,
                 product:Products (*))
-            `
+            `,
         )
         .single()
         .eq("id", inventoryId);
@@ -344,7 +344,7 @@ export async function updateStock(inventoryId, newStock) {
     const variants = await getProductVariants(inventory.variant.productId);
     const inventories = (
         await Promise.all(
-            variants.map((variant) => getVariantInventories(variant.id))
+            variants.map((variant) => getVariantInventories(variant.id)),
         )
     ).flat();
 

@@ -85,7 +85,7 @@ async function Page({ params }) {
                 links={[
                     {
                         name: product.category.name[locale],
-                        path: `/${locale}/products/${product.category.slug}`,
+                        path: `/products/${product.category.slug}`,
                     },
                 ]}
             />
