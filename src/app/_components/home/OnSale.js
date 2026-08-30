@@ -15,6 +15,7 @@ async function OnSale() {
             sectionTitleKey="onSale"
             showMoreBtn={true}
             href={`/${locale}/on-sale`}
+            id="on-sale-heading"
         >
             {products.length === 0 ? (
                 <p className="text-center text-lg">{t("noContent")}</p>

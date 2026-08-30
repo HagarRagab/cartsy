@@ -17,7 +17,10 @@ async function ShopByCategory({ locale }) {
     const categories = await getCategories();
 
     return (
-        <SectionCard sectionTitleKey="shopByCategory">
+        <SectionCard
+            sectionTitleKey="shopByCategory"
+            id="shop-by-category-heading"
+        >
             <Carousel
                 opts={{ direction: direction(locale) }}
                 className="sm:w-[calc(100%-80px)] mx-auto"
@@ -35,7 +38,7 @@ async function ShopByCategory({ locale }) {
                                             <div className="w-full relative aspect-square">
                                                 <Image
                                                     src={ele.image}
-                                                    alt={ele.name[locale]}
+                                                    alt={`${ele.name[locale]} category thumbnail`}
                                                     fill
                                                     className="object-contain group-hover:scale-95 transition-all"
                                                 />
@@ -50,8 +53,14 @@ async function ShopByCategory({ locale }) {
                         </Link>
                     ))}
                 </CarouselContent>
-                <CarouselPrevious className="hidden sm:flex not-only:cursor-pointer shadow-bg-300 shadow-lg" />
-                <CarouselNext className="hidden sm:flex not-only:cursor-pointer shadow-bg-300 shadow-lg" />
+                <CarouselPrevious
+                    className="hidden sm:flex not-only:cursor-pointer shadow-bg-300 shadow-lg"
+                    aria-label="Previous category"
+                />
+                <CarouselNext
+                    className="hidden sm:flex not-only:cursor-pointer shadow-bg-300 shadow-lg"
+                    aria-label="Next category"
+                />
             </Carousel>
         </SectionCard>
     );

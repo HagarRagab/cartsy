@@ -7,7 +7,13 @@ import { useLocale } from "next-intl";
 import SubmitBtn from "@/src/app/_components/shared/SubmitBtn";
 import { addToCartAction } from "@/src/app/_lib/actions";
 
-function AddToCart({ inventoryId, quantity = 1, className, children }) {
+function AddToCart({
+    inventoryId,
+    quantity = 1,
+    className,
+    children,
+    ariaLabel = "Add to cart",
+}) {
     const [isLoading, setIsLoading] = useState(false);
     const locale = useLocale();
 
@@ -26,6 +32,7 @@ function AddToCart({ inventoryId, quantity = 1, className, children }) {
             btnClass={className}
             onClick={handleAddToCart}
             isLoading={isLoading}
+            ariaLabel={ariaLabel}
         >
             {children}
         </SubmitBtn>

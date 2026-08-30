@@ -44,7 +44,7 @@ function SearchForm({ categories, locale }) {
         const { search, category } = values;
         startTransition(() => {
             redirect(
-                `/${locale}/products?search=${search}&category=${category}`
+                `/${locale}/products?search=${search}&category=${category}`,
             );
             form.reset();
         });
@@ -55,6 +55,8 @@ function SearchForm({ categories, locale }) {
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex items-center w-full"
+                role="search"
+                aria-label="Product search"
             >
                 <FormField
                     control={form.control}
@@ -69,15 +71,16 @@ function SearchForm({ categories, locale }) {
                             >
                                 <FormControl>
                                     <SelectTrigger
-                                        className={`shrink-1 w-25 sm:w-[144px] bg-bg-700 text-text-700 hover:bg-bg-300 hover:text-text-200 border-none text-xs md:text-base ${
+                                        className={`shrink w-25 sm:w-36 bg-bg-700 text-text-700 hover:bg-bg-300 hover:text-text-200 border-none text-xs md:text-base ${
                                             locale === "ar"
                                                 ? "rounded-l-none rounded-br-sm rounded-tr-sm"
                                                 : "rounded-r-none rounded-bl-sm rounded-tl-sm"
                                         }`}
+                                        aria-label="Select category"
                                     >
                                         <SelectValue
                                             placeholder={t(
-                                                "SearchListPlaceholder"
+                                                "SearchListPlaceholder",
                                             )}
                                         />
                                     </SelectTrigger>
@@ -111,6 +114,7 @@ function SearchForm({ categories, locale }) {
                                 <Input
                                     className="border-none m-0 text-xs sm:text-base"
                                     placeholder={t("findProduct")}
+                                    aria-label="Search for products"
                                     {...field}
                                 />
                             </FormControl>
@@ -122,8 +126,13 @@ function SearchForm({ categories, locale }) {
                     type="submit"
                     className="primary-btn rounded-none"
                     disabled={isPending}
+                    aria-label="Search"
                 >
-                    {isPending ? <SpinnerIcon /> : <Search size={20} />}
+                    {isPending ? (
+                        <SpinnerIcon />
+                    ) : (
+                        <Search size={20} aria-hidden="true" />
+                    )}
                 </Button>
             </form>
         </Form>

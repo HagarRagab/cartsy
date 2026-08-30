@@ -11,10 +11,18 @@ export default async function Page({ params }) {
         <>
             <Advertisements locale={locale} />
             <div className="max-w-7xl mx-auto grid grid-cols-[100%] gap-4 -mt-10 pb-12 relative z-20">
-                <ShopByCategory locale={locale} />
-                <Brands locale={locale} />
-                <BestSelling />
-                <OnSale />
+                <section aria-labelledby="shop-by-category-heading">
+                    <ShopByCategory locale={locale} />
+                </section>
+                <section aria-labelledby="brands-heading">
+                    <Brands locale={locale} />
+                </section>
+                <section aria-labelledby="best-selling-heading">
+                    <BestSelling />
+                </section>
+                <section aria-labelledby="on-sale-heading">
+                    <OnSale />
+                </section>
             </div>
         </>
     );

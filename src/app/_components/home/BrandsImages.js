@@ -7,7 +7,7 @@ function BrandsImages({ brands }) {
                 <Image
                     key={brand.id}
                     src={brand.image}
-                    alt={brand.name}
+                    alt={`${brand.name} brand logo`}
                     width={18}
                     height={18}
                     className="w-11 h-11 md:w-18 md:h-18"

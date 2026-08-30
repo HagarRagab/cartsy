@@ -61,8 +61,9 @@ function Advertisements({ locale }) {
                                         <Image
                                             fill
                                             src={ad.image}
-                                            alt={ad.title[locale]}
+                                            alt={`Advertisement: ${ad.title[locale]} - ${ad.description[locale]}`}
                                             className="object-contain object-center md:object-top"
+                                            priority
                                         />
                                     </div>
                                 </CardContent>
@@ -71,8 +72,14 @@ function Advertisements({ locale }) {
                     </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex left-4 md:left-12 cursor-pointer" />
-            <CarouselNext className="hidden sm:flex right-4 md:right-12 cursor-pointer" />
+            <CarouselPrevious
+                className="hidden sm:flex left-4 md:left-12 cursor-pointer"
+                aria-label="Previous advertisement"
+            />
+            <CarouselNext
+                className="hidden sm:flex right-4 md:right-12 cursor-pointer"
+                aria-label="Next advertisement"
+            />
         </Carousel>
     );
 }

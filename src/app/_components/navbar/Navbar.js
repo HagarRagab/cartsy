@@ -9,7 +9,11 @@ async function Navbar() {
     const locale = await getLocale();
 
     return (
-        <nav className="max-w-screen py-2 bg-primary-300 text-text-700 text-sm">
+        <nav
+            className="max-w-screen py-2 bg-primary-300 text-text-700 text-sm"
+            role="navigation"
+            aria-label="Main navigation"
+        >
             <ul className="flex items-center justify-between gap-3 mx-4 md:mx-12 overflow-hidden text-nowrap">
                 <li>
                     <AllCategoriesMenu

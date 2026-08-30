@@ -20,7 +20,7 @@ async function Header({ user }) {
     const numCartItems = !user ? cookieCart.length : userCartItems.length;
 
     return (
-        <header className="bg-bg-800 text-text-700">
+        <header className="bg-bg-800 text-text-700" role="banner">
             <div className="mx-auto p-4 md:py-6 md:px-12 gap-y-4 grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-8 items-center">
                 <Logo />
                 {user && user?.city && <Location user={user} />}
@@ -32,9 +32,13 @@ async function Header({ user }) {
                     <span className="block bg-text-400 w-[1px] h-8" />
                     <Account locale={locale} />
                 </div>
-                <div className="bg-bg-700 px-4 py-3 sm:hidden flex items-center justify-between fixed bottom-0 left-0 right-0 z-[100]">
-                    <Link href="/">
-                        <Home />
+                <div
+                    className="bg-bg-700 px-4 py-3 sm:hidden flex items-center justify-between fixed bottom-0 left-0 right-0 z-[100]"
+                    role="navigation"
+                    aria-label="Mobile navigation"
+                >
+                    <Link href="/" aria-label="Go to home page">
+                        <Home aria-hidden="true" />
                     </Link>
                     <RegionalSettings />
                     <CartIcon locale={locale} numCartItems={numCartItems} />

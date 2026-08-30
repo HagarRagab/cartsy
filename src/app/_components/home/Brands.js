@@ -6,7 +6,7 @@ async function Brands() {
     const brands = await getBrands();
 
     return (
-        <SectionCard className="h-20 md:h-30" dir="ltr">
+        <SectionCard className="h-20 md:h-30" dir="ltr" id="brands-heading">
             <div className="mask relative w-full h-full overflow-hidden">
                 <div className="w-fit absolute flex items-center gap-4 md:gap-8 slider-animation">
                     <BrandsImages brands={brands} />

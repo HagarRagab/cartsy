@@ -1,5 +1,4 @@
 import { isPast } from "date-fns";
-import Image from "next/image";
 import Link from "next/link";
 import { PackagePlus } from "lucide-react";
 
@@ -8,6 +7,7 @@ import RatingStars from "@/src/app/_components/productDetails/RatingStars";
 import PriceLabel from "@/src/app/_components/shared/PriceLabel";
 import ProductTitle from "@/src/app/_components/shared/ProductTitle";
 import SaleLabel from "@/src/app/_components/shared/SaleLabel";
+import OptimizedImage from "@/src/app/_components/shared/OptimizedImage";
 import { getUserCart } from "@/src/app/_lib/data-services/data-cart";
 import { getDiscount } from "@/src/app/_lib/data-services/data-deals";
 import {
@@ -51,19 +51,21 @@ async function ProductCard({
                         href={`/${locale}/products/${category.slug}/${id}`}
                         className="block relative w-full aspect-square bg-bg-100 row-span-full md:row-span-1"
                     >
-                        <Image
+                        <OptimizedImage
                             src={imagePreview}
-                            alt={title[locale] || "product's preview image"}
+                            alt={`${title[locale] || "Product"} - ${category.name[locale] || "category"}`}
                             fill
                             className="object-contain p-2 bg-bg-100 hover:scale-90 transition-all"
+                            loading="lazy"
                         />
                     </Link>
                     <AddToCart
                         userCart={userCart}
                         inventoryId={defaultInventoryId}
                         className="w-10 h-10 absolute bottom-2 right-2 bg-bg-200 rounded-full text-text-100 hover:bg-bg-300 cursor-pointer"
+                        ariaLabel={`Add ${title[locale] || "product"} to cart`}
                     >
-                        <PackagePlus size={20} />
+                        <PackagePlus size={20} aria-hidden="true" />
                     </AddToCart>
                 </div>
                 <div className="flex flex-col gap-2 p-2 sm:p-4">

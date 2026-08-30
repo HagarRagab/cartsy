@@ -8,7 +8,10 @@ async function Footer() {
     const locale = await getLocale();
 
     return (
-        <footer className="bg-bg-800 text-text-700 px-12 py-8">
+        <footer
+            className="bg-bg-800 text-text-700 px-12 py-8"
+            role="contentinfo"
+        >
             <div className="flex flex-wrap text-center justify-around gap-6 mb-12">
                 <LinksGroup
                     title={{ en: "Get to know us", ar: "تعرف علينا" }}
@@ -39,7 +42,8 @@ async function Footer() {
                 />
             </div>
             <p className="text-center" dir="ltr">
-                &copy;{new Date().getFullYear()}, Hagar Ragab | All Rights Reserved
+                &copy;{new Date().getFullYear()}, Hagar Ragab | All Rights
+                Reserved
             </p>
         </footer>
     );

@@ -14,6 +14,7 @@ async function BestSelling() {
             sectionTitleKey={"bestSelling"}
             showMoreBtn={true}
             href={`/${locale}/best-sellings`}
+            id="best-selling-heading"
         >
             {bestSellingProducts.length === 0 || !bestSellingProducts ? (
                 <p className="text-center text-lg">{t("noContect")}</p>

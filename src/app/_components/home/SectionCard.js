@@ -7,6 +7,7 @@ async function SectionCard({
     showMoreBtn = false,
     className = "",
     href,
+    id,
     ...props
 }) {
     const t = await getTranslations("sectionCard");
@@ -18,7 +19,7 @@ async function SectionCard({
         >
             {sectionTitleKey && (
                 <header className="flex items-center justify-between mx-2 md:mx-10 mb-4">
-                    <h2 className="font-bold capitalize md:text-xl">
+                    <h2 id={id} className="font-bold capitalize md:text-xl">
                         {t(`titles.${sectionTitleKey}`)}
                     </h2>
                     {showMoreBtn && (
