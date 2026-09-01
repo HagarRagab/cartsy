@@ -34,6 +34,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see your store in action
 
 ## 📋 Table of Contents
 
+- [Quick Start](#-quick-start)
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
 - [Architecture](#-architecture)
@@ -47,13 +48,16 @@ Visit [http://localhost:3000](http://localhost:3000) to see your store in action
 - [UI/UX Features](#-uiux-features)
 - [Testing](#-testing)
 - [Deployment](#-deployment)
-- [API Documentation](#-api-documentation)
 - [Bilingual Support](#-bilingual-support)
+- [API Documentation](#-api-documentation)
 - [Contributing](#-contributing)
 - [Troubleshooting](#-troubleshooting)
 - [License](#-license)
 - [Support](#-support)
 - [Acknowledgments](#-acknowledgments)
+- [Project Status](#-project-status)
+- [Additional Documentation](#-additional-documentation)
+- [Related Resources](#-related-resources)
 
 ## 🚀 Features
 
@@ -481,8 +485,6 @@ npm install --save-dev @testing-library/react @testing-library/jest-dom jest jes
 npm install --save-dev @playwright/test
 ```
 
-## 🚀 Deployment
-
 ## 🌐 Bilingual Support
 
 Cartsy supports both English and Arabic languages with proper RTL (Right-to-Left) layout for Arabic.
@@ -551,72 +553,6 @@ When adding new components for Arabic support:
 - Test with both language directions
 - Ensure proper text alignment
 - Check icon and layout flipping
-
-## 🤝 Contributing
-
-## 📱 Key Pages & Components
-
-### Public Pages
-
-- **Homepage** - Featured products, deals, and categories
-- **Product Catalog** - Browse all products with filtering
-- **Product Details** - Individual product information and reviews
-- **Category Pages** - Products grouped by categories
-- **Search Results** - Search functionality with filters
-- **Cart** - Shopping cart management (guest access)
-
-### Authenticated Pages
-
-- **User Dashboard** - Account management
-- **Wishlist** - Saved favorite products
-- **Checkout** - Secure payment process
-
-## 🔐 Authentication Flow
-
-### Guest Users Can:
-
-- Browse all products and categories
-- Search and filter products
-- Add items to cart
-- View product details and reviews
-
-### Registration Required For:
-
-- Checkout and payment
-- Wishlist management
-
-## 🛒 Shopping Cart Features
-
-### Guest Cart
-
-- Add/remove items without registration
-- Persistent cart using localStorage
-- Real-time price calculations
-- Cart item counter in header
-
-### Checkout Process
-
-1. **Review Cart** - Verify items and quantities
-2. **Account Creation** - Required for first-time users
-3. **Shipping Information** - Delivery address details
-4. **Payment** - Secure payment processing
-5. **Order Confirmation** - Receipt and tracking information
-
-## 🎨 UI/UX Features
-
-### Design System
-
-- **Consistent Theming** - Unified color palette and typography
-- **Responsive Grid** - Flexible product layouts
-- **Loading States** - Skeleton loaders and progress indicators
-- **Error Handling** - User-friendly error messages
-
-### Interactive Elements
-
-- **Hover Effects** - Smooth transitions and animations
-- **Image Galleries** - Product image carousels
-- **Quick Actions** - Add to cart/wishlist buttons
-- **Toast Notifications** - Success and error feedback
 
 ## 🚀 Deployment
 
@@ -789,114 +725,14 @@ For detailed schema information, refer to the SQL files in the `/data` directory
 
 ## 🤝 Contributing
 
-We welcome contributions to Cartsy! Please follow these guidelines to ensure a smooth contribution process.
+We welcome contributions to Cartsy! Please check our [Contributing Guide](CONTRIBUTING.md) for detailed guidelines on:
 
-### How to Contribute
-
-1. **Fork the repository**
-
-    ```bash
-    # Fork the repository on GitHub
-    # Clone your fork locally
-    git clone https://github.com/your-username/cartsy.git
-    cd cartsy
-    ```
-
-2. **Create a feature branch**
-
-    ```bash
-    git checkout -b feature/amazing-feature
-    # or
-    git checkout -b fix/bug-description
-    ```
-
-3. **Make your changes**
-    - Follow the existing code style and conventions
-    - Add comments for complex logic
-    - Update documentation if needed
-    - Test your changes thoroughly
-
-4. **Commit your changes**
-
-    ```bash
-    git add .
-    git commit -m "feat: add amazing feature"
-    # or
-    git commit -m "fix: resolve bug description"
-    ```
-
-    **Commit message format:**
-    - `feat:` - New feature
-    - `fix:` - Bug fix
-    - `docs:` - Documentation changes
-    - `style:` - Code style changes (formatting, etc.)
-    - `refactor:` - Code refactoring
-    - `test:` - Adding or updating tests
-    - `chore:` - Maintenance tasks
-
-5. **Push to your branch**
-
-    ```bash
-    git push origin feature/amazing-feature
-    ```
-
-6. **Open a Pull Request**
-    - Provide a clear description of your changes
-    - Reference any related issues
-    - Include screenshots for UI changes
-    - Ensure all checks pass
-
-### Contribution Guidelines
-
-#### Code Style
-
-- Follow existing code patterns and conventions
-- Use meaningful variable and function names
-- Keep functions small and focused
-- Add comments for complex logic
-- Run `npm run lint` before committing
-
-#### Component Guidelines
-
-- Use Shadcn/ui components when possible
-- Make components reusable and composable
-- Add TypeScript prop types (if adding TypeScript)
-- Include proper error handling
-- Consider accessibility (ARIA labels, keyboard navigation)
-
-#### Documentation
-
-- Update README.md for significant changes
-- Add comments for complex functions
-- Document new API endpoints
-- Update environment variable documentation
-
-#### Testing
-
-- Test your changes on multiple devices
-- Test both English and Arabic languages
-- Test authentication flows
-- Test cart and checkout processes
-
-### Reporting Issues
-
-When reporting bugs or suggesting features:
-
-1. **Search existing issues** first to avoid duplicates
-2. **Use the issue template** if available
-3. **Provide detailed information**:
-    - Steps to reproduce
-    - Expected behavior
-    - Actual behavior
-    - Screenshots (if applicable)
-    - Environment details (OS, browser, Node.js version)
-
-### Code of Conduct
-
-- Be respectful and inclusive
-- Provide constructive feedback
-- Focus on what is best for the community
-- Show empathy towards other community members
+- How to contribute
+- Code style and standards
+- Commit message format
+- Pull request process
+- Testing guidelines
+- Reporting issues
 
 ## 🔧 Troubleshooting
 
@@ -1011,8 +847,6 @@ If you encounter issues not covered here:
 2. **Search GitHub issues** - See if others have encountered similar problems
 3. **Check documentation** - Review relevant framework documentation
 4. **Create an issue** - Provide detailed information about your problem
-
-## 📄 License
 
 ## 📄 License
 
