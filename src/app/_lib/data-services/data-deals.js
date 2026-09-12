@@ -24,7 +24,7 @@ export async function getDiscounts(limit = "*", values = null) {
     const { data: discounts, error } = await query;
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get discounts.");
     }
 
@@ -42,7 +42,7 @@ export async function getDiscount(productId) {
     if (!discount) return null;
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get product discount.");
     }
 

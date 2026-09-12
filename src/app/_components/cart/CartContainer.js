@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic, useState, useTransition } from "react";
+import { useTransition } from "react";
 import { useTranslations } from "next-intl";
 
 import EmptyCart from "@/src/app/_components/cart/EmptyCart";
@@ -11,36 +11,38 @@ import PageContainer from "@/src/app/_components/shared/PageContainer";
 import { selectionItemAction } from "@/src/app/_lib/actions";
 import { paymentMethodsList } from "@/src/app/_utils/utils";
 import { Checkbox } from "@/src/components/ui/checkbox";
-import SpinnerIcon from "@/src/app/_components/shared/SpinnerIcon";
+import { useCart } from "../../_context/CartContext";
 
 function CartContainer({ cart, promoCode, children }) {
-    const [isLoading, setIsLoading] = useState(false);
     const t = useTranslations("cart");
+    const { optimisticSelectAll, setOptimisticSelectAll } = useCart();
     const selectedCartItems = cart?.filter((item) => item.isSelected === true);
 
+    // The "real" all-selected state based on server data
+    const allSelected = selectedCartItems.length === cart.length;
+    // Use the optimistic value while a transition is in flight, otherwise fall back to server state
+    const displaySelectAll = optimisticSelectAll !== null ? optimisticSelectAll : allSelected;
+
     const [, startTransition] = useTransition();
-    const [optimisticSelectAll, optimisticUpdateAllSelection] = useOptimistic(
-        selectedCartItems.length === cart.length,
-        (currentSelection) => !currentSelection
-    );
 
     if (!cart.length) return <EmptyCart />;
 
     async function handleSelectAll() {
+        const nextSelected = !displaySelectAll;
+        setOptimisticSelectAll(nextSelected);
         startTransition(async () => {
             try {
-                optimisticUpdateAllSelection();
-                setIsLoading(true);
                 await Promise.all(
                     cart.map((item) =>
                         selectionItemAction(item.id, {
-                            isSelected: !optimisticSelectAll,
+                            isSelected: nextSelected,
                         })
                     )
                 );
-                setIsLoading(false);
             } catch (error) {
                 console.error(error);
+            } finally {
+                setOptimisticSelectAll(null);
             }
         });
     }
@@ -57,13 +59,13 @@ function CartContainer({ cart, promoCode, children }) {
                             htmlFor="select"
                             className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
-                            {optimisticSelectAll
+                            {displaySelectAll
                                 ? t("deselectAll")
                                 : t("selectAll")}
                         </label>
                         <Checkbox
                             id="select"
-                            checked={optimisticSelectAll}
+                            checked={displaySelectAll}
                             onCheckedChange={handleSelectAll}
                         />
                     </div>
@@ -72,15 +74,11 @@ function CartContainer({ cart, promoCode, children }) {
                 <div className="mt-8">{children}</div>
             </div>
 
-            {isLoading ? (
-                <SpinnerIcon />
-            ) : (
-                <CartSummary
+            {<CartSummary
                     selectedCartItems={selectedCartItems}
                     promoCode={promoCode}
-                    optimisticSelectAll={optimisticSelectAll}
-                />
-            )}
+                    optimisticSelectAll={displaySelectAll}
+                />}
 
             <div className="bg-bg-100 p-8 rounded-md col-start-2 h-fit">
                 <LinksGroup

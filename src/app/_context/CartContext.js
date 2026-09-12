@@ -14,6 +14,9 @@ function CartProvider({ children }) {
         chargeAmount: 0,
         totalCartItems: 0,
     });
+    // null means no optimistic select-all is in flight;
+    // true/false is the optimistic target state during select-all / deselect-all
+    const [optimisticSelectAll, setOptimisticSelectAll] = useState(null);
 
     return (
         <CartContext.Provider
@@ -22,6 +25,8 @@ function CartProvider({ children }) {
                 setOrderSummary,
                 isLoading,
                 setIsLoading,
+                optimisticSelectAll,
+                setOptimisticSelectAll,
             }}
         >
             {children}

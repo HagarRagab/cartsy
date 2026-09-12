@@ -11,7 +11,7 @@ export async function getUser(key, value) {
         .eq(key, value);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get user.");
     }
 
@@ -26,7 +26,7 @@ export async function checkIfUserExist(email, userName) {
         .or(`email.eq.${email}, userName.eq.${userName}`);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot check user existance.");
     }
 

@@ -9,7 +9,7 @@ export async function getCategories() {
         .select("*");
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot load categories.");
     }
 
@@ -31,7 +31,7 @@ export async function getCategory({ categoryId = "", categorySlug = "" }) {
         .single();
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get category.");
     }
 

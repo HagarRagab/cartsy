@@ -1,31 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useOptimistic, useTransition } from "react";
 
 import { selectionItemAction } from "@/src/app/_lib/actions";
 import { Checkbox } from "@/src/components/ui/checkbox";
-import SpinnerIcon from "@/src/app/_components/shared/SpinnerIcon";
+import { useCart } from "@/src/app/_context/CartContext";
 
 function CheckCartItem({ item }) {
-    const [isLoading, setIsLoading] = useState(false);
+    const { optimisticSelectAll } = useCart();
+    const [, startTransition] = useTransition();
 
-    async function onSelect(item) {
-        setIsLoading(true);
-        await selectionItemAction(item.id, { isSelected: !item.isSelected });
-        setIsLoading(false);
+    // Optimistic state for this individual item's checkbox
+    const [optimisticChecked, setOptimisticChecked] = useOptimistic(
+        item.isSelected,
+        (_, next) => next
+    );
+
+    // While a select-all/deselect-all is in flight, reflect that target state;
+    // otherwise show this item's own optimistic (or server) state.
+    const displayChecked =
+        optimisticSelectAll !== null ? optimisticSelectAll : optimisticChecked;
+
+    function onSelect() {
+        const next = !displayChecked;
+        startTransition(async () => {
+            setOptimisticChecked(next);
+            await selectionItemAction(item.id, { isSelected: next });
+        });
     }
 
     return (
-        <>
-            {isLoading ? (
-                <SpinnerIcon />
-            ) : (
-                <Checkbox
-                    checked={item.isSelected}
-                    onCheckedChange={() => onSelect(item)}
-                />
-            )}
-        </>
+        <Checkbox
+            checked={displayChecked}
+            onCheckedChange={onSelect}
+        />
     );
 }
 

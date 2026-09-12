@@ -17,7 +17,7 @@ export async function getProductById(productId) {
         .single();
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get product.");
     }
 
@@ -41,7 +41,7 @@ export async function getBestSellings(limit = "*") {
         .limit(limit);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error(
             "Something went wrong. Cannot get best selling products.",
         );
@@ -67,7 +67,7 @@ export async function getProducts(id, getBy) {
     const { data: products, error } = await query;
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get products.");
     }
 
@@ -103,7 +103,7 @@ export async function getSearchProducts({
     const { data: products, error } = await query;
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get products.");
     }
 
@@ -119,7 +119,7 @@ export async function updateProduct(productId, hasStock) {
         .select();
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error(
             "Something went wrong. Cannot update product has stock column.",
         );
@@ -149,7 +149,7 @@ export async function getLikedProducts(userId) {
         .eq("userId", userId);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get products.");
     }
 
@@ -165,7 +165,7 @@ export async function checkIfProductIsLiked(userId, productId) {
         .eq("productId", productId);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get products.");
     }
 
@@ -180,7 +180,7 @@ export async function addToWishlist(userId, productId) {
         .select();
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error(
             "Something went wrong. Cannot add this product to wish list.",
         );
@@ -197,7 +197,7 @@ export async function removeFromWishlist(id) {
         .eq("id", id);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error(
             "Something went wrong. Cannot remove this product from wish list.",
         );
@@ -217,7 +217,7 @@ export async function getProductShipping(productId) {
         .maybeSingle();
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error(
             "Something went wrong. Cannot get product shipping data.",
         );
@@ -236,7 +236,7 @@ export async function getRatings(productId) {
         .eq("productId", productId);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get ratings.");
     }
 
@@ -253,7 +253,7 @@ export async function getProductVariants(productId) {
         .eq("productId", productId);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get product variants.");
     }
 
@@ -276,7 +276,7 @@ export async function getVariant(variantId) {
         .eq("id", variantId);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get product variant.");
     }
 
@@ -293,7 +293,7 @@ export async function getVariantInventories(variantId) {
         .eq("variantId", variantId);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error(
             "Something went wrong. Cannot get product inventories.",
         );
@@ -317,7 +317,7 @@ export async function getInventory(inventoryId) {
         .eq("id", inventoryId);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot get product inventory.");
     }
 
@@ -335,7 +335,7 @@ export async function updateStock(inventoryId, newStock) {
         .select();
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot update inventory stock.");
     }
 

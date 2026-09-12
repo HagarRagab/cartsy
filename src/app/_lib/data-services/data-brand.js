@@ -10,7 +10,7 @@ export async function getBrands() {
         .eq("isGlobal", true);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error("Something went wrong. Cannot load brands.");
     }
 

@@ -30,8 +30,7 @@ function LikeProduct({
                     return await addToWishlistAction(userId, productId);
                 else return await removeFromWishlistAction(likedProduct[0]?.id);
             } catch (error) {
-                console.log(error);
-                console.error("Cannot update like status");
+                console.error(error);
             }
         });
     }
@@ -39,11 +38,10 @@ function LikeProduct({
     return (
         <Button className={btnStyle} onClick={toggleWishlist}>
             <Heart
-                className={`${
-                    optimisticIsLiked
-                        ? "text-red-custom-100 fill-red-custom-100"
-                        : ""
-                }`}
+                className={`${optimisticIsLiked
+                    ? "text-red-custom-100 fill-red-custom-100"
+                    : ""
+                    }`}
             />
             {children}
         </Button>
