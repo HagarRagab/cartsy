@@ -16,6 +16,7 @@ import {
     getUserCart,
     removeCartItem,
     resetCart,
+    updateAllCartItems,
     updateCartItem,
 } from "@/src/app/_lib/data-services/data-cart";
 import {
@@ -25,6 +26,7 @@ import {
 } from "@/src/app/_lib/data-services/data-user";
 import { getInventory } from "@/src/app/_lib/data-services/data-product";
 import { createClient } from "@/src/utils/supabase/server";
+import { getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { cookies, headers } from "next/headers";
 import { isPast } from "date-fns";
@@ -303,6 +305,44 @@ export async function selectionItemAction(cartItemId, newValues) {
                 ar: "فشل تحديث عنصر عربة التسوق",
             },
         };
+
+    const locale = await getLocale();
+    revalidatePath(`/${locale}/cart`);
+}
+
+// Select / deselect all cart items at once
+export async function selectAllItemsAction(isSelected) {
+    const supabase = await createClient();
+
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+    const cartItems = await getCart();
+
+    const result = user
+        ? await updateAllCartItems((await getUserCart(user.id)).id, {
+              isSelected,
+          })
+        : await setCookie(
+              "cartsy-cart",
+              cartItems.map((item) => ({
+                  ...item,
+                  isSelected,
+              }))
+          );
+
+    if (!result)
+        return {
+            status: "failed",
+            message: {
+                en: "Failed updating cart items",
+                ar: "فشل تحديث عناصر عربة التسوق",
+            },
+        };
+
+    const locale = await getLocale();
+    revalidatePath(`/${locale}/cart`);
+    revalidatePath("/[locale]/cart", "page");
 }
 
 export async function updateCartItemQuantity(

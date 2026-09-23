@@ -10,7 +10,8 @@ function CheckCartItem({ item }) {
     const { optimisticSelectAll } = useCart();
     const [, startTransition] = useTransition();
 
-    // Optimistic state for this individual item's checkbox
+    // Optimistic state for this individual item's checkbox; React discards it
+    // once the action's revalidated render lands.
     const [optimisticChecked, setOptimisticChecked] = useOptimistic(
         item.isSelected,
         (_, next) => next
@@ -22,19 +23,20 @@ function CheckCartItem({ item }) {
         optimisticSelectAll !== null ? optimisticSelectAll : optimisticChecked;
 
     function onSelect() {
+        if (optimisticSelectAll !== null) return;
+
         const next = !displayChecked;
         startTransition(async () => {
-            setOptimisticChecked(next);
-            await selectionItemAction(item.id, { isSelected: next });
+            try {
+                setOptimisticChecked(next);
+                await selectionItemAction(item.id, { isSelected: next });
+            } catch (error) {
+                console.error(error);
+            }
         });
     }
 
-    return (
-        <Checkbox
-            checked={displayChecked}
-            onCheckedChange={onSelect}
-        />
-    );
+    return <Checkbox checked={displayChecked} onCheckedChange={onSelect} />;
 }
 
 export default CheckCartItem;

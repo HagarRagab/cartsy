@@ -76,6 +76,22 @@ export async function getCartItems(cartId) {
     return cartItems;
 }
 
+// Select / deselect all items in a cart
+export async function updateAllCartItems(cartId, updatedValues) {
+    const { data, error } = await supabase
+        .from("Cart_Items")
+        .update(updatedValues)
+        .eq("cartId", cartId)
+        .select();
+
+    if (error) {
+        console.error(error);
+        throw new Error("Something went wrong. Cannot update cart items.");
+    }
+
+    return data;
+}
+
 export async function updateCartItem(cartItemId, updatedValues) {
     const { data, error } = await supabase
         .from("Cart_Items")

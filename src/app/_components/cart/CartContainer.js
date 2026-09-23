@@ -8,7 +8,7 @@ import CartSummary from "@/src/app/_components/cart/CartSummary";
 import LinksGroup from "@/src/app/_components/shared/LinksGroup";
 import PageHeader from "@/src/app/_components/shared/PageHeader";
 import PageContainer from "@/src/app/_components/shared/PageContainer";
-import { selectionItemAction } from "@/src/app/_lib/actions";
+import { selectAllItemsAction } from "@/src/app/_lib/actions";
 import { paymentMethodsList } from "@/src/app/_utils/utils";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { useCart } from "../../_context/CartContext";
@@ -20,28 +20,28 @@ function CartContainer({ cart, promoCode, children }) {
 
     // The "real" all-selected state based on server data
     const allSelected = selectedCartItems.length === cart.length;
-    // Use the optimistic value while a transition is in flight, otherwise fall back to server state
-    const displaySelectAll = optimisticSelectAll !== null ? optimisticSelectAll : allSelected;
+    // Use the optimistic value while a transition is in flight, otherwise
+    // fall back to the (freshly revalidated) server state
+    const displaySelectAll =
+        optimisticSelectAll !== null ? optimisticSelectAll : allSelected;
 
-    const [, startTransition] = useTransition();
+    const [isPending, startTransition] = useTransition();
 
     if (!cart.length) return <EmptyCart />;
 
-    async function handleSelectAll() {
+    function handleSelectAll() {
+        if (isPending) return;
+
         const nextSelected = !displaySelectAll;
-        setOptimisticSelectAll(nextSelected);
         startTransition(async () => {
             try {
-                await Promise.all(
-                    cart.map((item) =>
-                        selectionItemAction(item.id, {
-                            isSelected: nextSelected,
-                        })
-                    )
-                );
+                setOptimisticSelectAll(nextSelected);
+                await selectAllItemsAction(nextSelected);
             } catch (error) {
                 console.error(error);
             } finally {
+                // Cleared in the same transition, so it always commits
+                // together with the revalidated cart data — no flicker.
                 setOptimisticSelectAll(null);
             }
         });
@@ -54,19 +54,21 @@ function CartContainer({ cart, promoCode, children }) {
                     <PageHeader>
                         {t("title")} <span>({selectedCartItems?.length})</span>
                     </PageHeader>
-                    <div className="flex items-center space-x-2 mb-6">
-                        <label
-                            htmlFor="select"
-                            className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
+                    <div
+                        className="flex items-center space-x-2 mb-6 cursor-pointer"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleSelectAll();
+                        }}
+                    >
+                        <label className="leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 pointer-events-none">
                             {displaySelectAll
                                 ? t("deselectAll")
                                 : t("selectAll")}
                         </label>
                         <Checkbox
-                            id="select"
                             checked={displaySelectAll}
-                            onCheckedChange={handleSelectAll}
+                            disabled={isPending}
                         />
                     </div>
                 </header>
@@ -74,11 +76,13 @@ function CartContainer({ cart, promoCode, children }) {
                 <div className="mt-8">{children}</div>
             </div>
 
-            {<CartSummary
+            {
+                <CartSummary
                     selectedCartItems={selectedCartItems}
                     promoCode={promoCode}
                     optimisticSelectAll={displaySelectAll}
-                />}
+                />
+            }
 
             <div className="bg-bg-100 p-8 rounded-md col-start-2 h-fit">
                 <LinksGroup
